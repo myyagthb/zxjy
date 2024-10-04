@@ -124,8 +124,6 @@ const loadLoginQRCodePic = () => {
       console.log(qRCodeUrl)
       //渲染微信二维码供用户去扫描
       loginQRCodePic.value = new URL(qRCodeUrl, import.meta.url).href;
-
-
     }
   })
 }
@@ -205,10 +203,6 @@ const loopFun = () => {
 
   })
 
-  // let i = 0;
-  // if(i === 1){
-  //   stopLoop()
-  // }
 
 }
 
