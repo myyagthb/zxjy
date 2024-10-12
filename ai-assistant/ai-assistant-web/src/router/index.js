@@ -8,6 +8,9 @@ const routes = [
     path: '/',
     name: 'main',
     component: MainView,
+    meta: {
+      requireAuth: true,
+    },
     children: [
       {
         path: '/chat',
@@ -51,5 +54,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
 
 export default router

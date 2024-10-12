@@ -50,7 +50,7 @@
                 placeholder="请在这里输入文本"
                 resize="none"
             />
-            <el-button :icon="Position" circle style="background-color: #588fe1;width: 60px;height: 60px;color: white;margin-left: 20px;"></el-button>
+            <el-button :icon="Position" circle style="background-color: #588fe1;width: 60px;height: 60px;color: white;margin-left: 20px;" @click="send"></el-button>
           </div>
         </el-card>
       </el-footer>
@@ -58,11 +58,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup >
 
 import {Position} from "@element-plus/icons-vue";
 
-import { onMounted, ref} from 'vue'
+import {nextTick, onMounted, ref} from 'vue'
 
 
 const chatList = ref([])
@@ -103,10 +103,47 @@ onMounted(()=>{
         "总体来说，AI是一个强大的工具，能够为人类带来巨大的好处，但同时也需要谨慎管理和监管，确保其发展符合道德标准，并惠及所有人。通过政府、企业和公众的合作，我们可以最大化AI的潜力，同时减轻潜在的风险。"
   })
 
+  setScrollToBottom();
+
 
 })
 
 const textarea = ref("")
+
+const isMe = ref(true)
+
+const send = ()=>{
+  if(isMe.value){
+    sendMessage()
+  }else {
+    receiveMessage()
+  }
+  isMe.value = !isMe.value
+}
+
+async function sendMessage() {
+  if (textarea.value.trim()) {
+    chatList.value.push({
+      isMe: true,
+      avatar: require('@/assets/images/avatar/default-avatar.png'),
+      message: textarea.value
+    });
+    textarea.value = "";
+    setScrollToBottom();
+  }
+}
+
+async function receiveMessage() {
+  if (textarea.value.trim()) {
+    chatList.value.push({
+      isMe: false,
+      avatar: require('@/assets/images/avatar/ai-avatar.png'),
+      message: textarea.value
+    });
+    textarea.value = "";
+    setScrollToBottom();
+  }
+}
 
 
 
@@ -123,6 +160,24 @@ const textarea = ref("")
 function handleScroll({ scrollTop }) {
   console.log('scrollTop', scrollTop)
 }
+
+const scrollbarRef = ref() // 滚动条实例
+const innerRef = ref() // 计数器内部实例
+
+/**
+ * 控制滚动条滚动到容器的底部
+ */
+
+
+async function setScrollToBottom() {
+  await nextTick();
+  const max = innerRef.value?.clientHeight || 0;
+  console.log('max', max);
+  if (scrollbarRef.value) {
+    scrollbarRef.value.setScrollTop(max);
+  }
+}
+
 </script>
 
 <style scoped>

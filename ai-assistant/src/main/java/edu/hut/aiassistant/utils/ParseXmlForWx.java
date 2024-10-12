@@ -21,4 +21,6 @@ public class ParseXmlForWx {
     private String EventKey;
     @JacksonXmlProperty(localName = "Content")
     private String Content;
+    @JacksonXmlProperty(localName = "OpenID")
+    private String OpenID;
 }

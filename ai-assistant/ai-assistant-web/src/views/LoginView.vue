@@ -31,7 +31,7 @@
                       </div>
                     </el-col>
                   </el-row>
-                  <div v-if="isWeiXinLogin">
+                  <div v-if="isWeiXinLogin" v-loading="qrCodeLoading">
                     <img :src="loginQRCodePic" style="width: 200px;height: 200px;">
                     <p>请使用微信扫码登录</p>
                   </div>
@@ -82,9 +82,10 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
 import axios from "axios";
-import {ElMessage} from "element-plus";
+
 import router from "@/router";
-import store from "@/store";
+
+import SnowflakeId from "snowflake-id";
 
 //微信登录二维码
 const loginQRCodePic = ref("")
@@ -100,11 +101,21 @@ onMounted(() => {
 })
 
 
+const snowflake = new SnowflakeId({
+  mid: 42,
+  offset: (2019 - 1970) * 31536000 * 1000
+});
+
+const qrCodeLoading = ref(true)
+
 //获取微信二维码
 const loadLoginQRCodePic = () => {
   //loginQRCodePic.value = new URL('@/assets/images/QRCode.png', import.meta.url).href;
   //这里随机生成本用户Id
+  console.log(snowflake.generate())
+  // let userId = snowflake.generate()
   let userId = parseInt(Math.random() * 100000)
+  console.log("userId:"+userId)
   //保存用户ID到本地变量
   sessionStorage.setItem("userId", userId);
 
@@ -121,6 +132,8 @@ const loadLoginQRCodePic = () => {
       //拼接微信二维码路径
       let qRCodeUrl = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${res.data.ticket}`
 
+      qrCodeLoading.value = false
+
       console.log(qRCodeUrl)
       //渲染微信二维码供用户去扫描
       loginQRCodePic.value = new URL(qRCodeUrl, import.meta.url).href;
@@ -128,6 +141,8 @@ const loadLoginQRCodePic = () => {
   })
 }
 
+//判断轮询函数是否已经启动
+const startLoopIsStart = ref(false)
 
 //加载微信登录二维码
 const loadLoginQRCode = () => {
@@ -139,8 +154,11 @@ const loadLoginQRCode = () => {
   //重新判断登录方式
   loadLoginType()
 
-  // 开始轮询
-  startLoop()
+  if(!startLoopIsStart.value){
+    // 开始轮询
+    startLoop()
+  }
+
 }
 
 const loadLoginType = () => {
@@ -162,25 +180,25 @@ const sendCode = () => {
 
 
 const login = () => {
-  axios.post("/user/login", loginForm).then(res => {
-    let data = res.data
-    console.log(data)
-    if (data.code == 200) {
-      loginForm.validationCode = res.data.content
-      ElMessage({
-        message: data.message,
-        type: 'success',
-      })
-      store.commit("setUser", data.content)
-      router.push("/main")
-    } else {
-      loginForm.validationCode = ""
-      ElMessage({
-        message: data.message,
-        type: 'error',
-      })
-    }
-  })
+  // axios.post("/user/login", loginForm).then(res => {
+  //   let data = res.data
+  //   console.log(data)
+  //   if (data.code == 200) {
+  //     loginForm.validationCode = res.data.content
+  //     ElMessage({
+  //       message: data.message,
+  //       type: 'success',
+  //     })
+  //     store.commit("setUser", data.content)
+  //     router.push("/main")
+  //   } else {
+  //     loginForm.validationCode = ""
+  //     ElMessage({
+  //       message: data.message,
+  //       type: 'error',
+  //     })
+  //   }
+  // })
 }
 
 const loopFun = () => {
@@ -210,6 +228,7 @@ let loopTimer; // 用于存储 setInterval 的返回值
 
 // 启动轮询
 const startLoop = () => {
+  startLoopIsStart.value = true
   loopTimer = setInterval(() => {
     // 轮询后台，看用户是否扫码成功
     loopFun();
@@ -218,6 +237,7 @@ const startLoop = () => {
 
 // 停止轮询
 const stopLoop = () => {
+  startLoopIsStart.value = false
   if (loopTimer) {
     clearInterval(loopTimer);
   }
