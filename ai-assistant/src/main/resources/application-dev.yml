@@ -36,7 +36,7 @@ wx:
   appSecret: 0ad4d19e34cac62f38a93d73dfcbcfc2
   token: 123456
   #项目部署服务ip+端口映射地址
-  domain: http://r9a5uf.natappfree.cc
+  domain: http://ahgxun.natappfree.cc
   #微信用户信息扫码回调地址
   redirect-uri: /saveUserInfo
   #微信回复模板ID

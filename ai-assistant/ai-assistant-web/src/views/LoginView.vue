@@ -129,8 +129,11 @@ const loadLoginQRCodePic = () => {
   axios.post("/getQrCode", data).then(res => {
     console.log(res)
     if (res.status === 200) {
+      let ticket = "";
+      ticket = res.data.ticket
       //拼接微信二维码路径
-      let qRCodeUrl = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${res.data.ticket}`
+      // let qRCodeUrl = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${res.data.ticket}`
+      let qRCodeUrl = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket}`
 
       qrCodeLoading.value = false
 

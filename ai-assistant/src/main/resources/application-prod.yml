@@ -32,12 +32,12 @@ spring:
 #  templateId: 6Zsp3pJJges0BvbFF81pPRX-3wcmAgMmW3vAp8I6koo
 
 wx:
-  appId: wx171dd84859e0dbf4
-  appSecret: 0ad4d19e34cac62f38a93d73dfcbcfc2
+  appId: wx0a971a93b324d491
+  appSecret: 61d64c6c7e246aedf9f31d54ae0fc929
   token: 123456
   #项目部署服务ip+端口映射地址
-  domain: http://5fabmb.natappfree.cc
+  domain: http://bend7q.natappfree.cc
   #微信用户信息扫码回调地址
   redirect-uri: /saveUserInfo
   #微信回复模板ID
-  templateId: Rl38mfbT5T-ZpgqYgSKRNYZTz-134N-lgZ2dEdgzPqE
+  templateId: 6XNnaa_Qk0OUQ-3g5y15eX_WNQt9GktEfhKRd_eRjQs

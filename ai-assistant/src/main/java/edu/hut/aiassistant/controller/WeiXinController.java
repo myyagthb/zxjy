@@ -11,6 +11,9 @@ import edu.hut.aiassistant.resp.R;
 import edu.hut.aiassistant.utils.ParseXml;
 import edu.hut.aiassistant.utils.ParseXmlForWx;
 import edu.hut.aiassistant.utils.WebChatUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,10 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController
 public class WeiXinController {
+
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeiXinController.class);
 
 
     @Autowired
@@ -30,11 +37,21 @@ public class WeiXinController {
 
     @GetMapping("/")
     public String checkWebChat(WebChatRequestDTO requestDTO) throws NoSuchAlgorithmException {
+        LOGGER.info("验证微信服务器发送的请求");
         if (WebChatUtils.checkWebChatToken(requestDTO)){
+            LOGGER.info("请求验证通过");
             return requestDTO.getEchostr();
         }
+        LOGGER.info("请求验失败");
         return "fail";
     }
+
+
+
+
+
+
+
 
     @GetMapping("/qrUserInfoCode")
     public String getUserInfoQrCode(){
