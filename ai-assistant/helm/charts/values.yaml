@@ -194,6 +194,58 @@ b:
   affinity: {}
 
 
+rds:
+  enabled: true
+  image:
+    repository: registry.hxydt.cn:31942/hxy/st/hp/rds
+    pullPolicy: Always
+    tag: "latest"
+  environment:
+    SUPABASE_URL: http://hxy-api-gw-apisix-gateway
+    SUPABASE_REST_URL: http://hxy-api-gw-apisix-gateway/rest/v1
+    STUDIO_PG_META_URL: http://hxy-api-gw-apisix-gateway/pg
+    SUPABASE_PUBLIC_URL: http://hxy-api-gw-apisix-gateway
+  nameOverride: "rds"    
+  ingress:
+    enabled: false
+    className: "apisix"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    tls: []
+      # - secretName: studio.localhost
+      #   hosts:
+      #     - studio.localhost
+    hosts:
+      - host: studio.localhost
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: hxy-platform-hxy-studio
+              servicePort: 80
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  service:
+    type: ClusterIP
+    port: 6379
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  podAnnotations: {}
+  podSecurityContext: {}
+  # fsGroup: 2000
+  securityContext: {}
+
+
 db:
   enabled: true
   image:
