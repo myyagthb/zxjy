@@ -55,10 +55,13 @@ apt install pgloader
 
 #default psql
 psql -U root postgres
-psql -U postgres postgres
+psql -U root -h localhost postgres
 createdb easypan -h 127.0.0.1 -p 5432
 psql -c "CREATE ROLE root PASSWORD 'admin123'" easypan -h 127.0.0.1 -p 5432
 psql -c "ALTER USER root WITH PASSWORD 'admin123'" easypan -h 127.0.0.1 -p 5432
+create database ai_assistant_db;
+create role zhjy;
+ALTER USER postgres WITH PASSWORD 'res74984' 
 
 GRANT ALL ON TABLES IN SCHEMA public TO postgres;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO postgres;

@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: zhjy
+    username: postgres
     password: res74984
     url: jdbc:postgresql://hxy-zhjy-db.hxy:5432/ai_assistant_db
     type: com.alibaba.druid.pool.DruidDataSource
