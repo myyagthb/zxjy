@@ -56,7 +56,7 @@ f:
   service:
     #type: NodePort
     type: ClusterIP
-    port: 8080
+    port: 443
 
   ingress:
     enabled: true

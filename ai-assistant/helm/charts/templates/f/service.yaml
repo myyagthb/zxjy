@@ -9,7 +9,7 @@ spec:
   type: {{ .Values.f.service.type }}
   ports:
     - port: {{ .Values.f.service.port }}
-      targetPort: 8080
+      targetPort: 443
       protocol: TCP
       name: f
   selector:

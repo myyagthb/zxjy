@@ -64,7 +64,7 @@ spec:
                   key: secret
           ports:
             - name: f
-              containerPort: 8080
+              containerPort: 443
               protocol: TCP
           {{- with .Values.f.resources }}
           resources:
