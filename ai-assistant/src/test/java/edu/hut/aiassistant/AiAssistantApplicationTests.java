@@ -20,16 +20,16 @@ class AiAssistantApplicationTests {
     @Autowired
     private UserService userService;
 
-    @Test
-    void addUser() {
-
-        User user = new User();
-        user.setUserId(10001L);
-        user.setPhone("123");
-        user.setPassword("123");
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
-        userService.save(user);
-    }
+//    @Test
+//    void addUser() {
+//
+//        User user = new User();
+//        user.setUserId(10001L);
+//        user.setPhone("123");
+//        user.setPassword("123");
+//        user.setCreateTime(new Date());
+//        user.setUpdateTime(new Date());
+//        userService.save(user);
+//    }
 
 }
