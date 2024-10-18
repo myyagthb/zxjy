@@ -1,0 +1,25 @@
+{{- if .Values.f.enabled -}}
+{{- if .Values.f.persistence.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "hxy.f.fullname" . }}-pvc
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+  {{- with .Values.f.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.f.persistence.storageClassName }}
+  fClassName: {{ .Values.f.persistence.storageClassName }}
+  {{- end }}
+  accessModes:
+  {{- range .Values.f.persistence.accessModes }}
+    - {{ . | quote }}
+  {{- end }}
+  resources:
+    requests:
+      f: {{ .Values.f.persistence.size | quote }}
+{{- end }}
+{{- end }}

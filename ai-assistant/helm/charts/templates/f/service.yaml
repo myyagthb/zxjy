@@ -1,0 +1,17 @@
+{{- if .Values.f.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "hxy.f.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.f.service.type }}
+  ports:
+    - port: {{ .Values.f.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: f
+  selector:
+    {{- include "hxy.f.selectorLabels" . | nindent 4 }}
+{{- end }}

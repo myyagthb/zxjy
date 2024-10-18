@@ -1,0 +1,10 @@
+{{- if .Values.f.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "hxy.f.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.f.env | nindent 2 }}
+{{- end }}

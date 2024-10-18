@@ -1,0 +1,10 @@
+{{- if .Values.b.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "hxy.b.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.b.env | nindent 2 }}
+{{- end }}
