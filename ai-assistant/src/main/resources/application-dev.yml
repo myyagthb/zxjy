@@ -7,7 +7,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   data:
     redis:
-      host: 127.0.0.1
+      host: hxy-zhjy-rds.hxy
       port: 6379
       password:  # 如果有密码，请填写
       database: 0  # 使用的数据库编号，默认是0
