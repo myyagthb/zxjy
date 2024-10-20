@@ -52,7 +52,7 @@
                       <el-col :span="8">
                         <div class="grid-content ep-bg-purple-light">
                           <el-button type="primary" class="button" :disabled="isCountingDown"
-                                     @click="sendVerificationCode">
+                                     @click="onShowPicCode">
                             <!--                            获取验证码-->
                             {{ isCountingDown ? countdown + 's' : '发送验证码' }}
                           </el-button>
@@ -76,6 +76,7 @@
         </el-row>
       </el-main>
     </el-container>
+    <Vcode :show="isShow" @success="onSuccess" @close="onClose" />
   </div>
 </template>
 
@@ -174,11 +175,42 @@ const loadLoginType = () => {
 }
 
 
+//前端的图形验证码
+import Vcode from "vue3-puzzle-vcode";
+
+
+const isShow = ref(false);
+
+//暂时图片验证码
+const onShowPicCode = () => {
+  //验证手机号码
+  if(!isValidChinaPhoneNumber(loginForm.value.mobile)){
+    ElMessage({
+      type:"error",
+      message: "请填写正确的手机号"
+    })
+    return
+  }
+  isShow.value = true;
+};
+
+const onClose = () => {
+  isShow.value = false;
+  //验证成功，调用发送验证码方法
+  sendVerificationCode()
+};
+
+const onSuccess = () => {
+  onClose(); // 验证成功，需要手动关闭模态框
+};
+
+
 const loginForm = ref({
   mobile: "",
   code: "",
   userId: null
 });
+
 //获取短信验证码
 const sendCodeToUser = () => {
   axios.get("/sendSmsCodeToMobile/"+loginForm.value.mobile).then(res => {
@@ -217,12 +249,21 @@ const login = () => {
   })
 }
 
+const isValidChinaPhoneNumber = (phoneNumber) =>{
+  // 定义正则表达式来匹配中国手机号码
+  const regex = /^1[3456789]\d{9}$/;
+  // 使用正则表达式测试输入的电话号码
+  return regex.test(phoneNumber);
+}
+
+
 //做发送验证码成功的倒计时
 let isCountingDown = ref(false);
 let countdown = ref(60);
 
 const sendVerificationCode = () => {
-  if(loginForm.value.mobile === null || loginForm.value.mobile.trim() === ""){
+  //验证手机号码
+  if(!isValidChinaPhoneNumber(loginForm.value.mobile)){
     ElMessage({
       type:"error",
       message: "请填写正确的手机号"
