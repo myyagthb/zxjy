@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="common-layout">
     <el-container>
       <el-main>
         <el-scrollbar class="scrollbar" ref="scrollbarRef" always @scroll="handleScroll">
@@ -180,29 +180,135 @@ async function setScrollToBottom() {
 
 </script>
 
-<style scoped>
+<!--<style scoped>-->
+<!--.common-layout {-->
+<!--  height: 98vh;-->
+<!--  width: 100%;-->
+<!--  background-color: #f2f4f3;-->
+<!--}-->
 
-/*消息盒子样式*/
+
+
+<!--/*消息盒子样式*/-->
+<!--.scrollbar {-->
+<!--  border-left: 1px solid red;-->
+<!--  border-right: 1px solid red;-->
+<!--  top: -20px;-->
+<!--  width: 99%;-->
+<!--  height: 100vh;-->
+<!--  min-height: 400px;-->
+<!--  max-height: 550px;-->
+<!--  background-color: #f8f8fa;-->
+<!--}-->
+
+<!--.div-message {-->
+<!--  margin-top: 10px;-->
+<!--  margin-bottom: 10px;-->
+<!--}-->
+
+<!--.message-box-opposite {-->
+<!--  display: flex;-->
+<!--  align-content: center;-->
+<!--  justify-content: flex-start;-->
+<!--}-->
+
+<!--.message-box-opposite > .avatar {-->
+<!--  margin-right: 10px;-->
+<!--}-->
+
+<!--.message-box-opposite > .message {-->
+<!--  overflow-anchor: auto;-->
+<!--  /*border: 2px solid black;*/-->
+<!--  border-radius: 2%;-->
+<!--  max-width: 600px;-->
+<!--  text-align: left;-->
+<!--  color: black;-->
+<!--  background-color: #ffffff;-->
+<!--  padding: 8px;-->
+<!--}-->
+
+<!--.message-box-self {-->
+<!--  display: flex;-->
+<!--  align-content: center;-->
+<!--  justify-content: flex-end;-->
+<!--}-->
+
+<!--.message-box-self > .avatar {-->
+<!--  margin-left: 10px;-->
+<!--}-->
+
+<!--.message-box-self > .message {-->
+<!--  overflow-anchor: auto;-->
+<!--  /*border: 2px solid black;*/-->
+<!--  border-radius: 5%;-->
+<!--  max-width: 600px;-->
+<!--  text-align: left;-->
+<!--  color: black;-->
+<!--  background-color: #ffffff;-->
+
+<!--  padding: 8px;-->
+<!--}-->
+
+
+
+<!--.card-header{-->
+<!--  display: flex;-->
+<!--  align-items: center;-->
+<!--  justify-content: left;-->
+<!--}-->
+<!--.card-header-menu{-->
+<!--  display: flex;-->
+<!--  align-items: center;-->
+<!--  justify-content: center;-->
+<!--  margin-right: 5px;-->
+<!--}-->
+
+<!--.card-icon{-->
+<!--  width: 20px;-->
+<!--  height: 20px;-->
+<!--  margin-right: 5px;-->
+<!--}-->
+<!--</style>-->
+
+
+<style scoped>
+.common-layout {
+  height: 80vh;
+  width: 100%;
+  background-color: #f2f4f3;
+  display: flex;
+  flex-direction: column;
+}
+
+.el-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.el-main {
+  flex: 1;
+  overflow: hidden;
+}
+
 .scrollbar {
-  border-left: 1px solid red;
-  border-right: 1px solid red;
-  top: -20px;
-  width: 99%;
-  height: 100vh;
-  min-height: 400px;
-  max-height: 550px;
+  height: 100%;
+  padding: 10px;
   background-color: #f8f8fa;
 }
 
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .div-message {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
 .message-box-opposite {
   display: flex;
-  align-content: center;
-  justify-content: flex-start;
+  align-items: center;
 }
 
 .message-box-opposite > .avatar {
@@ -210,10 +316,8 @@ async function setScrollToBottom() {
 }
 
 .message-box-opposite > .message {
-  overflow-anchor: auto;
-  /*border: 2px solid black;*/
-  border-radius: 2%;
-  max-width: 600px;
+  border-radius: 8px;
+  max-width: 60%;
   text-align: left;
   color: black;
   background-color: #ffffff;
@@ -222,7 +326,7 @@ async function setScrollToBottom() {
 
 .message-box-self {
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: flex-end;
 }
 
@@ -231,34 +335,55 @@ async function setScrollToBottom() {
 }
 
 .message-box-self > .message {
-  overflow-anchor: auto;
-  /*border: 2px solid black;*/
-  border-radius: 5%;
-  max-width: 600px;
+  border-radius: 8px;
+  max-width: 60%;
   text-align: left;
   color: black;
-  background-color: #ffffff;
-
+  background-color: #e0e0e0;
   padding: 8px;
 }
 
-
-
-.card-header{
+.card-header {
   display: flex;
   align-items: center;
   justify-content: left;
 }
-.card-header-menu{
+
+.card-header-menu {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-right: 5px;
+  margin-left: 1%;
 }
 
-.card-icon{
+.card-icon {
   width: 20px;
   height: 20px;
   margin-right: 5px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .message-box-opposite > .message,
+  .message-box-self > .message {
+    max-width: 90%;
+  }
+
+  .input-container {
+    flex-direction: column;
+  }
+
+  .input-container .el-input {
+    margin-bottom: 10px;
+  }
+
+  .input-container .el-button {
+    margin-left: 0;
+  }
 }
 </style>

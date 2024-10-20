@@ -18,9 +18,7 @@ import edu.hut.aiassistant.generator.domain.WxUser;
 import edu.hut.aiassistant.generator.service.WxUserService;
 import edu.hut.aiassistant.req.WxUserReq;
 import edu.hut.aiassistant.resp.R;
-import edu.hut.aiassistant.utils.HttpRequestUtil;
-import edu.hut.aiassistant.utils.ParseXmlForWx;
-import edu.hut.aiassistant.utils.WeiXinTemplateUtils;
+import edu.hut.aiassistant.utils.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.http.HttpResponse;
@@ -28,6 +26,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -48,23 +47,33 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WxUserServiceCustomImpl.class);
 
+    private static final String USER_MOBILE_KEY = "user_mobile:";
+
     @Autowired
     private WeiXinAccountConfig accountConfig;
 
     // 请求得到的access_token
-    JSONObject access_token_obj=null;
+    JSONObject access_token_obj = null;
 
     // 记录所有登录人的状态
     //保存用户在线状态，用来平替loginObj变量
     @Resource
-    RedisTemplate<String,Boolean> redisTemplate;
+    @Qualifier("userStatusRedisTemplate")
+    RedisTemplate<String, Boolean> redisTemplate;
+
+
+    //保存短信验证码的codeRedisTemplate
+    @Resource
+    @Qualifier("codeRedisTemplate")
+    RedisTemplate<String, Integer> codeRedisTemplate;
+
 
     @Autowired
     private WxUserService wxUserService;
 
     //保存随机数和微信号的关系
     //Map<随机数，用户微信号>
-    private static final Map<String,String> connectionMap = new HashMap<>();
+    private static final Map<String, String> connectionMap = new HashMap<>();
 
 
     private static final ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5, 10, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000));
@@ -73,9 +82,69 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
     @Autowired
     private WeiXinTemplateUtils weiXinTemplateUtils;
 
+    @Autowired
+    private TengXunSendSmsUtils sendSmsUtils;
+
+
+    @Override
+    public R sendSmsCodeToMobile(String mobile) {
+        String key = USER_MOBILE_KEY + mobile;
+        //调用接口发送短信验证码
+        Integer code = sendSmsUtils.sendSMSToMobile(mobile);
+//        Integer code = 666888;
+        //保存验证码，使其过期时间为10分钟
+        LOGGER.info("key:{},code:{}", key, code);
+        codeRedisTemplate.opsForValue().set(key, code, 10, TimeUnit.MINUTES);
+        return new R(RespEnum.SUCCESS.getCode(), "验证码发送成功，请注意查收", null);
+    }
+
+    /**
+     * @param mobile 手机号码
+     * @param code   验证码
+     * @param userId 用户ID
+     * @return
+     */
+
+    @Override
+    public R login(String mobile, Integer code, Integer userId) {
+        LOGGER.info("手机号：{}，验证码：{}，用户ID：{}正在执行手机号验证登录！", mobile, code, userId);
+        //获取缓存中的key,验证是否过期
+        String key = USER_MOBILE_KEY + mobile;
+        Integer cacheCode = codeRedisTemplate.opsForValue().get(key);
+        //删除缓冲中的key
+        codeRedisTemplate.delete(key);
+        if (cacheCode == null || !cacheCode.equals(code)) {
+            return new R(RespEnum.SUCCESS.getCode(), "验证码已过期，请重新获取验证码", null);
+        }
+
+        //查询数据库里面有没有该用户
+        LambdaQueryWrapper<WxUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(WxUser::getMobile, mobile);
+        WxUser wxUser = wxUserService.getOne(queryWrapper);
+
+        if (wxUser == null) {
+            //表示没有该用户，向数据库插入一条记录
+            DateTime now = DateTime.now();
+            wxUser = new WxUser();
+            wxUser.setMobile(mobile);
+            wxUser.setCreateTime(now);
+            wxUser.setUpdateTime(now);
+            wxUserService.save(wxUser);
+        }
+        //绑定用户缓存信息
+        //让它在线60 * 5秒
+        redisTemplate.opsForValue().set(String.valueOf(userId),true,5 * 60, TimeUnit.SECONDS);
+
+        //存入userId和手机号之间的关系
+        connectionMap.put(String.valueOf(userId),mobile);
+        //jwt加密当前对象
+        String jwtString = MyJWTUtil.objectToJwtString(wxUser);
+        return new R(RespEnum.SUCCESS.getCode(), "登录成功",jwtString);
+    }
 
     /**
      * 获取用户信息二维码
+     *
      * @return
      */
     @Override
@@ -84,11 +153,11 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
         String content = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 
 
-        content = content.replace("APPID",accountConfig.getAppId())
-                .replace("REDIRECT_URI",accountConfig.getDomain()+accountConfig.getRedirectUri());
+        content = content.replace("APPID", accountConfig.getAppId())
+                .replace("REDIRECT_URI", accountConfig.getDomain() + accountConfig.getRedirectUri());
         int width = 200;
         int height = 200;
-        QrConfig config = new QrConfig(width,height);
+        QrConfig config = new QrConfig(width, height);
         config.setImg(FileUtil.file("haixun.jpeg"));
         qrCode = QrCodeUtil.generateAsBase64(content, config, "png");
         return qrCode;
@@ -97,6 +166,7 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
     /**
      * 用户扫描绑定信息的二维码之后，来到这里获取用户信息，更新用户信息
+     *
      * @param code
      * @param state
      * @return
@@ -108,15 +178,15 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
         //code-临时授权码
         //获取访问token的地址
         String tokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
-        tokenUrl = tokenUrl.replace("APPID",accountConfig.getAppId())
-                .replace("SECRET",accountConfig.getAppSecret())
-                .replace("CODE",code);
+        tokenUrl = tokenUrl.replace("APPID", accountConfig.getAppId())
+                .replace("SECRET", accountConfig.getAppSecret())
+                .replace("CODE", code);
 
         //发送http请求
         //获取带有token和扫码用户的openid参数的信息体
         HttpResponse httpResponse = HttpRequestUtil.doGet(tokenUrl);
         int statusCode = httpResponse.getStatusLine().getStatusCode();
-        if (statusCode == 200){
+        if (statusCode == 200) {
             org.apache.http.HttpEntity entity = httpResponse.getEntity();
             try {
                 String entiry_string = EntityUtils.toString(entity);
@@ -126,32 +196,32 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
                 String openid = token.getOpenid();
 
                 //给全局access_token_obj赋值
-                if (openid != null){
+                if (openid != null) {
                     userId = openid;
                 }
 
                 //获取用户信息的地址
                 String userInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
-                userInfoUrl = userInfoUrl.replace("ACCESS_TOKEN",access_token)
-                        .replace("OPENID",openid);
+                userInfoUrl = userInfoUrl.replace("ACCESS_TOKEN", access_token)
+                        .replace("OPENID", openid);
 
                 httpResponse = HttpRequestUtil.doGet(userInfoUrl);
 
                 entity = httpResponse.getEntity();
-                entiry_string = EntityUtils.toString(entity,"UTF-8");
+                entiry_string = EntityUtils.toString(entity, "UTF-8");
 
                 //获取到微信服务器提供的用户信息用户信息
                 WeiXinUserInfo weiXinUserInfo = JSON.parseObject(entiry_string, WeiXinUserInfo.class);
 
-                LOGGER.info("weiXinUserInfo:{}",weiXinUserInfo);
+                LOGGER.info("weiXinUserInfo:{}", weiXinUserInfo);
                 //todo 更新数据库
                 DateTime now = DateTime.now();
                 WxUser wxUser = new WxUser();
                 //根据用户微信号查询到用户信息
                 LambdaQueryWrapper<WxUser> queryWrapper = new LambdaQueryWrapper<>();
-                queryWrapper.eq(WxUser::getOpenid,openid);
+                queryWrapper.eq(WxUser::getOpenid, openid);
                 List<WxUser> wxUserList = wxUserService.list(queryWrapper);
-                if (wxUserList.size()>0){
+                if (wxUserList.size() > 0) {
                     wxUser = wxUserList.get(0);
                     wxUser.setOpenid(weiXinUserInfo.getOpenid());
                     wxUser.setNickname(weiXinUserInfo.getNickname());
@@ -159,7 +229,7 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
                     wxUser.setAvatarUrl(weiXinUserInfo.getHeadimgurl());
                     wxUser.setUpdateTime(now);
                     wxUserService.updateById(wxUser);
-                    LOGGER.info("{}信息绑定成功",wxUser);
+                    LOGGER.info("{}信息绑定成功", wxUser);
                 }
 
             } catch (IOException e) {
@@ -172,26 +242,26 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
     @Override
     public WxUser getUserInfoById(String userId) {
-        LOGGER.info("查询userId为{}用户信息",userId);
-        if(userId == null){
+        LOGGER.info("查询userId为{}用户信息", userId);
+        if (userId == null) {
             LOGGER.error("userId is null");
             return null;
         }
         //根据用户临时码获取用户的微信号
         String openid = connectionMap.get(userId);
 
-        LOGGER.info("查询openid为{}用户信息",openid);
+        LOGGER.info("查询openid为{}用户信息", openid);
 
         //根据openid去查询数据库
         LambdaQueryWrapper<WxUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(WxUser::getOpenid,openid);
+        queryWrapper.eq(WxUser::getOpenid, openid);
 
         List<WxUser> wxUserList = wxUserService.list(queryWrapper);
         System.out.println(wxUserList);
         for (WxUser wxUser : wxUserList) {
-            LOGGER.info("wxUser:{}",wxUser);
+            LOGGER.info("wxUser:{}", wxUser);
         }
-        if (!wxUserList.isEmpty()){
+        if (!wxUserList.isEmpty()) {
             //返回查询结果
             return wxUserList.get(0);
         }
@@ -205,10 +275,10 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
         DateTime now = DateTime.now();
         wxUser.setUpdateTime(now);
         boolean updated = wxUserService.updateById(wxUser);
-        if (updated){
-            return new R(RespEnum.SUCCESS.getCode(),"更新成功" ,null);
+        if (updated) {
+            return new R(RespEnum.SUCCESS.getCode(), "更新成功", null);
         }
-        return new R(RespEnum.SUCCESS.getCode(),"更新失败" ,null);
+        return new R(RespEnum.SUCCESS.getCode(), "更新失败", null);
     }
 
     @Override
@@ -216,7 +286,7 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
         String signature = req.getParameter("signature");
         String echostr = req.getParameter("echostr");
-        System.out.println("请求进来了----: "+signature);
+        System.out.println("请求进来了----: " + signature);
 
         //校验请求
         String str = this.getValidateStr(req);
@@ -231,22 +301,21 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
     }
 
 
-
     // 验证信息是否来自微信服务器
     private String getValidateStr(HttpServletRequest req) {
         String timestamp = req.getParameter("timestamp");
         String nonce = req.getParameter("nonce");
-        String[] arr = { accountConfig.getToken(), timestamp, nonce };
+        String[] arr = {accountConfig.getToken(), timestamp, nonce};
         // let arr = [token, timestamp, nonce];
         Arrays.sort(arr);
 
         String arrStr = String.join("", arr);
-        System.out.println("排序后: "+arrStr);
+        System.out.println("排序后: " + arrStr);
 
         // 然后通过sha1加密
         // const relStr = sha1(arrStr);
-        String sign =sha1_encode(arrStr);
-        System.out.println("sha1加密后sign: "+sign);
+        String sign = sha1_encode(arrStr);
+        System.out.println("sha1加密后sign: " + sign);
         return sign;
     }
 
@@ -294,29 +363,29 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
 
     // 获取新的token:因为token每隔7200秒会过期一次
-    public void getNewToken(){
+    public void getNewToken() {
         // 严格来说 access_token的过期时间是 7200秒，在每次请求前判断一下
-        if(this.access_token_obj != null){
-            System.out.println("已存在token"+this.access_token_obj);
+        if (this.access_token_obj != null) {
+            System.out.println("已存在token" + this.access_token_obj);
             Long now = new Date().getTime();
             Long lastTime = Long.valueOf(this.access_token_obj.getString("lastTime"));
             Long expires_in = Long.valueOf(this.access_token_obj.getString("expires_in"));
             // 提早30000毫秒请求一次，避免微信服务器阻塞 expires_in是秒的单位，故要乘1000
-            if((now - 30000) < (lastTime + expires_in * 1000)){
+            if ((now - 30000) < (lastTime + expires_in * 1000)) {
                 System.out.println("未过期，可以用旧的---");
                 return;
             }
         }
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
 
         // 1.根据前端，或者微信服务器返回来的code，去请求access_token
         String uri = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&"
-                +"appid="+accountConfig.getAppId()
-                +"&secret="+accountConfig.getAppSecret();
+                + "appid=" + accountConfig.getAppId()
+                + "&secret=" + accountConfig.getAppSecret();
 
-        System.out.println("uri:"+uri);
+        System.out.println("uri:" + uri);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/json;charset=UTF-8"));
         HttpEntity<String> entity = new HttpEntity<String>(headers);
@@ -331,21 +400,21 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
         Long now = new Date().getTime();
         obj.put("lastTime", now);
         this.access_token_obj = obj;
-        System.out.println("obj"+obj);
+        System.out.println("obj" + obj);
     }
 
     // 获取ticket
-    public JSONObject getTicket(JSONObject json){
-        System.out.println("前端传来的json："+json);
+    public JSONObject getTicket(JSONObject json) {
+        System.out.println("前端传来的json：" + json);
         // 1.根据access_token请求ticket
         String access_token = this.access_token_obj.getString("access_token");
         String uri = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
-                +access_token;
-        System.out.println("ticket-uri:"+uri);
+                + access_token;
+        System.out.println("ticket-uri:" + uri);
 
         //请求头-法2
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().set(1,new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         //请求体
@@ -371,7 +440,7 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
     @Override
     public String awaitData(ParseXmlForWx px) {
-        System.out.println("接收到的XML为："+px);
+        System.out.println("接收到的XML为：" + px);
         String FromUserName = px.getFromUserName();
         String ToUserName = px.getToUserName();
         String MsgType = px.getMsgType();
@@ -394,10 +463,10 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
         }
 
 
-        LOGGER.info("用户的临时key值：{}",EventKey);
+        LOGGER.info("用户的临时key值：{}", EventKey);
 
         //让它在线60 * 5秒
-        redisTemplate.opsForValue().set(EventKey,true, 60 * 5,TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(EventKey, true, 60 * 5, TimeUnit.SECONDS);
         //this.loginObj.put(EventKey, true);
 
         //存入随机数和当前用户微信号关系
@@ -417,44 +486,38 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
         // 回复信息给 微信服务器
         String content = "";
-        if(MsgType.equals("text") ){
-            if(fromContent.equals("1") ){
+        if (MsgType.equals("text")) {
+            if (fromContent.equals("1")) {
                 content = "努力吧！";
-            } else if(fromContent.equals("2")){
+            } else if (fromContent.equals("2")) {
                 content = "再坚持一会，就成功了";
-            } else if(fromContent.contains("爱")){
+            } else if (fromContent.contains("爱")) {
                 content = "爱你一万年！";
             } else {
                 content = "谢谢！";
             }
-        }
-
-        else if(MsgType.equals("event")){
+        } else if (MsgType.equals("event")) {
             content = "event事件";
-            if(Event.equals("SCAN")){
+            if (Event.equals("SCAN")) {
                 content = "手机扫码，登录成功！";
-            } else if(Event.equals("subscribe")){
+            } else if (Event.equals("subscribe")) {
                 content = "尊敬的用户，您好，欢迎您的关注！";
             }
-            if(Event.equals("unsubscribe")){
+            if (Event.equals("unsubscribe")) {
                 content = "伤心，您取消了关注";
             }
-        }
-        else{
+        } else {
             content = "其他信息来源！";
         }
 
         // 根据来时的信息格式，重组返回。(注意中间不能有空格)
         String msgStr = "<xml>"
-                +"<ToUserName><![CDATA["+FromUserName+"]]></ToUserName>"
-                +"<FromUserName><![CDATA["+ToUserName+"]]></FromUserName>"
-                +"<CreateTime>"+now+"</CreateTime>"
-                +"<MsgType><![CDATA[text]]></MsgType>"
-                +"<Content><![CDATA["+content+"]]></Content>"
-                +"</xml>";
-
-
-
+                + "<ToUserName><![CDATA[" + FromUserName + "]]></ToUserName>"
+                + "<FromUserName><![CDATA[" + ToUserName + "]]></FromUserName>"
+                + "<CreateTime>" + now + "</CreateTime>"
+                + "<MsgType><![CDATA[text]]></MsgType>"
+                + "<Content><![CDATA[" + content + "]]></Content>"
+                + "</xml>";
 
 
         //用线程池发送微信推送消息，没成功，暂时注释
@@ -463,7 +526,7 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
             public void run() {
                 //保存关注的用户信息
                 String accessToken = access_token_obj.getString("access_token");
-                weiXinTemplateUtils.sendTemplateMessageToWxUser(FromUserName,accessToken);
+                weiXinTemplateUtils.sendTemplateMessageToWxUser(FromUserName, accessToken);
             }
         });
 
@@ -474,15 +537,14 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
     }
 
 
-
     //保存用户信息到数据库
-    private void saveWxUserInfo(String openId){
+    private void saveWxUserInfo(String openId) {
         LOGGER.info("用户信息保存方法开始。。。");
         //判断该微信号有没有被添加
         LambdaQueryWrapper<WxUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(WxUser::getOpenid, openId);
         List<WxUser> list = wxUserService.list(queryWrapper);
-        if (CollectionUtil.isNotEmpty(list)){//如果查询到当前微信号，则跳过
+        if (CollectionUtil.isNotEmpty(list)) {//如果查询到当前微信号，则跳过
             LOGGER.info("该微信用户已存在，用户信息保存方法结束。。。");
             return;
         }
@@ -499,13 +561,13 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
     @Override
     public JSONObject Login(String userId) {
-        System.out.println("有人来问"+userId);
-        if(redisTemplate !=null){
+        System.out.println("有人来问" + userId);
+        if (redisTemplate != null) {
 //            Boolean bool = this.loginObj.get(userId);
             Boolean bool = redisTemplate.opsForValue().get(userId);
-            System.out.println("是否登录: "+bool);
+            System.out.println("是否登录: " + bool);
             String jsonStr = "";
-            if(bool != null){
+            if (bool != null) {
                 jsonStr = "{\"login\":true}";
             } else {
                 jsonStr = "{\"login\":false}";
@@ -521,8 +583,8 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
     @Override
     public JSONObject Logout(String userId) {
-        LOGGER.info("{}用户执行退出登录操作",userId);
-        if(redisTemplate !=null){
+        LOGGER.info("{}用户执行退出登录操作", userId);
+        if (redisTemplate != null) {
             //移除对应的值
             redisTemplate.delete(userId);
             //删除现在临时码和微信号的关系
@@ -556,7 +618,7 @@ public class WxUserServiceCustomImpl implements WxUserServiceCustom {
 
         String status = Boolean.TRUE.equals(userIsOnline) ? "在线" : "离线";
 
-        LOGGER.info("用户ID为：{}更新在线状态,当前状态为：{}",userId,status);
+        LOGGER.info("用户ID为：{}更新在线状态,当前状态为：{}", userId, status);
 
         //返回用户在线状态
         return userIsOnline;

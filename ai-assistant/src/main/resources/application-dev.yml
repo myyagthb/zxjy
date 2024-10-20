@@ -32,12 +32,21 @@ spring:
 #  templateId: 6Zsp3pJJges0BvbFF81pPRX-3wcmAgMmW3vAp8I6koo
 
 wx:
-  appId: wx171dd84859e0dbf4
-  appSecret: 0ad4d19e34cac62f38a93d73dfcbcfc2
+  appId: wx7f269cb65f6eef7a
+  appSecret: e47bd03734db8f262b0a1c052f43e326
   token: 123456
   #项目部署服务ip+端口映射地址
-  domain: http://ahgxun.natappfree.cc
+  domain: http://jivk9p.natappfree.cc
   #微信用户信息扫码回调地址
   redirect-uri: /saveUserInfo
   #微信回复模板ID
-  templateId: Rl38mfbT5T-ZpgqYgSKRNYZTz-134N-lgZ2dEdgzPqE
+  templateId: 6Zsp3pJJges0BvbFF81pPRX-3wcmAgMmW3vAp8I6koo
+
+#这里配置腾讯云短信验证码发送参数
+tengxun:
+  secretId: AKID76yc4KQUSSNn4Pey73nJfojQt9FA00vx
+  secretKey: BD9woQq5FBzafkeMtDLH5RdeR0MUQAh0
+  sdkAppId: 1400874223
+  signName: 魔音1号公众号
+  templateId: 2288136
+

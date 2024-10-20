@@ -19,7 +19,7 @@ router.beforeEach(async (to, from, next) => {
     //需要权限
     if (to.meta.requireAuth) {
         //获取本地用户临时ID，
-        let userId = sessionStorage.getItem("userId") || 'a'
+        let userId = sessionStorage.getItem("userId") || '-1'
         console.log("userId is " + userId)
         //访问服务器，确认本用户否在线
         let res = await axios.get("/judgeUserIsOnline",{params: { userId }})

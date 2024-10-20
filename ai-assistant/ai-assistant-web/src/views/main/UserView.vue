@@ -188,7 +188,7 @@
 import {onMounted, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import axios from "axios";
-import router from "@/router";
+
 
 
 const dialogVisible = ref(false)
@@ -301,15 +301,11 @@ const queryUserByUserId = () => {
       } else {
         //用户身份过期，查询不到该用户信息，要求用户重新登录
         ElMessage({
-          type: "error",
-          message: "用户信息错误，请重新登录"
+          type: "warning",
+          message: "用户信息错误或未绑定信息，请扫码绑定"
         })
-        router.push("/login")
+        //router.push("/login")
       }
-
-
-
-
       console.log(userInfo.value)
     } else {
       ElMessageBox({

@@ -6,12 +6,14 @@ import edu.hut.aiassistant.custom.dto.WebChatRequestDTO;
 import edu.hut.aiassistant.custom.service.WxUserServiceCustom;
 import edu.hut.aiassistant.enums.RespEnum;
 import edu.hut.aiassistant.generator.domain.WxUser;
+import edu.hut.aiassistant.req.WxUserLoginReq;
 import edu.hut.aiassistant.req.WxUserReq;
 import edu.hut.aiassistant.resp.R;
 import edu.hut.aiassistant.utils.ParseXml;
 import edu.hut.aiassistant.utils.ParseXmlForWx;
 import edu.hut.aiassistant.utils.WebChatUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,23 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 public class WeiXinController {
 
-
-
     private static final Logger LOGGER = LoggerFactory.getLogger(WeiXinController.class);
 
 
     @Autowired
     private WxUserServiceCustom wxUserServiceCustom;
 
+
+
+    @GetMapping("/sendSmsCodeToMobile/{mobile}")
+    public R sendSmsCodeToMobile(@PathVariable String mobile){
+        return wxUserServiceCustom.sendSmsCodeToMobile(mobile);
+    }
+
+    @PostMapping("/login")
+    public R login(@RequestBody @Valid WxUserLoginReq userLoginReq){
+        return wxUserServiceCustom.login(userLoginReq.getMobile(),userLoginReq.getCode(),userLoginReq.getUserId());
+    }
 
 
 
@@ -46,18 +57,10 @@ public class WeiXinController {
         return "fail";
     }
 
-
-
-
-
-
-
-
     @GetMapping("/qrUserInfoCode")
     public String getUserInfoQrCode(){
         return wxUserServiceCustom.getUserInfoQrCode();
     }
-
 
     @GetMapping("/saveUserInfo")
     public String saveUserInfo(String code, String state){
@@ -69,8 +72,6 @@ public class WeiXinController {
         return "信息绑定成功，请关闭网页二维码界面！";
     }
 
-
-
     @GetMapping("/getWxUserInfoById")
     public R getWxUserInfoById(@RequestParam("userId") String userId){
         WxUser wxUser = wxUserServiceCustom.getUserInfoById(userId);
@@ -81,22 +82,6 @@ public class WeiXinController {
     public R updateWxUserInfo(@RequestBody WxUserReq wxUserReq){
         return wxUserServiceCustom.updateWxUserInfo(wxUserReq);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //    @GetMapping("/")
 //    public String kk(HttpServletRequest req){
