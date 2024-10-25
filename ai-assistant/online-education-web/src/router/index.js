@@ -27,6 +27,9 @@ const routes = [
       {
         path: 'home',
         component: ()=>import('@/views/HomeView.vue')
+      },{
+        path: 'online-course',
+        component: ()=>import('@/views/OnlineCourseView.vue')
       }
     ]
   }
