@@ -30,6 +30,10 @@ const routes = [
       },{
         path: 'online-course',
         component: ()=>import('@/views/OnlineCourseView.vue')
+      },
+      {
+        path: 'course-specifics',
+        component: () => import('@/views/CourseSpecificsView.vue')
       }
     ]
   }
