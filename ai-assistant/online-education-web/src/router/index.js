@@ -34,6 +34,10 @@ const routes = [
       {
         path: 'course-specifics',
         component: () => import('@/views/CourseSpecificsView.vue')
+      },
+      {
+        path: 'member-price',
+        component: () => import('@/views/MemberPriceView.vue')
       }
     ]
   }
