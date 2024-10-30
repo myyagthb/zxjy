@@ -3,11 +3,11 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: res74984
-    url: jdbc:postgresql://127.0.0.1:5432/ai_assistant_db
+    url: jdbc:postgresql://hxy-zhjy-db.hxy:5432/ai_assistant_db
     type: com.alibaba.druid.pool.DruidDataSource
   data:
     redis:
-      host: 127.0.0.1
+      host: hxy-zhjy-rds.hxy
       port: 6379
       password:  # 如果有密码，请填写
       database: 0  # 使用的数据库编号，默认是0
@@ -32,21 +32,16 @@ spring:
 #  templateId: 6Zsp3pJJges0BvbFF81pPRX-3wcmAgMmW3vAp8I6koo
 
 wx:
-  appId: wx7f269cb65f6eef7a
-  appSecret: e47bd03734db8f262b0a1c052f43e326
+  appId: wx171dd84859e0dbf4
+#  appId: wxde84699ab36dc199
+  appSecret: 0ad4d19e34cac62f38a93d73dfcbcfc2
+#  appSecret: 553c510ae1f81269e844dc7329db3366
   token: 123456
   #项目部署服务ip+端口映射地址
-  domain: http://jivk9p.natappfree.cc
+  domain: https://zhjyb.hxydt.com
+#  domain: http://117.82.71.255:8888
   #微信用户信息扫码回调地址
   redirect-uri: /saveUserInfo
   #微信回复模板ID
-  templateId: 6Zsp3pJJges0BvbFF81pPRX-3wcmAgMmW3vAp8I6koo
-
-#这里配置腾讯云短信验证码发送参数
-tengxun:
-  secretId: AKID76yc4KQUSSNn4Pey73nJfojQt9FA00vx
-  secretKey: BD9woQq5FBzafkeMtDLH5RdeR0MUQAh0
-  sdkAppId: 1400874223
-  signName: 魔音1号公众号
-  templateId: 2288136
-
+  templateId: Rl38mfbT5T-ZpgqYgSKRNYZTz-134N-lgZ2dEdgzPqE
+#  templateId: TV8TmMo9aZdLlrlo4FtUlSftvuA3Om7giyZTdXZ2T9g

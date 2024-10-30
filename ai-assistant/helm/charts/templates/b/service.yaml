@@ -1,0 +1,17 @@
+{{- if .Values.b.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "hxy.b.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.b.service.type }}
+  ports:
+    - port: {{ .Values.b.service.port }}
+      targetPort: 8888
+      protocol: TCP
+      name: b
+  selector:
+    {{- include "hxy.b.selectorLabels" . | nindent 4 }}
+{{- end }}

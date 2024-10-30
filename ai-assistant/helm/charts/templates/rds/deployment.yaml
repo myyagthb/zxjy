@@ -1,0 +1,80 @@
+{{/*{{- $ReleaseNamespace := .Release.Namespace -}}*/}}
+{{/*{{- $DB_HOST  := include "hxy.db.fullname".Release.Namespace.svc.cluster.local -}}*/}}
+{{- if .Values.rds.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hxy.rds.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.rds.autoscaling.enabled }}
+  replicas: {{ .Values.rds.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "hxy.rds.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.rds.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "hxy.rds.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.rds.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "hxy.rds.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.rds.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "hxy.rds.name" $ }}
+          securityContext:
+            {{- toYaml .Values.rds.securityContext | nindent 12 }}
+          image: "{{ .Values.rds.image.repository }}:{{ .Values.rds.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.rds.image.pullPolicy }}
+          env:
+            {{- range $key, $value := .Values.rds.environment }}
+            {{- if eq $key "DB_HOST" }}
+            - name: {{ $key }}
+              value: {{ include "hxy.db.fullname" $ }}.{{ $.Release.Namespace }}.svc.cluster.local
+            {{- else}}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "hxy.rds.fullname" $ }}
+                  key: {{ $key }}
+            {{- end}}
+            {{- end }}
+          ports:
+            - name: rds
+              containerPort: 6379
+              protocol: TCP
+          {{- with .Values.rds.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.rds.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.rds.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.rds.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.rds.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.rds.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

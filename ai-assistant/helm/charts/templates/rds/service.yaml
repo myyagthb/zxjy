@@ -1,0 +1,17 @@
+{{- if .Values.rds.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "hxy.rds.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.rds.service.type }}
+  ports:
+    - port: {{ .Values.rds.service.port }}
+      targetPort: 6379
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "hxy.rds.selectorLabels" . | nindent 4 }}
+{{- end }}
