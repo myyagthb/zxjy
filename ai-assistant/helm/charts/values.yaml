@@ -12,7 +12,8 @@ f:
   replicaCount: 1
   image:
     # repository: registry.hxydt.cn:31942/hxy/st/hp/f
-    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjyf
+#    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjyf
+    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zxjyf
     # pullPolicy: IfNotPresent
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
@@ -44,7 +45,7 @@ f:
     # runAsNonRoot: true
   # runAsUser: 1000
 
-  persistence: 
+  persistence:
     enabled: false
     accessModes:
       - ReadWriteOnce
@@ -52,7 +53,7 @@ f:
     storageClassName: local-path
     annotations:
       helm.sh/resource-policy: "keep"
-      
+
   service:
     #type: NodePort
     type: ClusterIP
@@ -138,7 +139,7 @@ b:
     # runAsNonRoot: true
   # runAsUser: 1000
 
-  persistence: 
+  persistence:
     enabled: false
     accessModes:
       - ReadWriteOnce
@@ -146,7 +147,7 @@ b:
     storageClassName: local-path
     annotations:
       helm.sh/resource-policy: "keep"
-      
+
   service:
     #type: NodePort
     type: ClusterIP
@@ -205,7 +206,7 @@ rds:
     SUPABASE_REST_URL: http://hxy-api-gw-apisix-gateway/rest/v1
     STUDIO_PG_META_URL: http://hxy-api-gw-apisix-gateway/pg
     SUPABASE_PUBLIC_URL: http://hxy-api-gw-apisix-gateway
-  nameOverride: "rds"    
+  nameOverride: "rds"
   ingress:
     enabled: false
     className: "apisix"
@@ -253,7 +254,7 @@ db:
     repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjypg
     tag: latest
   secretName: "hxy-db"
-  persistence: 
+  persistence:
     enabled: false
   replicaCount: 1
   nameOverride: "db"

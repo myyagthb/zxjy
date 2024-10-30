@@ -1,6 +1,8 @@
 apiVersion: v2
-name: hxy-zhjy
-description: Hxy zhjy.
+#name: hxy-zhjy
+#description: Hxy zhjy.
+name: hxy-zxjy
+description: Hxy zxjy.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
