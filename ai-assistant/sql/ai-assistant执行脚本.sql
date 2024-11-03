@@ -5,7 +5,7 @@
 -- Dumped from database version 16.3
 -- Dumped by pg_dump version 16.3
 
--- Started on 2024-10-17 11:15:55
+-- Started on 2024-11-03 09:22:27
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -40,6 +40,7 @@ CREATE TABLE public.t_wx_user (
     create_time timestamp without time zone,
     update_time timestamp without time zone,
     mobile character varying(50),
+    password character varying(200),
     CONSTRAINT lev_wx_user_gender_check CHECK ((gender = ANY (ARRAY[0, 1])))
 );
 
@@ -266,7 +267,7 @@ ALTER TABLE ONLY public.t_user
     ADD CONSTRAINT t_user_pkey PRIMARY KEY (user_id);
 
 
--- Completed on 2024-10-17 11:15:55
+-- Completed on 2024-11-03 09:22:28
 
 --
 -- PostgreSQL database dump complete

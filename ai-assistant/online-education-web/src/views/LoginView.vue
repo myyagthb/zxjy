@@ -4,7 +4,6 @@
       <div style="width:100%;display: flex;align-items: center;justify-content: start;">
         <h1>学员感受</h1>
       </div>
-
       <div style="text-align: left;">
         老师的教学方式非常生动有趣，让我对这门课程产生了浓厚的兴趣。这门课程的教材非常详细，让我能够更好地理解课程内容。课程的难度适中，让我能够顺利掌握知识。
       </div>
@@ -30,7 +29,6 @@
           </div>
         </div>
       </el-card>
-
     </div>
     <div class="right_div">
       <div class="common-layout">
@@ -43,8 +41,8 @@
           </el-header>
           <el-main>
             <el-form :model="loginForm" label-width="auto" style="max-width: 600px">
-              <el-form-item label="Email">
-                <el-input v-model="loginForm.email" placeholder="请输入您的邮箱" class="form_input" />
+              <el-form-item label="手机号">
+                <el-input v-model="loginForm.mobile" placeholder="请输入您的手机号" class="form_input" />
               </el-form-item>
               <el-form-item label="密码">
                 <el-input v-model="loginForm.password" type="password" placeholder="请输入您的密码" class="form_input" />
@@ -54,52 +52,110 @@
                 <el-checkbox>记住我</el-checkbox>
               </el-form-item>
             </el-form>
-            <el-button  @click="onSubmit" class="form_button" style="background-color: orange;color: white;">登录</el-button>
+            <el-button :loading="loginLoading"  @click="login" class="form_button" style="background-color: orange;color: white;">登录</el-button>
           </el-main>
           <div class="hr-text">
             <span>其他方式</span>
           </div>
           <el-footer>
-            <el-button  @click="onSubmit" class="form_button" style="background-color: #f7f7f8;">
+            <el-button class="form_button" style="background-color: #f7f7f8;">
               <el-icon><Iphone /></el-icon>
               使用其它方式登录
             </el-button>
             <br>
             <br>
             <div>
-              还没有账户?<a href="#">立即注册</a><el-icon><TopRight /></el-icon>
+              还没有账户?<a href="#" @click="goRegister">立即注册</a><el-icon><TopRight /></el-icon>
             </div>
           </el-footer>
         </el-container>
       </div>
-
-
     </div>
   </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from 'vue'
-
-// do not use same name with ref
-const loginForm = ref({
-  email: '',
-  password: '',
-})
-
-const onSubmit = () => {
-  console.log('submit!')
-}
-
+import router from "@/router";
+import {ElMessage} from "element-plus";
+import axios from "axios";
 
 onMounted(()=> {
   onLoadTeacherAvatar()
 })
 const squareUrl = ref("")
-
 const onLoadTeacherAvatar = ()=> {
   squareUrl.value = new URL('@/assets/images/login/teacher.jpeg', import.meta.url).href;
 }
+
+// do not use same name with ref
+const loginForm = ref({
+  mobile: '',
+  password: '',
+})
+
+//表示是否在注册中
+const loginLoading = ref(false)
+const login = () => {
+  //校验手机号
+  if (loginForm.value.mobile === '' ||!validMobile(loginForm.value.mobile)){
+    ElMessage({
+      type: "error",
+      message: "手机号码错误"
+    })
+    return;
+  }
+
+  //校验密码
+  if(loginForm.value.password === '' ){
+    ElMessage({
+      type: "error",
+      message: "请输入密码"
+    })
+    return;
+  }
+
+  loginLoading.value = true
+  axios.post("/user/login",loginForm.value).then(res => {
+    let data = res.data
+    if(data.code === 200){
+      ElMessage({
+        type: "success",
+        message: data.msg
+      })
+
+      router.push("/base/home")
+    } else {
+      ElMessage({
+        type: "error",
+        message: data.msg
+      })
+    }
+  })
+
+  loginLoading.value = false
+}
+
+
+const goRegister = (event) => {
+  event.preventDefault(); // 阻止默认行为（例如跳转到 #）
+  event.stopPropagation(); // 阻止事件冒泡
+
+  router.push("/base/register")
+}
+
+/**
+ * 验证手机号码是否有效
+ * @param {string} phoneNumber - 待验证的手机号码
+ * @returns {boolean} - 如果手机号码有效则返回true，否则返回false
+ */
+const validMobile = (phoneNumber) => {
+  // 正则表达式：中国大陆手机号码
+  const phoneRegex = /^1[3-9]\d{9}$/;
+  // 检查手机号码是否符合正则表达式
+  return phoneRegex.test(phoneNumber);
+}
+
 
 </script>
 

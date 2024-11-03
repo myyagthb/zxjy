@@ -42,57 +42,54 @@
             <p>创建一个账户以解锁独家功能</p>
           </el-header>
           <el-main>
-            <el-form :model="loginForm" label-width="auto" style="max-width: 600px">
-              <el-form-item label="用户名">
-                <el-input v-model="loginForm.username" placeholder="请输入您的邮箱" class="form_input" />
-              </el-form-item>
-              <el-form-item label="Email">
-                <el-input v-model="loginForm.email" placeholder="请输入您的邮箱" class="form_input" />
+            <el-form :model="registerForm" label-width="auto" style="max-width: 600px">
+              <el-form-item label="手机号">
+                <el-input v-model="registerForm.mobile" placeholder="请输入您的手机号" class="form_input" />
               </el-form-item>
               <el-form-item label="密码">
-                <el-input v-model="loginForm.password" type="password" placeholder="请输入您的密码" class="form_input" />
+                <el-input v-model="registerForm.password" type="password" placeholder="请输入您的密码" class="form_input" />
+              </el-form-item>
+              <el-form-item label="确认密码">
+                <el-input v-model="registerForm.confirmPassword" placeholder="确认密码" class="form_input" />
               </el-form-item>
               <el-form-item>
-                <el-checkbox>记住我</el-checkbox>我同意<a href="#">使用条款</a>和<a href="#">隐私政策</a>
+                <el-checkbox v-model="agree">&emsp;</el-checkbox>我同意<a href="#">使用条款</a>和<a href="#">隐私政策</a>
               </el-form-item>
             </el-form>
-            <el-button  @click="onSubmit" class="form_button" style="background-color: orange;color: white;">注册</el-button>
+            <el-button :loading="registerLoading"  @click="register" class="form_button" style="background-color: orange;color: white;">注册</el-button>
           </el-main>
           <div class="hr-text">
             <span>其他方式</span>
           </div>
           <el-footer>
-            <el-button  @click="onSubmit" class="form_button" style="background-color: #f7f7f8;">
+            <el-button  class="form_button" style="background-color: #f7f7f8;">
               <el-icon><Iphone /></el-icon>
               使用其它方式登录
             </el-button>
             <br>
             <br>
             <div>
-              已有账户<a href="#">立即登录</a><el-icon><TopRight /></el-icon>
+              已有账户<a href="#" @click="goLogin">立即登录</a><el-icon><TopRight /></el-icon>
             </div>
           </el-footer>
         </el-container>
       </div>
-
-
     </div>
   </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from 'vue'
+import axios from "axios";
+import {ElMessage} from "element-plus";
+import router from "@/router";
 
 // do not use same name with ref
-const loginForm = ref({
-  email: '',
+const registerForm = ref({
+  mobile: '',
   password: '',
+  confirmPassword: ''
 })
-
-const onSubmit = () => {
-  console.log('submit!')
-}
-
 
 onMounted(()=> {
   onLoadTeacherAvatar()
@@ -102,6 +99,103 @@ const squareUrl = ref("")
 const onLoadTeacherAvatar = ()=> {
   squareUrl.value = new URL('@/assets/images/login/teacher.jpeg', import.meta.url).href;
 }
+
+
+//表示是否同意隐私政策
+const agree = ref(false)
+
+//表示是否在注册中
+const registerLoading = ref(false)
+
+//注册功能
+const register = () => {
+
+  if(agree.value === false){
+    ElMessage({
+      type: "warning",
+      message: "请勾选隐私政策"
+    })
+    return;
+  }
+
+  //校验手机号
+  if (registerForm.value.mobile === '' ||!validMobile(registerForm.value.mobile)){
+    ElMessage({
+      type: "error",
+      message: "手机号码错误"
+    })
+    return;
+  }
+
+  //校验密码
+  if(registerForm.value.password === '' || registerForm.value.confirmPassword === ''){
+    ElMessage({
+      type: "error",
+      message: "请输入密码"
+    })
+    return;
+  }
+
+  //验证两次输入密码
+  if(registerForm.value.password !== registerForm.value.confirmPassword){
+    ElMessage({
+      type: "error",
+      message: "两次密码输入不一致"
+    })
+    return;
+  }
+
+  //让注册按钮处于不可点击状态
+  registerLoading.value = true
+
+  //注册
+  axios.post("/user/register",registerForm.value).then(res => {
+    let data = res.data
+    if(data.code === 200){
+      ElMessage({
+        type: "success",
+        message: data.msg
+      })
+    } else {
+      ElMessage({
+        type: "error",
+        message: data.msg
+      })
+    }
+  }).catch(err =>{
+    console.log(err)
+    ElMessage({
+      type: "error",
+      message: err.message
+    })
+  })
+
+  //让注册按钮恢复可点击状态
+  registerLoading.value = false
+
+}
+
+/**
+ * 验证手机号码是否有效
+ * @param {string} phoneNumber - 待验证的手机号码
+ * @returns {boolean} - 如果手机号码有效则返回true，否则返回false
+ */
+const validMobile = (phoneNumber) => {
+  // 正则表达式：中国大陆手机号码
+  const phoneRegex = /^1[3-9]\d{9}$/;
+
+  // 检查手机号码是否符合正则表达式
+  return phoneRegex.test(phoneNumber);
+}
+
+const goLogin = (event) => {
+  event.preventDefault(); // 阻止默认行为（例如跳转到 #）
+  event.stopPropagation(); // 阻止事件冒泡
+
+  console.log(11)
+  router.push("/base/login")
+}
+
 
 </script>
 
