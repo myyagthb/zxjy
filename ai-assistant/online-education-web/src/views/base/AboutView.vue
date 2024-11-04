@@ -62,7 +62,7 @@
         <p>加入我们这个激动人心的学习之旅，释放您在设计和开发方面的潜力。</p>
       </div>
       <div class="image-container">
-        <img src="@/assets/images/about/background.png" alt="background"/>
+        <img src="../../assets/images/about/background.png" alt="background"/>
       </div>
       <button class="join-button">立即加入</button>
     </div>

@@ -24,7 +24,7 @@
             <h4>可用功能</h4>
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -33,7 +33,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -42,7 +42,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -51,7 +51,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -60,7 +60,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -69,7 +69,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/fork-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/fork-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -78,7 +78,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/fork-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/fork-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -98,7 +98,7 @@
             <h4>可用功能</h4>
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -107,7 +107,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -116,7 +116,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -125,7 +125,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -134,7 +134,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -143,7 +143,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程
@@ -152,7 +152,7 @@
 
             <div class="member_price_middle_item_content_div">
               <div class="member_price_middle_item_content_div_left">
-                <img src="@/assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
+                <img src="../../assets/images/MemberCourse/hook-icon.png" style="width: 30px;height: 30px;line-height: 30px;">
               </div>
               <div class="member_price_middle_item_content_div_right">
                 访问选定的某个课程

@@ -9,7 +9,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/base/AboutView.vue')
   },
   {
     path: '/base',
@@ -18,30 +18,30 @@ const routes = [
     children: [
       {
         path: 'login',
-        component: ()=>import('@/views/LoginView.vue')
+        component: ()=>import('@/views/base/LoginView.vue')
       },
       {
         path: 'register',
-        component: ()=>import('@/views/RegisterView.vue')
+        component: ()=>import('@/views/base/RegisterView.vue')
       },
       {
         path: 'home',
-        component: ()=>import('@/views/HomeView.vue')
+        component: ()=>import('@/views/base/HomeView.vue')
       },{
         path: 'online-course',
-        component: ()=>import('@/views/OnlineCourseView.vue')
+        component: ()=>import('@/views/base/OnlineCourseView.vue')
       },
       {
         path: 'about',
-        component: () => import('@/views/AboutView.vue')
+        component: () => import('@/views/base/AboutView.vue')
       },
       {
         path: 'course-specifics',
-        component: () => import('@/views/CourseSpecificsView.vue')
+        component: () => import('@/views/base/CourseSpecificsView.vue')
       },
       {
         path: 'member-price',
-        component: () => import('@/views/MemberPriceView.vue')
+        component: () => import('@/views/base/MemberPriceView.vue')
       }
     ]
   }
