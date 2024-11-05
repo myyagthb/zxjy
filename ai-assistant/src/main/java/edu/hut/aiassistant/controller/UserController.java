@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
     private UserServiceCustom userServiceCustom;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public R register(@Valid @RequestBody UserReq userReq){
         return userServiceCustom.register(userReq);
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public R login(@Valid @RequestBody UserReq userReq){
         return userServiceCustom.login(userReq);
     }
