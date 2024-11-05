@@ -6,7 +6,7 @@
         default-active="2"
         class="el-menu-vertical-demo"
         v-model:selectedKeys="selectedKeys"
-        :openKeys="['student']"
+        :openKeys="['teacher']"
         @open="handleOpen"
         @close="handleClose"
     >

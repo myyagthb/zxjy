@@ -2,13 +2,13 @@
   <div class="teacher">
     <el-container >
       <el-header class="header_div">
-          <div class="header_div_avatar">
-            <el-avatar style="width: 100%;height: 100%;" :src="require('@/assets/images/student/teacher.jpeg')"></el-avatar>
-          </div>
-          <div class="header_div_info">
-            <div>张三</div>
-            <div>大学教授</div>
-          </div>
+        <div class="header_div_avatar">
+          <el-avatar style="width: 100%;height: 100%;" :src="require('@/assets/images/teacher/teacher.jpeg')"></el-avatar>
+        </div>
+        <div class="header_div_info">
+          <div>张三</div>
+          <div>大学教授</div>
+        </div>
       </el-header>
       <el-container>
         <el-aside width="300px">
