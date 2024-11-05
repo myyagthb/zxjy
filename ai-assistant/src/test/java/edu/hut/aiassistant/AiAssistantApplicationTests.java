@@ -1,8 +1,9 @@
 package edu.hut.aiassistant;
 
-import edu.hut.aiassistant.custom.service.WxUserServiceCustom;
+import edu.hut.aiassistant.custom.service.UserServiceCustom;
 import edu.hut.aiassistant.generator.domain.User;
 import edu.hut.aiassistant.generator.service.UserService;
+import edu.hut.aiassistant.req.UserReq;
 import edu.hut.aiassistant.resp.R;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,36 +23,41 @@ class AiAssistantApplicationTests {
     @Autowired
     private UserService userService;
 
+//    @Test
+//    void addUser() {
+//
+//        User user = new User();
+//        user.setUserId(10001L);
+//        user.setPhone("123");
+//        user.setPassword("123");
+//        user.setCreateTime(new Date());
+//        user.setUpdateTime(new Date());
+//        userService.save(user);
+//    }
+
     @Autowired
-    private WxUserServiceCustom wxUserServiceCustom;
+    private UserServiceCustom userServiceCustom;
+
 
     @Test
-    void addUser() {
-        User user = new User();
-        user.setUserId(10001L);
-        user.setPhone("123");
-        user.setPassword("123");
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
-        userService.save(user);
+    void testRegister(){
+        UserReq userReq = new UserReq();
+        userReq.setMobile("1472761979");
+        userReq.setPassword("123456");
+
+        R register = userServiceCustom.register(userReq);
+        System.out.println(register);
     }
 
-    @Test
-    void testSendSms(){
-        String mobile = "14727619798";
-        R resp = wxUserServiceCustom.sendSmsCodeToMobile(mobile);
-        System.out.println(resp);
 
-
-
-    }
     @Test
     void testLogin(){
-        String mobile = "14727619798";
-        Integer code = 344768;
-        Integer userId = 12334;
-        R login = wxUserServiceCustom.login(mobile, code, userId);
-        System.out.println(login);
+        UserReq userReq = new UserReq();
+        userReq.setMobile("14727619799");
+        userReq.setPassword("123456");
+
+        R register = userServiceCustom.login(userReq);
+        System.out.println(register);
     }
 
 }

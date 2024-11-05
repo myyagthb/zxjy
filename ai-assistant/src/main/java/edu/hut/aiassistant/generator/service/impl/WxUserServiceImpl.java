@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
 * @author 王海鑫
 * @description 针对表【t_wx_user(用户信息表)】的数据库操作Service实现
-* @createDate 2024-10-09 21:27:57
+* @createDate 2024-10-31 14:48:51
 */
 @Service
 public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser>

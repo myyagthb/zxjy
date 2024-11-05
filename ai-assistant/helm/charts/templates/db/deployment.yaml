@@ -1,0 +1,87 @@
+{{- if .Values.db.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hxy.db.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.db.autoscaling.enabled }}
+  replicas: {{ .Values.db.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "hxy.db.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.db.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "hxy.db.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.db.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "hxy.db.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "hxy.db.name" $ }}
+          securityContext:
+            {{- toYaml .Values.db.securityContext | nindent 12 }}
+          image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.db.image.pullPolicy }}
+          env:
+            {{- range $key, $value := .Values.db.env }}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "hxy.db.fullname" $ }}
+                  key: {{ $key }}
+            {{- end }}
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secretName }}
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secretName }}
+                  key: password
+          ports:
+            - name: http
+              containerPort: 5432
+              protocol: TCP
+          {{- with .Values.db.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: custom-init-scripts
+          configMap:
+            name: {{ include "hxy.db.fullname" . }}-initdb
+        {{- with .Values.db.volumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.db.persistence.enabled }}
+        - name: postgres-volume
+          persistentVolumeClaim:
+            claimName: {{ include "hxy.db.fullname" . }}-pvc
+        {{- end }}
+      {{- with .Values.db.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.db.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.db.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

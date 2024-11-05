@@ -1,0 +1,289 @@
+
+jwt:
+  secretName: "hxy-jwt"
+
+smtp:
+  secretName: "hxy-smtp"
+
+
+
+f:
+  enabled: true
+  replicaCount: 1
+  image:
+    # repository: registry.hxydt.cn:31942/hxy/st/hp/f
+#    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjyf
+    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zxjyf
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  #imagePullSecrets: [{name:"hxysiteregcred"}]
+  nameOverride: "f"
+  # fullnameOverride: "b"
+  env:
+    DB_PORT: "3306"
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+
+  persistence:
+    enabled: false
+    accessModes:
+      - ReadWriteOnce
+    size: 4Gi
+    storageClassName: local-path
+    annotations:
+      helm.sh/resource-policy: "keep"
+
+  service:
+    #type: NodePort
+    type: ClusterIP
+    port: 443
+
+  ingress:
+    enabled: true
+    className: "apisix"
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: hxycloud.com.cn
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+  #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+
+b:
+  enabled: true
+  replicaCount: 1
+  image:
+    # repository: registry.hxydt.cn:31942/hxy/st/hp/b
+    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjyb
+    # pullPolicy: IfNotPresent
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  #imagePullSecrets: [{name:"hxysiteregcred"}]
+  nameOverride: "b"
+  # fullnameOverride: "b"
+  env:
+    DB_PORT: "3306"
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+
+  persistence:
+    enabled: false
+    accessModes:
+      - ReadWriteOnce
+    size: 4Gi
+    storageClassName: local-path
+    annotations:
+      helm.sh/resource-policy: "keep"
+
+  service:
+    #type: NodePort
+    type: ClusterIP
+    port: 8888
+
+  ingress:
+    enabled: true
+    className: "apisix"
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: hxycloud.com.cn
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+  #   memory: 128Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+
+rds:
+  enabled: true
+  image:
+    repository: registry.hxydt.cn:31942/hxy/st/hp/rds
+    pullPolicy: Always
+    tag: "latest"
+  environment:
+    SUPABASE_URL: http://hxy-api-gw-apisix-gateway
+    SUPABASE_REST_URL: http://hxy-api-gw-apisix-gateway/rest/v1
+    STUDIO_PG_META_URL: http://hxy-api-gw-apisix-gateway/pg
+    SUPABASE_PUBLIC_URL: http://hxy-api-gw-apisix-gateway
+  nameOverride: "rds"
+  ingress:
+    enabled: false
+    className: "apisix"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
+    tls: []
+      # - secretName: studio.localhost
+      #   hosts:
+      #     - studio.localhost
+    hosts:
+      - host: studio.localhost
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: hxy-platform-hxy-studio
+              servicePort: 80
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  service:
+    type: ClusterIP
+    port: 6379
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+  podAnnotations: {}
+  podSecurityContext: {}
+  # fsGroup: 2000
+  securityContext: {}
+
+
+db:
+  enabled: true
+  image:
+    # repository: registry.hxydt.cn:31942/hxy/st/hp/db
+    repository: registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjypg
+    tag: latest
+  secretName: "hxy-db"
+  persistence:
+    enabled: false
+  replicaCount: 1
+  nameOverride: "db"
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+  storage:
+      mountPath: /var/lib/postgresql/data
+      size: 20Gi
+      storageClass: local-path
+      annotations:
+        helm.sh/resource-policy: "keep"
+  service:
+    type: ClusterIP
+    port: 5432
+  ingress:
+    enabled: false
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+
+
+

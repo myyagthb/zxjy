@@ -1,0 +1,10 @@
+{{- if .Values.db.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "hxy.db.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.db.env | nindent 2 }}
+{{- end }}

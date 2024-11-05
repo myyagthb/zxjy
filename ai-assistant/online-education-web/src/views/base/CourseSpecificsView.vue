@@ -11,7 +11,7 @@
     </div>
     <div class="course_specifics_middle">
       <video class="course_specifics_middle_video" controls>
-        <source src="@/assets/video/test-video.mp4" type="video/mp4">
+        <source src="../../assets/video/test-video.mp4" type="video/mp4">
         您的浏览器不支持 video 标签。
       </video>
     </div>

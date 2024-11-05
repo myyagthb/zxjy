@@ -17,12 +17,14 @@
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,openid,nickname,
         avatar_url,gender,country,
         province,city,language,
-        create_time,update_time,mobile
+        create_time,update_time,mobile,
+        password
     </sql>
 </mapper>

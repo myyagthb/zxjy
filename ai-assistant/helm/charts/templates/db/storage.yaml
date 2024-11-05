@@ -1,0 +1,21 @@
+{{- if .Values.db.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "hxy.db.fullname" . }}-pvc
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+  {{- with .Values.db.storage.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  storageClassName: {{ .Values.db.storage.storageClass }}
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.db.storage.size }}
+{{- end }}
+
+

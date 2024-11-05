@@ -7,7 +7,23 @@ import 'element-plus/dist/index.css'
 // 如果您正在使用CDN引入，请删除下面一行。
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+import axios from 'axios';
+
 const app = createApp(App)
+
+// 全局异常处理
+app.config.errorHandler = (err, vm, info) => {
+    // 处理错误
+    // `info` 是 Vue 特定的错误信息，比如错误所在的生命周期钩子
+    console.log(vm)
+    console.log(info)
+    console.log('====== 有报错了兄弟!!! ======');
+    if (err instanceof Error) {
+        console.log('❌ 提示:', err.message);
+    }
+
+};
+
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
@@ -16,3 +32,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(store).use(router).use(ElementPlus)
 
 app.mount('#app')
+
+
+axios.defaults.baseURL = process.env.VUE_APP_SERVER;

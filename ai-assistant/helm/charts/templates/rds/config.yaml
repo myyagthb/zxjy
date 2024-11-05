@@ -1,0 +1,10 @@
+{{- if .Values.rds.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "hxy.rds.fullname" . }}
+  labels:
+    {{- include "hxy.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.rds.environment | nindent 2 }}
+{{- end }}
