@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BaseView from "@/views/BaseView.vue";
+import StudentBaseView from "@/views/student/StudentBaseView.vue";
 
 
 const routes = [
@@ -43,6 +44,20 @@ const routes = [
         path: 'member-price',
         component: () => import('@/views/base/MemberPriceView.vue')
       }
+    ]
+  }
+  ,{
+    path: '/student',
+    name: 'student',
+    component: StudentBaseView,
+    children: [
+      {
+        path: 'my-course',
+        component: () => import('@/views/student/MyCourseView.vue')
+      },{
+        path: 'my-information',
+        component: () => import('@/views/student/MyInformationView.vue')
+      },
     ]
   }
 ]
