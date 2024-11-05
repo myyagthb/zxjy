@@ -4,6 +4,14 @@ import BaseView from "@/views/BaseView.vue";
 
 const routes = [
   {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
     path: '/base',
     name: 'base',
     component: BaseView,
@@ -24,8 +32,8 @@ const routes = [
         component: ()=>import('@/views/OnlineCourseView.vue')
       },
       {
-        path: 'about',
-        component: () => import('@/views/AboutView.vue')
+        path: 'course-specifics',
+        component: () => import('@/views/CourseSpecificsView.vue')
       }
     ]
   }
