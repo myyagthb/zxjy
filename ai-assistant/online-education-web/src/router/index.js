@@ -70,7 +70,7 @@ const routes = [
         component: () => import('@/views/teacher/MyCourseView.vue')
       },{
         path: 'upload',
-        component: () => import('@/views/teacher/uploadCourse.vue')
+        component: () => import('@/views/teacher/UploadCourseView.vue')
       },
     ]
   }  
