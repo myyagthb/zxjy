@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BaseView from "@/views/BaseView.vue";
 import StudentBaseView from "@/views/student/StudentBaseView.vue";
-
+import TeacherBaseView from "@/views/teacher/TeacherBaseView.vue";
 
 const routes = [
   {
@@ -59,7 +59,21 @@ const routes = [
         component: () => import('@/views/student/MyInformationView.vue')
       },
     ]
-  }
+  },
+  {
+    path: '/teacher',
+    name: 'teacher',
+    component: TeacherBaseView,
+    children: [
+      {
+        path: 'my-course',
+        component: () => import('@/views/teacher/MyCourseView.vue')
+      },{
+        path: 'upload',
+        component: () => import('@/views/teacher/uploadCourse.vue')
+      },
+    ]
+  }  
 ]
 
 const router = createRouter({
