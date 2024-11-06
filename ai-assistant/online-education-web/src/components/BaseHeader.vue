@@ -28,7 +28,7 @@
         </el-button>
       </div>
       <div class="menu_item">
-        <el-button class="menu_item_button">
+        <el-button class="menu_item_button" @click="goContactUs">
           联系我们
         </el-button>
       </div>
@@ -36,12 +36,12 @@
 
     <div class="menu_list_right">
       <div class="menu_item">
-        <el-button class="menu_item_button">
+        <el-button class="menu_item_button" @click="goRegister">
           我要注册
         </el-button>
       </div>
       <div class="menu_item">
-        <el-button class="menu_item_button" style="background-color: orange;color: #fefff3;">
+        <el-button class="menu_item_button" style="background-color: orange;color: #fefff3;" @click="goLogin">
           立即登录
         </el-button>
       </div>
@@ -64,9 +64,9 @@ const goAbout = ()=>  {
 }
 
 //去课程详情
-// const goCourseSpecifics = ()=>  {
-//   router.push("/base/course-specifics")
-// }
+const goContactUs = ()=>  {
+  router.push("/base/contact-us")
+}
 
 //去会员价格
 const goMemberPrice = ()=>  {
@@ -78,6 +78,13 @@ const goOnlineCourse = ()=>  {
   router.push("/base/online-course")
 }
 
+const goLogin = () => {
+  router.push("/base/login")
+}
+
+const goRegister = () => {
+  router.push("/base/register")
+}
 
 </script>
 
