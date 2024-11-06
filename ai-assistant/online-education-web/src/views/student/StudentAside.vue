@@ -11,23 +11,28 @@
         @close="handleClose"
     >
       <el-menu-item index="1" key="/my-course">
-        <router-link to="/student/my-course" style="text-decoration: none">
+        <router-link :to="getFullPath('/my-course')" style="text-decoration: none">
           <span>我的课程</span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="2" key="/my-information">
-        <router-link to="/student/my-information" style="text-decoration: none">
+        <router-link :to="getFullPath('/my-information')" style="text-decoration: none">
           <span>我的资料</span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="3" key="/welcome">
-        <router-link to="/welcome" style="text-decoration: none">
-          <span>课程日历</span>
+      <el-menu-item index="3" key="/study-progress">
+        <router-link :to="getFullPath('/study-progress')" style="text-decoration: none">
+          <span>学习进度</span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="4" key="/welcome">
-        <router-link to="/welcome" style="text-decoration: none">
-          <span>学习规划</span>
+      <el-menu-item index="4" key="/study-path-plan-one">
+        <router-link :to="getFullPath('/study-path-plan-one')" style="text-decoration: none">
+          <span>学习路径规划-1</span>
+        </router-link>
+      </el-menu-item>
+      <el-menu-item index="4" key="/study-path-plan-two">
+        <router-link :to="getFullPath('/study-path-plan-two')" style="text-decoration: none">
+          <span>学习路径规划-2</span>
         </router-link>
       </el-menu-item>
     </el-menu>
@@ -54,6 +59,10 @@ watch(() => router.currentRoute.value.path, (newValue) => {
   selectedKeys.value.push(newValue);
 }, {immediate: true});
 
+// 定义一个方法来动态添加公共路径
+const getFullPath = (path) => {
+  return `/student${path}`;
+};
 </script>
 
 <style scoped>

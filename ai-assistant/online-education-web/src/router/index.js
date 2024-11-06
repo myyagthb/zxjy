@@ -57,6 +57,15 @@ const routes = [
       },{
         path: 'my-information',
         component: () => import('@/views/student/MyInformationView.vue')
+      },{
+        path: 'study-path-plan-one',
+        component: () => import('@/views/student/StudyPathPlanOneView.vue')
+      },{
+        path: 'study-path-plan-two',
+        component: () => import('@/views/student/StudyPathPlanTwoView.vue')
+      },{
+        path: 'study-progress',
+        component: () => import('@/views/student/StudyProgressView.vue')
       },
     ]
   },
