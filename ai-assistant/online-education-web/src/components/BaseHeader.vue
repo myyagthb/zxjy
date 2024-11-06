@@ -8,22 +8,22 @@
         </el-button>
       </div>
       <div class="menu_item">
-        <el-button class="menu_item_button">
+        <el-button class="menu_item_button" @click="goHome">
           网站首页
         </el-button>
       </div>
       <div class="menu_item">
-        <el-button class="menu_item_button">
+        <el-button class="menu_item_button" @click="goOnlineCourse">
           在线课程
         </el-button>
       </div>
       <div class="menu_item">
-        <el-button class="menu_item_button">
+        <el-button class="menu_item_button" @click="goAbout">
           关于我们
         </el-button>
       </div>
       <div class="menu_item">
-        <el-button class="menu_item_button">
+        <el-button class="menu_item_button" @click="goMemberPrice">
           会员价格
         </el-button>
       </div>
@@ -50,6 +50,34 @@
 </template>
 
 <script setup>
+
+//去网站首页
+import router from "@/router";
+
+const goHome = ()=>  {
+  router.push("/base/home")
+}
+
+//去关于界面
+const goAbout = ()=>  {
+  router.push("/base/about")
+}
+
+//去课程详情
+// const goCourseSpecifics = ()=>  {
+//   router.push("/base/course-specifics")
+// }
+
+//去会员价格
+const goMemberPrice = ()=>  {
+  router.push("/base/member-price")
+}
+
+//去在线课程
+const goOnlineCourse = ()=>  {
+  router.push("/base/online-course")
+}
+
 
 </script>
 
