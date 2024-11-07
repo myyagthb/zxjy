@@ -81,6 +81,11 @@ public class WxUser implements Serializable {
      */
     private String password;
 
+    /**
+     * 
+     */
+    private Integer role;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -108,7 +113,8 @@ public class WxUser implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()));
+            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+            && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()));
     }
 
     @Override
@@ -128,6 +134,7 @@ public class WxUser implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
         return result;
     }
 
@@ -150,6 +157,7 @@ public class WxUser implements Serializable {
         sb.append(", updateTime=").append(updateTime);
         sb.append(", mobile=").append(mobile);
         sb.append(", password=").append(password);
+        sb.append(", role=").append(role);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

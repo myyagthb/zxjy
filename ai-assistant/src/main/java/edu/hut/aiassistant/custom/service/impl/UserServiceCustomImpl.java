@@ -64,8 +64,11 @@ public class UserServiceCustomImpl implements UserServiceCustom {
         if (user == null) {
             return new R(RespEnum.FAIL.getCode(), "账号或密码错误",null);
         }
-        UserResp userResp = BeanUtil.copyProperties(user, UserResp.class);
-        String jwtString = MyJWTUtil.objectToJwtString(userResp);
-        return new R(RespEnum.SUCCESS.getCode(), "登录成功",jwtString);
+
+        String jwtString = MyJWTUtil.objectToJwtString(user);
+        UserResp userResp = new UserResp();
+        userResp.setRole(user.getRole());
+        userResp.setToken(jwtString);
+        return new R(RespEnum.SUCCESS.getCode(), "登录成功",userResp);
     }
 }
