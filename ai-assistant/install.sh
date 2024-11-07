@@ -15,6 +15,10 @@ docker build --network host -f ./Dockerfile -t registry.cn-hangzhou.aliyuncs.com
 docker push registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjyf:latest 
 docker push registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjyb:latest 
 
+#zxjy frontend
+cd online-education-web
+docker build --network host -f ./Dockerfile -t registry.cn-hangzhou.aliyuncs.com/hxy-repo/zxjyf:latest .
+
 #pg db
 docker build --network host -f ./pg.Dockerfile -t registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjypg:latest .
 docker push registry.cn-hangzhou.aliyuncs.com/hxy-repo/zhjypg:latest 
