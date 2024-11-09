@@ -73,6 +73,8 @@
 import router from "@/router";
 import store from "@/store";
 import {onMounted, ref, watch} from "vue";
+import {isEmptyObject} from "../../public/js/utils";
+
 
 
 //表示当前用户是否登录
@@ -84,7 +86,7 @@ onMounted(()=>{
 })
 
 //判断对象是否为空
-const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+//const isEmptyObject = (obj) => Object.keys(obj).length === 0;
 
 //判断是否登录
 const judgeIsLogin = () => {

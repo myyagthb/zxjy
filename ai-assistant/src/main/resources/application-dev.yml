@@ -21,6 +21,15 @@ spring:
           min-idle: 0  # 最小空闲连接数
 
 
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: t_
+  mapper-locations: classpath:mapper/*.xml,classpath:custom/*.xml
+
+
 #wx:
 #  appId: wx7f269cb65f6eef7a
 #  appSecret: e47bd03734db8f262b0a1c052f43e326

@@ -3,6 +3,7 @@ package edu.hut.aiassistant;
 import edu.hut.aiassistant.custom.service.UserServiceCustom;
 import edu.hut.aiassistant.generator.domain.User;
 import edu.hut.aiassistant.generator.service.UserService;
+import edu.hut.aiassistant.req.UserInfoReq;
 import edu.hut.aiassistant.req.UserReq;
 import edu.hut.aiassistant.resp.R;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class AiAssistantApplicationTests {
     @Test
     void testRegister(){
         UserReq userReq = new UserReq();
-        userReq.setMobile("1472761979");
+        userReq.setMobile("14727619000");
         userReq.setPassword("123456");
 
         R register = userServiceCustom.register(userReq);
@@ -53,11 +54,21 @@ class AiAssistantApplicationTests {
     @Test
     void testLogin(){
         UserReq userReq = new UserReq();
-        userReq.setMobile("14727619799");
+        userReq.setMobile("14727619000");
         userReq.setPassword("123456");
 
         R register = userServiceCustom.login(userReq);
         System.out.println(register);
+    }
+
+    @Test
+    void testUpdateUserInfo(){
+        UserInfoReq newUser = new UserInfoReq();
+        newUser.setUserId(1854788583587618818L);
+        newUser.setEducateStage("");
+        newUser.setNickname("");
+        R r = userServiceCustom.saveOrUpdateUserInfo(newUser);
+        System.out.println(r);
     }
 
 }

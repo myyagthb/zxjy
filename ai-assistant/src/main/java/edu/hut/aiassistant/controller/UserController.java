@@ -1,6 +1,7 @@
 package edu.hut.aiassistant.controller;
 
 import edu.hut.aiassistant.custom.service.UserServiceCustom;
+import edu.hut.aiassistant.req.UserInfoReq;
 import edu.hut.aiassistant.req.UserReq;
 import edu.hut.aiassistant.resp.R;
 import jakarta.validation.Valid;
@@ -22,6 +23,17 @@ public class UserController {
     @PostMapping("login")
     public R login(@Valid @RequestBody UserReq userReq){
         return userServiceCustom.login(userReq);
+    }
+
+
+    @PostMapping("/saveUserInfo")
+    public R saveUserInfo(@Valid @RequestBody UserInfoReq userInfoReq){
+        return userServiceCustom.saveOrUpdateUserInfo(userInfoReq);
+    }
+
+    @GetMapping("/getUserInfoById")
+    public R getUserInfoById(@RequestParam("userId") Long userId){
+        return userServiceCustom.getUserInfoById(userId);
     }
 
 }
