@@ -1,8 +1,10 @@
 package edu.hut.aiassistant;
 
+import edu.hut.aiassistant.custom.service.TagServiceCustom;
 import edu.hut.aiassistant.custom.service.UserServiceCustom;
 import edu.hut.aiassistant.generator.domain.User;
 import edu.hut.aiassistant.generator.service.UserService;
+import edu.hut.aiassistant.req.TagReq;
 import edu.hut.aiassistant.req.UserInfoReq;
 import edu.hut.aiassistant.req.UserReq;
 import edu.hut.aiassistant.resp.R;
@@ -68,6 +70,24 @@ class AiAssistantApplicationTests {
         newUser.setEducateStage("");
         newUser.setNickname("");
         R r = userServiceCustom.saveOrUpdateUserInfo(newUser);
+        System.out.println(r);
+    }
+
+
+    @Autowired
+    private TagServiceCustom tagServiceCustom;
+
+    @Test
+    void testAddTag(){
+        TagReq tagReq = new TagReq();
+        tagReq.setTagName("计算机");
+        R r = tagServiceCustom.addTag(tagReq);
+        System.out.println(r);
+    }
+
+    @Test
+    void testQueryTagList(){
+        R r = tagServiceCustom.queryTagList();
         System.out.println(r);
     }
 
