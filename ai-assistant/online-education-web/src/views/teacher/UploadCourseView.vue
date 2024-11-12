@@ -117,6 +117,7 @@
 import {ref} from 'vue';
 import axios from "axios";
 import {ElMessage} from "element-plus";
+import store from "@/store";
 const courseForm = ref({
   courseName: '',
   courseCategory: '',
@@ -272,10 +273,18 @@ const tagDialogVisible = ref(false)
 //标签List
 const tagList = ref([])
 const getTagList = () => {
+  let cacheTagList = store.state.tag_list
+  if(cacheTagList.length > 0){
+    tagList.value = cacheTagList
+    return
+  }
+
   axios.get("/tag/queryTagList").then(res => {
     let data = res.data
     if(data.code === 200){
       tagList.value = data.content
+      //保存tagList到本地存储
+      store.commit("setTAGLIST",data.content)
     }
   })
 }
@@ -326,6 +335,8 @@ const addTag = () => {
         type: "success",
         message: data.msg
       })
+      //添加完毕之后，清空缓存，让程序重新查询最新的记录来共用户选择
+      store.commit('setTAGLIST', [])
       clearTagForm()
     } else {
       ElMessage({
@@ -358,10 +369,17 @@ const categoryDialogVisible = ref(false)
 //种类List
 const categoryList = ref([])
 const getCategoryList = () => {
+  let cacheCategoryList = store.state.categorylist
+  if(cacheCategoryList.length > 0){
+    categoryList.value = cacheCategoryList
+    return
+  }
   axios.get("/category/queryCategoryList").then(res => {
     let data = res.data
     if(data.code === 200){
       categoryList.value = data.content
+      //保存tagList到本地存储
+      store.commit("setCATEGORYLIST",data.content)
     }
   })
 }
@@ -414,6 +432,8 @@ const addCategory = () => {
         message: data.msg
       })
       clearCategoryForm()
+      //添加完毕之后，清空缓存，让程序重新查询最新的记录来共用户选择
+      store.commit('setCATEGORYLIST', [])
     } else {
       ElMessage({
         type: "error",
