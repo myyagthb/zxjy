@@ -8,7 +8,12 @@ public class SystemException extends RuntimeException{
 
     private SystemExceptionEnum e;
 
+    public SystemException(){
+
+    }
+
     public SystemException(SystemExceptionEnum e) {
+        System.out.println(e.getDesc());
         this.e = e;
     }
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hut.aiassistant.generator.mapper.CourseMapper">
+
+    <resultMap id="BaseResultMap" type="edu.hut.aiassistant.generator.domain.Course">
+            <id property="courseId" column="course_id" jdbcType="BIGINT"/>
+            <result property="courseName" column="course_name" jdbcType="VARCHAR"/>
+            <result property="courseCategory" column="course_category" jdbcType="VARCHAR"/>
+            <result property="courseTag" column="course_tag" jdbcType="VARCHAR"/>
+            <result property="courseTeacher" column="course_teacher" jdbcType="VARCHAR"/>
+            <result property="publicState" column="public_state" jdbcType="VARCHAR"/>
+            <result property="courseBlurb" column="course_blurb" jdbcType="VARCHAR"/>
+            <result property="courseUrl" column="course_url" jdbcType="VARCHAR"/>
+            <result property="courseCovers" column="course_covers" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        course_id,course_name,course_category,
+        course_tag,course_teacher,public_state,
+        course_blurb,course_url,course_covers,
+        create_time,update_time
+    </sql>
+</mapper>

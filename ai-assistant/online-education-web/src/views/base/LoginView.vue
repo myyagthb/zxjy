@@ -79,6 +79,7 @@ import {onMounted, ref} from 'vue'
 import router from "@/router";
 import {ElMessage} from "element-plus";
 import axios from "axios";
+import store from "@/store";
 
 onMounted(()=> {
   onLoadTeacherAvatar()
@@ -124,6 +125,8 @@ const login = () => {
         message: data.msg
       })
 
+      //将用户信息存入本地缓存
+      store.commit("setUser",data.content)
       router.push("/base/home")
     } else {
       ElMessage({

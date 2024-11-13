@@ -7,7 +7,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 copy . .
-EXPOSE 8080
+EXPOSE 443
 # CMD ["node_modules/.bin/vite","--host"]
 # CMD ["npm","run","serve"]
 CMD ["node_modules/.bin/vue-cli-service", "serve","--mode","prod"]

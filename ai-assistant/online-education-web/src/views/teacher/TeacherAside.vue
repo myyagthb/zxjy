@@ -15,13 +15,13 @@
           <span>我的课程</span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="2" key="/upload-course">
-        <router-link to="/teacher/upload-course" style="text-decoration: none">
+      <el-menu-item index="3" key="/upload">
+        <router-link to="/teacher/upload" style="text-decoration: none">
           <span>上传课程</span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="3" key="/course-calendar">
-        <router-link to="/teacher/course-calendar" style="text-decoration: none">
+      <el-menu-item index="4" key="/kcrl">
+        <router-link to="/kcrl" style="text-decoration: none">
           <span>课程日历</span>
         </router-link>
       </el-menu-item>

@@ -24,7 +24,7 @@ public class User implements Serializable {
     /**
      * 手机号
      */
-    private String phone;
+    private String mobile;
 
     /**
      * 密码
@@ -40,6 +40,41 @@ public class User implements Serializable {
      * 修改时间
      */
     private Date updateTime;
+
+    /**
+     * 角色
+     */
+    private Integer role;
+
+    /**
+     * 教育阶段
+     */
+    private String educateStage;
+
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 真实姓名
+     */
+    private String realName;
+
+    /**
+     * 证件类型
+     */
+    private String licenseType;
+
+    /**
+     * 证件号码
+     */
+    private String licenseNumber;
+
+    /**
+     * 学校
+     */
+    private String school;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -57,10 +92,17 @@ public class User implements Serializable {
         }
         User other = (User) that;
         return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
+            && (this.getMobile() == null ? other.getMobile() == null : this.getMobile().equals(other.getMobile()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()))
+            && (this.getEducateStage() == null ? other.getEducateStage() == null : this.getEducateStage().equals(other.getEducateStage()))
+            && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
+            && (this.getRealName() == null ? other.getRealName() == null : this.getRealName().equals(other.getRealName()))
+            && (this.getLicenseType() == null ? other.getLicenseType() == null : this.getLicenseType().equals(other.getLicenseType()))
+            && (this.getLicenseNumber() == null ? other.getLicenseNumber() == null : this.getLicenseNumber().equals(other.getLicenseNumber()))
+            && (this.getSchool() == null ? other.getSchool() == null : this.getSchool().equals(other.getSchool()));
     }
 
     @Override
@@ -68,10 +110,17 @@ public class User implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
+        result = prime * result + ((getMobile() == null) ? 0 : getMobile().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
+        result = prime * result + ((getEducateStage() == null) ? 0 : getEducateStage().hashCode());
+        result = prime * result + ((getNickname() == null) ? 0 : getNickname().hashCode());
+        result = prime * result + ((getRealName() == null) ? 0 : getRealName().hashCode());
+        result = prime * result + ((getLicenseType() == null) ? 0 : getLicenseType().hashCode());
+        result = prime * result + ((getLicenseNumber() == null) ? 0 : getLicenseNumber().hashCode());
+        result = prime * result + ((getSchool() == null) ? 0 : getSchool().hashCode());
         return result;
     }
 
@@ -82,10 +131,17 @@ public class User implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", userId=").append(userId);
-        sb.append(", phone=").append(phone);
+        sb.append(", mobile=").append(mobile);
         sb.append(", password=").append(password);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", role=").append(role);
+        sb.append(", educateStage=").append(educateStage);
+        sb.append(", nickname=").append(nickname);
+        sb.append(", realName=").append(realName);
+        sb.append(", licenseType=").append(licenseType);
+        sb.append(", licenseNumber=").append(licenseNumber);
+        sb.append(", school=").append(school);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("edu.hut.aiassistant.generator.mapper")
+@MapperScan(basePackages = {"edu.hut.aiassistant.generator.mapper","edu.hut.aiassistant.custom.mapper"})
 public class AiAssistantApplication {
 
     public static void main(String[] args) {
