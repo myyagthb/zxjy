@@ -5,5 +5,5 @@ spring:
   application:
     name: ai-assistant
   profiles:
-    active: dev
+    active: prod
 

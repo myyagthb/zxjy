@@ -2,12 +2,13 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
-    password: res74984
-    url: jdbc:postgresql://127.0.0.1:5432/ai_assistant_db
+    password:
+    url: jdbc:postgresql://hxy-zxjy-db.hxy:5432/ai_assistant_db
     type: com.alibaba.druid.pool.DruidDataSource
   data:
     redis:
-      host: 127.0.0.1
+#      host: 127.0.0.1
+      host: hxy-zxjy-rds.hxy
       port: 6379
       password:  # 如果有密码，请填写
       database: 0  # 使用的数据库编号，默认是0
@@ -18,6 +19,15 @@ spring:
           max-wait: -1  # 获取连接的最大等待时间（毫秒），-1表示无限等待
           max-idle: 8  # 最大空闲连接数
           min-idle: 0  # 最小空闲连接数
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      table-prefix: t_
+  mapper-locations: classpath:mapper/*.xml,classpath:custom/*.xml
 
 
 #wx:
