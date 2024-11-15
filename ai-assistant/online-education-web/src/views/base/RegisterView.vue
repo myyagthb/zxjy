@@ -52,6 +52,12 @@
               <el-form-item label="确认密码">
                 <el-input v-model="registerForm.confirmPassword" placeholder="确认密码" class="form_input" />
               </el-form-item>
+              <el-form-item label="选择角色">
+                <el-select v-model="registerForm.role" placeholder="请选择角色">
+                  <el-option label="教师" value="teacher"></el-option>
+                  <el-option label="学生" value="student"></el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item>
                 <el-checkbox v-model="agree">&emsp;</el-checkbox>我同意<a href="#">使用条款</a>和<a href="#">隐私政策</a>
               </el-form-item>
@@ -88,7 +94,8 @@ import router from "@/router";
 const registerForm = ref({
   mobile: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  role: ''
 })
 
 onMounted(()=> {
