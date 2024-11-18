@@ -47,6 +47,8 @@
         </div>
       </template>
     </el-dialog>
+
+
     <el-form :model="courseForm" label-width="100px" style="width: 100%;display: flex;align-items: center;justify-content: space-between;">
       <div class="upload_course_left">
         <div class="form_title">&emsp;课程信息</div>
@@ -125,7 +127,8 @@ const courseForm = ref({
   courseTeacher: '',
   publicState: '',
   courseBlurb: '',
-  fileList: []
+  fileList: [],
+  userId: ''
 });
 
 const dialogImageUrl = ref('');
@@ -208,6 +211,7 @@ const submitForm = async () => {
   formData.append('courseTeacher', courseForm.value.courseTeacher);
   formData.append('publicState', courseForm.value.publicState);
   formData.append('courseBlurb', courseForm.value.courseBlurb);
+  formData.append('userId', store.state.user.userId)
   if (courseForm.value.fileList.length > 0) {
     formData.append('courseCovers', courseForm.value.fileList[0].raw);
   }
@@ -262,10 +266,6 @@ const resetForm = () => {
   dialogImageUrl.value = '';
   dialogVisible.value = false;
 };
-
-
-//const fileList = ref([])
-
 
 //标签区域变量
 const tagDialogVisible = ref(false)
@@ -454,6 +454,7 @@ const addCategory = () => {
   });
 }
 
+
 </script>
 
 <style scoped>
@@ -494,5 +495,10 @@ const addCategory = () => {
   display: flex;
   align-items: self-start;
   justify-content: center;
+}
+
+
+.upload-demo ::v-deep .el-upload--text {
+  width: auto;
 }
 </style>

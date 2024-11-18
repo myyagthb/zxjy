@@ -64,4 +64,9 @@ public class CourseReq {
      * 修改时间
      */
     private Date updateTime;
+
+    /**
+     * 添加课程的用户Id
+     */
+    private Long userId;
 }

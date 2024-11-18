@@ -1,5 +1,6 @@
 package edu.hut.aiassistant.custom.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import edu.hut.aiassistant.custom.service.CourseServiceCustom;
@@ -7,6 +8,7 @@ import edu.hut.aiassistant.enums.RespEnum;
 import edu.hut.aiassistant.generator.domain.Course;
 import edu.hut.aiassistant.generator.mapper.CourseMapper;
 import edu.hut.aiassistant.req.CourseReq;
+import edu.hut.aiassistant.resp.CourseResp;
 import edu.hut.aiassistant.resp.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,7 @@ public class CourseServiceCustomImpl implements CourseServiceCustom {
         newCourse.setCourseUrl(courseReq.getCourseUrl());
         newCourse.setCreateTime(now);
         newCourse.setUpdateTime(now);
+        newCourse.setUserId(courseReq.getUserId());
 
         //TODO 图片路径，封面存储还有待处理
 
@@ -62,5 +65,20 @@ public class CourseServiceCustomImpl implements CourseServiceCustom {
             return new R(RespEnum.SUCCESS.getCode(), "课程添加成功",null);
         }
         return new R(RespEnum.FAIL.getCode(), "课程添加失败",null);
+    }
+
+
+    @Override
+    public R getCourseListByUserId(Long userId) {
+        if (userId == null){
+            return new R(RespEnum.FAIL.getCode(), "用户ID不能为空，请重新登录",null);
+        }
+        LOGGER.info("正在查询用户ID为：{}的用户课程列表",userId);
+        LambdaQueryWrapper<Course> queryWrapper = new LambdaQueryWrapper<Course>();
+        queryWrapper.eq(Course::getUserId, userId);
+        List<Course> courseList = courseMapper.selectList(queryWrapper);
+        LOGGER.info("查询结果：{}",courseList);
+        List<CourseResp> courseRespList = BeanUtil.copyToList(courseList, CourseResp.class);
+        return new R(RespEnum.SUCCESS.getCode(), "课程结果查询成功",courseRespList);
     }
 }

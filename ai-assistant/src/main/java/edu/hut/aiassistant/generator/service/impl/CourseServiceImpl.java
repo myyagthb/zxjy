@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
 * @author 王海鑫
 * @description 针对表【t_course】的数据库操作Service实现
-* @createDate 2024-11-11 19:19:33
+* @createDate 2024-11-18 01:23:18
 */
 @Service
 public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course>

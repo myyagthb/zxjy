@@ -11,4 +11,11 @@ import edu.hut.aiassistant.resp.R;
  */
 public interface CourseServiceCustom {
     R uploadCourse(CourseReq courseReq);
+
+    /**
+     * 根据用户id获取用户添加的课程列表
+     * @param userId userId
+     * @return r
+     */
+    R getCourseListByUserId(Long userId);
 }

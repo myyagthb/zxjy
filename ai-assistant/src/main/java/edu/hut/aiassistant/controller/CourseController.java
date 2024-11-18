@@ -23,4 +23,10 @@ public class CourseController {
     public R uploadCourse(@ModelAttribute CourseReq courseReq) {
         return courseServiceCustom.uploadCourse(courseReq);
     }
+
+
+    @GetMapping("/getCourseListByUserId")
+    public R getCourseListByUserId(@RequestParam Long userId) {
+        return courseServiceCustom.getCourseListByUserId(userId);
+    }
 }

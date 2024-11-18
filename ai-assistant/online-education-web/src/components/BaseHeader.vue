@@ -155,6 +155,7 @@ const goRegister = () => {
 //去论文批改界面
 const goAIAssistantWeb = ()=>{
   console.log("去论文批改项目")
+  window.location.href = "https://zhjy.hxydt.com/login?redirect=/";
 }
 //退出登录
 const logout = () => {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hut.aiassistant.generator.mapper.CourseVideoMapper">
+
+    <resultMap id="BaseResultMap" type="edu.hut.aiassistant.generator.domain.CourseVideo">
+            <id property="videoId" column="video_id" jdbcType="BIGINT"/>
+            <result property="courseId" column="course_id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="belongPassage" column="belong_passage" jdbcType="VARCHAR"/>
+            <result property="videoName" column="video_name" jdbcType="VARCHAR"/>
+            <result property="videoUrl" column="video_url" jdbcType="VARCHAR"/>
+            <result property="videoDescription" column="video_description" jdbcType="VARCHAR"/>
+            <result property="prestoreField2" column="prestore_field2" jdbcType="VARCHAR"/>
+            <result property="prestoreField3" column="prestore_field3" jdbcType="VARCHAR"/>
+            <result property="prestoreField4" column="prestore_field4" jdbcType="VARCHAR"/>
+            <result property="prestoreField5" column="prestore_field5" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        video_id,course_id,user_id,
+        belong_passage,video_name,video_url,
+        video_description,prestore_field2,prestore_field3,
+        prestore_field4,prestore_field5,create_time,
+        update_time
+    </sql>
+</mapper>

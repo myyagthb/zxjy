@@ -71,6 +71,11 @@ public class Course implements Serializable {
      */
     private Date updateTime;
 
+    /**
+     * 上传者ID
+     */
+    private Long userId;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
@@ -96,7 +101,8 @@ public class Course implements Serializable {
             && (this.getCourseUrl() == null ? other.getCourseUrl() == null : this.getCourseUrl().equals(other.getCourseUrl()))
             && (this.getCourseCovers() == null ? other.getCourseCovers() == null : this.getCourseCovers().equals(other.getCourseCovers()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()));
     }
 
     @Override
@@ -114,6 +120,7 @@ public class Course implements Serializable {
         result = prime * result + ((getCourseCovers() == null) ? 0 : getCourseCovers().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         return result;
     }
 
@@ -134,6 +141,7 @@ public class Course implements Serializable {
         sb.append(", courseCovers=").append(courseCovers);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
+        sb.append(", userId=").append(userId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

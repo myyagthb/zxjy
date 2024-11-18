@@ -81,8 +81,14 @@ const routes = [
         path: 'my-course',
         component: () => import('@/views/teacher/MyCourseView.vue')
       },{
-        path: 'upload',
+        path: 'upload-course',
         component: () => import('@/views/teacher/UploadCourseView.vue')
+      },{
+        path: 'upload-video',
+        component: () => import('@/views/teacher/UploadVideoView.vue')
+      },{
+        path: 'course-calendar',
+        component: () => import('@/views/teacher/CourseCalendarView.vue')
       },
     ]
   }
