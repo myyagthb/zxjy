@@ -5,6 +5,5 @@ module.exports = defineConfig({
     port: 443,
     allowedHosts: "all"
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/'
 })
 
