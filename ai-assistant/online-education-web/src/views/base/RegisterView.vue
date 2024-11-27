@@ -43,6 +43,12 @@
           </el-header>
           <el-main>
             <el-form :model="registerForm" label-width="auto" style="max-width: 600px">
+              <el-form-item label="选择角色">
+                <el-radio-group v-model="registerForm.role" placeholder="请选择角色">
+                  <el-radio-button label="学生" value="0"></el-radio-button>
+                  <el-radio-button label="教师" value="1"></el-radio-button>
+                </el-radio-group>
+              </el-form-item>
               <el-form-item label="手机号">
                 <el-input v-model="registerForm.mobile" placeholder="请输入您的手机号" class="form_input" />
               </el-form-item>
@@ -51,12 +57,6 @@
               </el-form-item>
               <el-form-item label="确认密码">
                 <el-input v-model="registerForm.confirmPassword" type="password" placeholder="确认密码" class="form_input" />
-              </el-form-item>
-              <el-form-item label="选择角色">
-                <el-select v-model="registerForm.role" placeholder="请选择角色">
-                  <el-option label="教师" value="teacher"></el-option>
-                  <el-option label="学生" value="student"></el-option>
-                </el-select>
               </el-form-item>
               <el-form-item>
                 <el-checkbox v-model="agree">&emsp;</el-checkbox>我同意<a href="#">使用条款</a>和<a href="#">隐私政策</a>
@@ -95,7 +95,7 @@ const registerForm = ref({
   mobile: '',
   password: '',
   confirmPassword: '',
-  role: ''
+  role: '0'
 })
 
 onMounted(()=> {
@@ -156,7 +156,7 @@ const register = () => {
   registerLoading.value = true
 
   //注册
-  axios.post("/user/register",registerForm.value).then(res => {
+  axios.post("/backend/user/register",registerForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({

@@ -35,14 +35,14 @@ public class UserServiceCustomImpl implements UserServiceCustom {
 
 
     @Override
-    public R register(UserReq req) {
+    public R register(UserReq userReq) {
         //验证手机号是否正确
-        if (!MobileUtil.isValidMobile(req.getMobile())) {
+        if (!MobileUtil.isValidMobile(userReq.getMobile())) {
             return new R(RespEnum.FAIL.getCode(), "手机号错误",null);
         }
         //判断手机号是否注册
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(User::getMobile,req.getMobile().trim());
+        queryWrapper.eq(User::getMobile,userReq.getMobile().trim());
         User user = userMapper.selectOne(queryWrapper);
         if(user != null){
             return new R(RespEnum.FAIL.getCode(), "该手机号已注册",null);
@@ -50,13 +50,14 @@ public class UserServiceCustomImpl implements UserServiceCustom {
         DateTime now = DateTime.now();
         User newUser = new User();
         //设置电话号码
-        newUser.setMobile(req.getMobile());
+        newUser.setMobile(userReq.getMobile());
         //设置加密后密码字符串
-        newUser.setPassword(MD5Util.MD5(req.getPassword()));
+        newUser.setPassword(MD5Util.MD5(userReq.getPassword()));
+        newUser.setRole(userReq.getRole());//设置用户角色字段
         newUser.setCreateTime(now);
         newUser.setUpdateTime(now);
         //默认用户角色为学生
-        newUser.setRole(UserRoleEnum.STUDENT.getRoleCode());
+        //newUser.setRole(UserRoleEnum.STUDENT.getRoleCode());
         userMapper.insert(newUser);
         return new R(RespEnum.SUCCESS.getCode(), "注册成功！",null);
     }

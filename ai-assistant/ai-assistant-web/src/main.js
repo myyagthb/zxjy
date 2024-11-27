@@ -22,7 +22,7 @@ router.beforeEach(async (to, from, next) => {
         let userId = sessionStorage.getItem("userId") || '-1'
         console.log("userId is " + userId)
         //访问服务器，确认本用户否在线
-        let res = await axios.get("/judgeUserIsOnline",{params: { userId }})
+        let res = await axios.get("/backend/judgeUserIsOnline",{params: { userId }})
 
         console.log(res)
         //判断当前是否拥有权限

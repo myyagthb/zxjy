@@ -48,7 +48,6 @@ axios.interceptors.request.use(function (config) {
     const _token = store.state.user.token
     if (_token){
         config.headers.token = _token
-        console.log("请求headers增加token:", _token);
     }
     return config;
 }, error => {

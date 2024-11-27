@@ -37,4 +37,9 @@ public class CourseVideoReq {
      * 视频文件
      */
     private MultipartFile videoFile;
+
+    /**
+     * 视频保存路径
+     */
+    private String videoUrl;
 }

@@ -128,7 +128,7 @@ const loadLoginQRCodePic = () => {
       "scene": {"scene_id": userId}
     }
   }
-  axios.post("/getQrCode", data).then(res => {
+  axios.post("/backend/getQrCode", data).then(res => {
     console.log(res)
     if (res.status === 200) {
       let ticket = "";
@@ -213,7 +213,7 @@ const loginForm = ref({
 
 //获取短信验证码
 const sendCodeToUser = () => {
-  axios.get("/sendSmsCodeToMobile/"+loginForm.value.mobile).then(res => {
+  axios.get("/backend/sendSmsCodeToMobile/"+loginForm.value.mobile).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({
@@ -236,7 +236,7 @@ const login = () => {
   console.log("LoginForm value:", loginForm.value);
 
 
-  axios.post("/login",loginForm.value).then(res => {
+  axios.post("/backend/login",loginForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       //表示登录成功，跳转到首页

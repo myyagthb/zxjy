@@ -48,13 +48,15 @@ import {ref} from "vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 import store from "@/store";
+import { v4 as uuidv4 } from 'uuid';
 
 const courseVideoForm = ref({
   courseId: '',
   userId: '',
   videoName: '',
   BelongPassage: '',
-  videoFile: null
+  videoFile: null,
+  videoUrl: ''
 });
 //视频文件列表
 const videoFileList = ref([]);
@@ -91,20 +93,41 @@ const handleChange = (file, fileList) => {
 
 const submitCourseVideoForm = async () => {
 
-  console.log(courseVideoForm.value.videoName)
-  console.log(courseVideoForm.value.videoFile)
   if (courseVideoForm.value.videoName) {
     const formData = new FormData();
     formData.append('courseId', courseVideoForm.value.courseId);
     formData.append('userId', store.state.user.userId);
     formData.append('videoName', courseVideoForm.value.videoName);
     formData.append('BelongPassage', courseVideoForm.value.BelongPassage);
-    //formData.append('videoFile', courseVideoForm.value.videoFile);
+
+    let fileForm = new FormData();
+    fileForm.append('file', courseVideoForm.value.videoFile);
+    const uuid = uuidv4();
+    console.log(uuid)
+    let fileKey = uuid + ".mp4"
+
+    //把这个key传入数据库，方便以后使用来查找对应的视频文件
+    formData.append('videoUrl', fileKey);
+
+    //上传文件到storage-api
+    axios.post("/storage/object/test/"+fileKey, fileForm, {
+      headers:{
+        // 'Access-Control-Allow-Origin':'http://localhost:443',
+        'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers':'Content-Type, Authorization',
+        'Content-Type': 'multipart/form-data',
+        'x-forwarded-host':'demo',
+        'authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.-RRdA8gxmv5hhTLu8OpHbRGIX4P7VAu3eXPOUyDJZDE',
+        'crossDomain' : true
+      }
+    }).then(res  =>{
+      console.log(res)
+    })
+
     console.log(courseVideoForm.value.videoFile)
-
-
     try {
-      const response = await axios.post('/course-video/addCourseVideo', formData, {
+      //将文件信息传到后端进行保存
+      const response = await axios.post('/backend/course-video/addCourseVideo', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           timeout: 300000  // 增加请求超时时间
@@ -138,7 +161,7 @@ const cancelCourseVideo = () => {
 //根据userId获取课程列表==============================
 const courseList = ref([]);
 const getCourseList = () => {
-  axios.get("/course/getCourseListByUserId",{
+  axios.get("/backend/course/getCourseListByUserId",{
     params:{
       userId: store.state.user.userId
     }

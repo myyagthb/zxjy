@@ -227,7 +227,7 @@ onMounted(()=>{
 const userInfoQrCode = ref("")
 
 const showUserInfoQrCodeDialog = ()=>{
-  axios.get("/qrUserInfoCode").then(res => {
+  axios.get("/backend/qrUserInfoCode").then(res => {
     console.log(res)
     //渲染微信二维码供用户去扫描
     userInfoQrCode.value = new URL(res.data, import.meta.url).href;
@@ -269,7 +269,7 @@ const queryUserByUserId = () => {
 
   let userId = sessionStorage.getItem("userId") || 'a'
 
-  axios.get("/getWxUserInfoById",{
+  axios.get("/backend/getWxUserInfoById",{
     params:{
       userId: userId
     }
@@ -317,7 +317,7 @@ const queryUserByUserId = () => {
 }
 
 const updateUserInfo = () => {
-  axios.post("/updateWxUserInfo",userForm.value).then(res => {
+  axios.post("/backend/updateWxUserInfo",userForm.value).then(res => {
     let data = res.data
     if (data.code === 200) {
       ElMessage({

@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
   datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
@@ -54,3 +58,9 @@ wx:
   #微信回复模板ID
   templateId: Rl38mfbT5T-ZpgqYgSKRNYZTz-134N-lgZ2dEdgzPqE
 #  templateId: TV8TmMo9aZdLlrlo4FtUlSftvuA3Om7giyZTdXZ2T9g
+
+
+storage-api:
+  uri: http://localhost:5000
+  x-forwarded-host: demo
+  authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.-RRdA8gxmv5hhTLu8OpHbRGIX4P7VAu3eXPOUyDJZDE

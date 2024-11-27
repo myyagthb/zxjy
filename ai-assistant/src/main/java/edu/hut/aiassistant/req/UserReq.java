@@ -9,4 +9,8 @@ public class UserReq {
     private String mobile;
     @NotBlank(message = "【密码】不能为空")
     private String password;
+    /**
+     * 角色
+     */
+    private Integer role;
 }

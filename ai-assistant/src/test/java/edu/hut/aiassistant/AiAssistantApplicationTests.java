@@ -1,9 +1,14 @@
 package edu.hut.aiassistant;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import edu.hut.aiassistant.custom.service.CourseServiceCustom;
 import edu.hut.aiassistant.custom.service.TagServiceCustom;
 import edu.hut.aiassistant.custom.service.UserServiceCustom;
+import edu.hut.aiassistant.generator.domain.Course;
 import edu.hut.aiassistant.generator.domain.User;
+import edu.hut.aiassistant.generator.mapper.CourseMapper;
 import edu.hut.aiassistant.generator.service.UserService;
+import edu.hut.aiassistant.req.SearchParamsReq;
 import edu.hut.aiassistant.req.TagReq;
 import edu.hut.aiassistant.req.UserInfoReq;
 import edu.hut.aiassistant.req.UserReq;
@@ -89,6 +94,53 @@ class AiAssistantApplicationTests {
     void testQueryTagList(){
         R r = tagServiceCustom.queryTagList();
         System.out.println(r);
+    }
+
+    @Autowired
+    private CourseMapper courseMapper;
+
+    @Test
+    void testAddCourse(){
+        Course course = new Course();
+        course.setCourseCategory("11");
+        course.setCourseName("物理");
+        courseMapper.insert(course);
+    }
+
+
+    //测试课程搜索
+    @Autowired
+    private CourseServiceCustom courseServiceCustom;
+
+    /**
+     * 改用户有记录的情况
+     */
+    @Test
+    void testCourseHasRecord(){
+        SearchParamsReq searchParamsReq = new SearchParamsReq();
+        searchParamsReq.setSearchText(null);
+        searchParamsReq.setSearchText(" 433  ");
+        searchParamsReq.setCurrentPage(1);
+        searchParamsReq.setPageSize(5);
+        searchParamsReq.setUserId(1860578347017449473L);
+
+        IPage<Course> courseIPage = courseServiceCustom.searchCourseBySearchText(searchParamsReq);
+        System.out.println(courseIPage);
+    }
+
+    /**
+     * 改用户有无记录的情况
+     */
+    @Test
+    void testCourseNotHasRecord(){
+        SearchParamsReq searchParamsReq = new SearchParamsReq();
+        searchParamsReq.setSearchText(null);
+        searchParamsReq.setCurrentPage(1);
+        searchParamsReq.setPageSize(5);
+        searchParamsReq.setUserId(1860578347017449474L);
+
+        IPage<Course> courseIPage = courseServiceCustom.searchCourseBySearchText(searchParamsReq);
+        System.out.println(courseIPage);
     }
 
 }

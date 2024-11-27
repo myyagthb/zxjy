@@ -91,7 +91,7 @@ const getUserInfoById = ()=> {
   let user = store.state.user
   console.log(user)
   if(!isEmptyObject(user)){
-    axios.get("/user/getUserInfoById",{
+    axios.get("/backend/user/getUserInfoById",{
       params:{
         userId : user.userId
       }
@@ -142,7 +142,7 @@ const saveUserInfo = ()=>{
   }
 
   //将用户信息传递给后端，保存并更新用户信息
-  axios.post("/user/saveUserInfo",userInfoForm.value).then(res => {
+  axios.post("/backend/user/saveUserInfo",userInfoForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({
