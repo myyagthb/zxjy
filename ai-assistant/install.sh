@@ -30,6 +30,7 @@ docker tag redis:latest registry.hxydt.cn:31942/hxy/st/hp/rds:latest
 
 
 
+###mysql
 # the following sql is for 8.0.37-0ubuntu0.22.04.3 version mysql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'admin123';
 ALTER USER 'root'@'192.168.0.138' IDENTIFIED WITH mysql_native_password BY 'admin123';
@@ -54,9 +55,13 @@ use easypan;
 
 mysql -u root -p easypan
 
+
+###postgresql
+
 #migrate mysql to postgresql
 apt install pgloader
 
+##local pg
 #default psql
 psql -U root postgres
 psql -U root -h localhost postgres
@@ -72,6 +77,12 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO postgres;
 
 #modify user pwd
 ALTER ROLE Administrator PASSWORD 'A@2000';
+
+
+##remote pg on k8s
+psql -U postgres -h 42.192.145.90 -p 18337 
+
+
 
 # run onlyoffice docker
 docker pull onlyoffice/documentserver
