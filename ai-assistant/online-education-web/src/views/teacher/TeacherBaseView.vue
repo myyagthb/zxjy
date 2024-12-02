@@ -35,7 +35,7 @@ import router from "@/router";
 
 //返回官网首页
 const goHomeView = ()=>{
-  router.push("/base/home")
+  router.push("/")
 }
 </script>
 

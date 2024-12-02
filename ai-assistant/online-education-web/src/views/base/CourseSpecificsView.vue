@@ -12,6 +12,7 @@
     <div class="course_specifics_middle">
       <video class="course_specifics_middle_video" controls>
         <source src="https://flfxwctdktxiopigrdka.supabase.co/storage/v1/object/sign/test/simplescreenrecorder-2023-11-23_08.36.34.mp4?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ0ZXN0L3NpbXBsZXNjcmVlbnJlY29yZGVyLTIwMjMtMTEtMjNfMDguMzYuMzQubXA0IiwiaWF0IjoxNzMzMTA0NzA0LCJleHAiOjIwNDg0NjQ3MDR9.zM5ddhIeXoJ3LeoTLWaduQI-Qdg1HJPeHiXh735LG-w" type="video/mp4">
+<!--        <source src="http://localhost:5000/object/test/test-video.mp4" type="video/mp4">-->
         您的浏览器不支持 video 标签。
       </video>
     </div>

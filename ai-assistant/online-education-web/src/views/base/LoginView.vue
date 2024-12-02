@@ -144,7 +144,7 @@ const goRegister = (event) => {
   event.preventDefault(); // 阻止默认行为（例如跳转到 #）
   event.stopPropagation(); // 阻止事件冒泡
 
-  router.push("/base/register")
+  router.push("/register")
 }
 
 /**
