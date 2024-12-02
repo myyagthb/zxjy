@@ -163,7 +163,7 @@ const register = () => {
         type: "success",
         message: data.msg
       })
-      router.push("/base/login");
+      router.push("/login");
     } else {
       ElMessage({
         type: "error",
@@ -201,7 +201,7 @@ const goLogin = (event) => {
   event.stopPropagation(); // 阻止事件冒泡
 
   console.log(11)
-  router.push("/base/login")
+  router.push("/login")
 }
 
 

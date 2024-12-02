@@ -127,7 +127,7 @@ const login = () => {
 
       //将用户信息存入本地缓存
       store.commit("setUser",data.content)
-      router.push("/base/home")
+      router.push("/")
     } else {
       ElMessage({
         type: "error",
