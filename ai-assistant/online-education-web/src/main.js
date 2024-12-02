@@ -23,6 +23,7 @@ app.config.errorHandler = (err, vm, info) => {
     console.log('====== 有报错了兄弟!!! ======');
     if (err instanceof Error) {
         console.log('❌ 提示:', err.message);
+        console.log(err)
     }
 
 };

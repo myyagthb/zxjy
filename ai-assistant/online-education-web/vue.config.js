@@ -11,12 +11,20 @@ module.exports = defineConfig({
       '/storage': {
         target: 'http://localhost:5000', // 替换为实际的第三方服务器地址
         changeOrigin: true,
-        pathRewrite: { '^/storage': '' }
+        pathRewrite: { '^/storage': '' },
+        onProxyRes: (proxyRes, req, res) => {
+          console.log(`[Proxy] ${req.method} ${req.url} -> ${res.statusCode}`);
+        },
+        logLevel: 'debug'
       },
       '/backend': {
         target: 'http://localhost:8888', // 第三方服务器2
         changeOrigin: true,
-        pathRewrite: { '^/backend': '' }
+        pathRewrite: { '^/backend': '' },
+        onProxyRes: (proxyRes, req, res) => {
+          console.log(`[Proxy] ${req.method} ${req.url} -> ${res.statusCode}`);
+        },
+        logLevel: 'debug'
       },
     }
   },

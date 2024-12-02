@@ -17,7 +17,7 @@
       <el-table-column prop="revenue" label="学习人数" />
       <el-table-column align="right">
         <template #header>
-          <el-input v-model="searchParams.searchText" size="small" placeholder="Type to search" />
+          <el-input v-model="searchParams.searchText" size="small" placeholder="请输入搜索关键字" />
         </template>
         <template #default="scope">
           <el-button size="small" @click="handleEditCourse(scope.row)">
@@ -41,11 +41,7 @@
         @current-change="handlePageChange"
         style="margin-top: 20px"
     />
-
   </div>
-
-
-
 </template>
 
 <script setup>
@@ -75,7 +71,7 @@ onMounted(()=> {
   getCourseBySearchText()
 })
 
-
+//根据文本搜索课程信息
 const getCourseBySearchText = () => {
   searchParams.value.userId = store.state.user.userId
   axios.post("/backend/course/searchCourseBySearchText",searchParams.value).then(res =>{
