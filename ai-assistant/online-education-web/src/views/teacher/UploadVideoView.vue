@@ -1,5 +1,5 @@
 <template>
-  <div class="upload-video">
+  <div class="upload-video" v-loading="isLoading">
     <el-form ref="form" :model="courseVideoForm" label-width="100px" style="width: 50%;">
       <el-form-item label="所属课程">
         <el-select v-model="courseVideoForm.courseId" placeholder="请选择课程分类" @click="getCourseList" style="width: 70%;" size="large">
@@ -49,6 +49,8 @@ import {ElMessage} from "element-plus";
 import axios from "axios";
 import store from "@/store";
 import { v4 as uuidv4 } from 'uuid';
+import storageManager from '@/assets/js/utils'; // 替换为实际路径
+
 
 const courseVideoForm = ref({
   courseId: '',
@@ -91,9 +93,13 @@ const handleChange = (file, fileList) => {
   videoFileList.value = fileList;
 }
 
-const submitCourseVideoForm = async () => {
+//表示正在上传
+const isLoading = ref(false)
 
+const submitCourseVideoForm = async () => {
   if (courseVideoForm.value.videoName) {
+    isLoading.value = true
+
     const formData = new FormData();
     formData.append('courseId', courseVideoForm.value.courseId);
     formData.append('userId', store.state.user.userId);
@@ -110,19 +116,44 @@ const submitCourseVideoForm = async () => {
     formData.append('videoUrl', fileKey);
 
     //上传文件到storage-api
-    axios.post("/storage/object/test/"+fileKey, fileForm, {
-      headers:{
-        // 'Access-Control-Allow-Origin':'http://localhost:443',
-        'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers':'Content-Type, Authorization',
-        'Content-Type': 'multipart/form-data',
-        'x-forwarded-host':'demo',
-        'authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.-RRdA8gxmv5hhTLu8OpHbRGIX4P7VAu3eXPOUyDJZDE',
-        'crossDomain' : true
-      }
-    }).then(res  =>{
-      console.log(res)
-    })
+    // axios.post("/storage/object/test/"+fileKey, fileForm, {
+    //   headers:{
+    //     // 'Access-Control-Allow-Origin':'http://localhost:443',
+    //     'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
+    //     'Access-Control-Allow-Headers':'Content-Type, Authorization',
+    //     'Content-Type': 'multipart/form-data',
+    //     'x-forwarded-host':'demo',
+    //     'authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.-RRdA8gxmv5hhTLu8OpHbRGIX4P7VAu3eXPOUyDJZDE',
+    //     'crossDomain' : true
+    //   }
+    // }).then(res  =>{
+    //   console.log(res)
+    // })
+
+    //===========上传文件到supabase================
+
+    //获取配置文件中bucket名称,后期从配置文件中获取
+    let videoBucket = 'video'
+    // 使用 StorageManager 上传文件
+    const result = await storageManager.uploadFile(videoBucket, courseVideoForm.value.videoFile, fileKey);
+    console.log(result)
+    if (!result) {
+      console.error('Error uploading file');
+      ElMessage.error('视频上传失败');
+      return;
+    }
+
+    // // // 获取文件的公共URL
+    // const publicURL = await storageManager.getPublicUrl('video', fileKey);
+    // console.log(publicURL)
+    // if (!publicURL) {
+    //   console.error('Error getting public URL');
+    //   ElMessage.error('获取视频URL失败');
+    //   return;
+    // }
+
+
+    //=============================
 
     console.log(courseVideoForm.value.videoFile)
     try {
@@ -134,6 +165,7 @@ const submitCourseVideoForm = async () => {
         }
       });
       console.log(response)
+      isLoading.value = false
       ElMessage.success('视频添加成功');
       //重置表单数据
       resetVideoForm()
