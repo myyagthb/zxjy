@@ -68,6 +68,119 @@
         @current-change="handlePageChange"
         style="margin-top: 20px"
     />
+
+    <!-- 添加题目弹窗 -->
+    <el-dialog
+        title="添加题目"
+        v-model="addDialogVisible"
+        width="800px"
+        @close="resetAddForm"
+    >
+      <el-tabs v-model="currentTab" @tab-click="handleTabChange">
+        <el-tab-pane label="单选题" name="single-choice"></el-tab-pane>
+        <el-tab-pane label="多选题" name="multi-choice"></el-tab-pane>
+        <el-tab-pane label="判断题" name="true-false"></el-tab-pane>
+        <el-tab-pane label="问答题" name="qa"></el-tab-pane>
+      </el-tabs>
+
+      <div v-if="currentTab === 'single-choice'">
+        <el-form :model="newQuestion" label-width="100px">
+          <el-form-item label="题目">
+            <el-input v-model="newQuestion.questionName" type="textarea" />
+          </el-form-item>
+          <el-form-item label="选项A">
+            <el-input v-model="newQuestion.options.A" />
+          </el-form-item>
+          <el-form-item label="选项B">
+            <el-input v-model="newQuestion.options.B" />
+          </el-form-item>
+          <el-form-item label="选项C">
+            <el-input v-model="newQuestion.options.C" />
+          </el-form-item>
+          <el-form-item label="选项D">
+            <el-input v-model="newQuestion.options.D" />
+          </el-form-item>
+          <el-form-item label="正确答案">
+            <el-radio-group v-model="newQuestion.correctAnswer">
+              <el-radio label="A">A</el-radio>
+              <el-radio label="B">B</el-radio>
+              <el-radio label="C">C</el-radio>
+              <el-radio label="D">D</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="newQuestion.analysis" type="textarea" />
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <div v-if="currentTab === 'multi-choice'">
+        <el-form :model="newQuestion" label-width="100px">
+          <el-form-item label="题目">
+            <el-input v-model="newQuestion.questionName" type="textarea" />
+          </el-form-item>
+          <el-form-item label="选项A">
+            <el-input v-model="newQuestion.options.A" />
+          </el-form-item>
+          <el-form-item label="选项B">
+            <el-input v-model="newQuestion.options.B" />
+          </el-form-item>
+          <el-form-item label="选项C">
+            <el-input v-model="newQuestion.options.C" />
+          </el-form-item>
+          <el-form-item label="选项D">
+            <el-input v-model="newQuestion.options.D" />
+          </el-form-item>
+          <el-form-item label="正确答案">
+            <div>
+              <el-checkbox v-model="newQuestion.selectedOptions.A">A</el-checkbox>
+              <el-checkbox v-model="newQuestion.selectedOptions.B">B</el-checkbox>
+              <el-checkbox v-model="newQuestion.selectedOptions.C">C</el-checkbox>
+              <el-checkbox v-model="newQuestion.selectedOptions.D">D</el-checkbox>
+            </div>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="newQuestion.analysis" type="textarea" />
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <div v-if="currentTab === 'true-false'">
+        <el-form :model="newQuestion" label-width="100px">
+          <el-form-item label="题目">
+            <el-input v-model="newQuestion.questionName" type="textarea" />
+          </el-form-item>
+          <el-form-item label="答案">
+            <el-radio-group v-model="newQuestion.correctAnswer">
+              <el-radio label="对">对</el-radio>
+              <el-radio label="错">错</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="newQuestion.analysis" type="textarea" />
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <div v-if="currentTab === 'qa'">
+        <el-form :model="newQuestion" label-width="100px">
+          <el-form-item label="题目">
+            <el-input v-model="newQuestion.questionName" type="textarea" />
+          </el-form-item>
+          <el-form-item label="答案">
+            <el-input v-model="newQuestion.correctAnswer" type="textarea" />
+          </el-form-item>
+          <el-form-item label="解析">
+            <el-input v-model="newQuestion.analysis" type="textarea" />
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <div class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="saveQuestion">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -145,6 +258,16 @@ export default {
       pageSize: 5,
     });
 
+    const addDialogVisible = ref(false);
+    const newQuestion = ref({
+      questionName: "",
+      options: { A: "", B: "", C: "", D: "" },
+      correctAnswer: [], // 修改为数组，支持多选题的复选框
+      analysis: "",
+      selectedOptions: { A: false, B: false, C: false, D: false }, // 多选选项的布尔值
+    });
+
+
     // 筛选后的数据
     const filteredData = computed(() =>
         allData.value.filter((item) => {
@@ -188,11 +311,36 @@ export default {
     };
 
     const addQuestion = () => {
-      alert("单个添加");
+      addDialogVisible.value = true;
+    };
+
+    const resetAddForm = () => {
+      newQuestion.value = {
+        questionName: "",
+        options: { A: "", B: "", C: "", D: "" },
+        correctAnswer: "",
+        selectedOptions: { A: false, B: false, C: false, D: false },
+        analysis: "",
+      };
+    };
+
+    const saveQuestion = () => {
+      const selectedOptions = Object.keys(newQuestion.value.selectedOptions).filter(
+          (key) => newQuestion.value.selectedOptions[key]
+      );
+      console.log("Saving question:", { ...newQuestion.value, selectedOptions });
+      addDialogVisible.value = false;
+      resetAddForm();
     };
 
     const batchAddQuestions = () => {
       alert("批量添加");
+    };
+
+    const currentTab = ref("single-choice");
+    const handleTabChange = (tab) => {
+      resetAddForm();
+      currentTab.value = tab.name;
     };
 
     const batchDeleteQuestions = () => {
@@ -218,11 +366,17 @@ export default {
       filterData,
       resetFilters,
       handlePageChange,
+      addDialogVisible,
+      newQuestion,
       addQuestion,
+      resetAddForm,
+      saveQuestion,
       batchAddQuestions,
       batchDeleteQuestions,
       editQuestion,
       deleteQuestion,
+      currentTab,
+      handleTabChange,
     };
   },
 };
@@ -235,5 +389,8 @@ export default {
 
 .filter-buttons .el-button {
   margin-right: 10px;
+}
+.dialog-footer {
+  text-align: right;
 }
 </style>
