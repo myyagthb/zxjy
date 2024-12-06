@@ -6,7 +6,11 @@
         <div class="course_list">
           <div class="course_item" v-for="(item,index) in itemList" :key="index" >
             <div class="course_item_img_div">
-              <img :src="item.courseImg" >
+              <!-- <router-link to="/">
+                <img :src="item.courseImg" >
+              </router-link> -->
+              <!-- <router-link to="/" tag="img" src="item.courseImg"></router-link> -->
+              <img :src="item.courseImg" @click="handleCourseClick(item)">
             </div>
             <div class="item_title">
               {{item.courseTitle}}
@@ -92,6 +96,10 @@ const handleClick = (tab, event) => {
   console.log(tab, event)
 }
 
+const handleCourseClick = (item) => {
+  console.log(item.courseTitle)
+}
+
 
 const itemList = ref([
   {
@@ -125,6 +133,7 @@ const itemList = ref([
   }
 ])
 
+
 </script>
 
 <style scoped>
@@ -151,6 +160,7 @@ const itemList = ref([
   height: 25%;
   min-height: 160px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .item_title{
