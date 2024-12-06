@@ -100,7 +100,7 @@ export default {
     submitForm() {
       console.log("表单内容：", this.form);
       this.$message.success("消息已发送！");
-    }
+    },
   }
 };
 </script>

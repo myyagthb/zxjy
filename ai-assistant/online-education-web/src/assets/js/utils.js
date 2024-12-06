@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // 初始化你的Supabase客户端
-const supabaseUrl = 'https://vwdnrupkymrzztrvegwv.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ3ZG5ydXBreW1yenp0cnZlZ3d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxNDU0NTAsImV4cCI6MjA0ODcyMTQ1MH0.hpgAUm00Q69LxU_6bbpbxUG57n0cfubiQ6Lc_fCy7yQ'
+const supabaseUrl = 'https://flfxwctdktxiopigrdka.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsZnh3Y3Rka3R4aW9waWdyZGthIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU5MTY5MjMsImV4cCI6MjAyMTQ5MjkyM30.uPphE6vjG6As6xWDIvGx_h8mpHy0zJa9Xzy2BanhOCM'
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -55,6 +55,8 @@ class StorageManager {
         console.log(fileName)
         // const { data } = supabase.storage.from('video').getPublicUrl('test/course-video.mp4');
         const { data } = supabase.storage.from(bucketName).getPublicUrl(fileName);
+        // const { data } = supabase.storage.from(bucketName).createSignedUrl(fileName);
+        
         console.log(data)
         return data;
     }

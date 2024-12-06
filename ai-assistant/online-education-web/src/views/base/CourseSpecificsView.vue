@@ -254,11 +254,12 @@ onMounted(() => {
 // 可以在这里添加更多逻辑来处理第二步,这里还有待实现。
 const videoUrl = ref("")
 const getVideoUrl = async () => {
-  let fileName = "550b841a-ac1f-4ec7-82e7-cf201de9f2c8.mp4"
+  let fileName = "test.mp4"
   // // 获取文件的公共URL
-  const videoObject = await storageManager.getVideoUrl('video', fileName);
+  const videoObject = await storageManager.getVideoUrl('pub-video', fileName);
   videoUrl.value = videoObject.publicUrl
 }
+
 
 </script>
 
