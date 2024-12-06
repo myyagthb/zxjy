@@ -2,6 +2,7 @@ package edu.hut.aiassistant.custom.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import edu.hut.aiassistant.config.StorageApiConfig;
 import edu.hut.aiassistant.custom.service.CourseVideoServiceCustom;
 import edu.hut.aiassistant.enums.RespEnum;
@@ -60,6 +61,15 @@ public class CourseVideoServiceCustomImpl implements CourseVideoServiceCustom {
         }
         if (courseVideoReq.getBelongPassage() == null || courseVideoReq.getBelongPassage().isEmpty()){
             return new R(RespEnum.FAIL.getCode(), "视频所属目录章节不能为空",null);
+        }
+
+        //判断视频是否上传
+        LambdaQueryWrapper<CourseVideo> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(CourseVideo::getVideoName, courseVideoReq.getVideoName())
+                .eq(CourseVideo::getBelongPassage, courseVideoReq.getBelongPassage())
+                .eq(CourseVideo::getUserId, courseVideoReq.getUserId());
+        if (courseVideoMapper.selectOne(lambdaQueryWrapper) != null){
+            return new R(RespEnum.SUCCESS.getCode(), "改章节视频以上上传",null);
         }
 
         //获取当前时间
