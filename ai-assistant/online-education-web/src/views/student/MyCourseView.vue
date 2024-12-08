@@ -89,6 +89,7 @@
 </template>
 
 <script setup>
+import router from "@/router";
 import { ref } from 'vue'
 const activeName = ref('first')
 
@@ -98,11 +99,16 @@ const handleClick = (tab, event) => {
 
 const handleCourseClick = (item) => {
   console.log(item.courseTitle)
+  // router.push("/course-specifics?item="+item)
+  router.push({path:"/course-specifics",query:{item:JSON.stringify(item)}})
+  // router.push({path:"/course-specifics",query:{item:item}})
+  // router.push("/course-specifics",{params:{item:item}})
 }
 
 
 const itemList = ref([
   {
+    courseId: '1',
     courseImg: require('@/assets/images/student/vue-img.jpeg'),  //课程封面
     courseTitle: "vue课程",      //课程标题
     percentage: 20,                       //已学习占比
