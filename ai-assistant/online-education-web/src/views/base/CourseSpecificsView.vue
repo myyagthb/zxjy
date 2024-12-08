@@ -242,13 +242,35 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
+import { useRoute } from 'vue-router';
 // import axios from "axios";
 import storageManager from '@/assets/js/utils';
 // import {ElMessage} from "element-plus"; // 替换为实际路径
 
+// import { useCoursesQuery } from '@/data/course/course-query'
+
 onMounted(() => {
   getVideoUrl()
+
 });
+
+const route = useRoute();
+
+// const cId = this.$route.params.id; // Access userId from URL
+// console.log(cId); 
+
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const c = urlParams.get('item'); // Access 'item' query parameter
+  // console.log("course id" + c.courseId); 
+
+  // const c = this.$route.query.item
+  // console.log("course id" + c.courseId); 
+
+  const c = JSON.parse(route.query.item);
+  // const c = route.query.item;
+  console.log("course id " + c.courseId); 
+
+// const courses = useCoursesQuery()
 
 // 第二步，获取真正的文件路径
 // 可以在这里添加更多逻辑来处理第二步,这里还有待实现。
