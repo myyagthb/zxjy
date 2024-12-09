@@ -1,5 +1,3 @@
-
-
 <template>
   <div>
     <el-menu
@@ -30,25 +28,34 @@
           <span>学习路径规划-1</span>
         </router-link>
       </el-menu-item>
-      <el-menu-item index="4" key="/study-path-plan-two">
+      <el-menu-item index="5" key="/study-path-plan-two">
         <router-link :to="getFullPath('/study-path-plan-two')" style="text-decoration: none">
           <span>学习路径规划-2</span>
         </router-link>
       </el-menu-item>
+      <el-menu-item index="6" key="/online-exam-list">
+        <router-link :to="getFullPath('/online-exam-list')" style="text-decoration: none">
+          <span>在线考试-考试罗列</span>
+        </router-link>
+      </el-menu-item>
     </el-menu>
+
+
   </div>
+
+
 </template>
 
-<script setup>
+<script  setup>
 
 import router from "@/router";
 import {ref, watch} from "vue";
 
 const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
+  console.log(key, keyPath);
 }
 const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
+  console.log(key, keyPath);
 }
 
 
@@ -63,6 +70,9 @@ watch(() => router.currentRoute.value.path, (newValue) => {
 const getFullPath = (path) => {
   return `/student${path}`;
 };
+
+
+
 </script>
 
 <style scoped>

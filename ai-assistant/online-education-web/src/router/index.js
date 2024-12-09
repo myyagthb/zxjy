@@ -70,6 +70,9 @@ const routes = [
       },{
         path: 'study-progress',
         component: () => import('@/views/student/StudyProgressView.vue')
+      },{
+        path: 'online-exam-list',
+        component: () => import('@/views/student/OnlineExamView.vue')
       },
     ]
   },
