@@ -1,24 +1,31 @@
 <template>
+在线考试
   <div class="my_course">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <div style="text-align: left; margin-bottom: 20px;">
-        <h2>
-          序号        课程名称            考试名称          总分        最新得分          操作
-        </h2>
+      <div class="header" >
+          <h2 class="title">序号</h2>
+          <h2 class="lesson_name">课程名称</h2>
+          <h2 class="exam_name">考试名称</h2>
+          <h2 class="total_score">总分</h2>
+          <h2 class="new_score">最新得分</h2>
+          <h2 class="action">操作</h2>
       </div>
-      <el-tab-pane label="选择课程" name="first">
-        <div class="course_list">
+      <div class="course_list">
           <div class="course_item" v-for="(item, index) in itemList" :key="index">
             <div class="item_info">
               <div class="item_index">{{ index + 1 }}</div>
               <div class="item_course">{{ item.courseName }}</div>
               <div class="item_exam">{{ item.examName }}</div>
               <div class="item_score">{{ item.totalScore }}</div>
+              <div class="item_newscore">{{ item.newScore }}</div>
+              <div class="item_actions">
+                <div class="item_action">{{ item.action }}</div>
+                <div class="item_result">{{ item.result }}</div>
+              </div>
             </div>
             <!-- 最新得分和操作按钮可以根据实际情况添加 -->
           </div>
         </div>
-      </el-tab-pane>
       <!-- 其他 tab-pane 省略，与 first 相同 -->
     </el-tabs>
   </div>
@@ -38,97 +45,173 @@ const itemList = ref([
     courseName: "微信小程序入门与实践",
     examName: "2021年第八期考试任务",
     totalScore: "100",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "数据结构与算法c++版",
     examName: "2021年第八期考试任务",
     totalScore: "80",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "微信小程序入门与实践",
     examName: "2021年第八期考试任务",
     totalScore: "100",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "Python3.8系统入门+进阶",
     examName: "2021年第八期考试任务",
     totalScore: "60",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "vue.js2.5-ui重构饿了么",
     examName: "2021年第八期考试任务",
     totalScore: "50",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "微信小程序入门与实践",
     examName: "2021年第八期考试任务",
     totalScore: "60",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "数据结构与算法c++版",
     examName: "2021年第八期考试任务",
     totalScore: "70",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "Python3.8系统入门+进阶",
     examName: "2021年第八期考试任务",
     totalScore: "70",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
   {
     courseName: "vue.js2.5-ui重构饿了么",
     examName: "2021年第八期考试任务",
     totalScore: "80",
-    learned: 2,
-    total: 8,
+    newScore: 0,
+    action: "开始考试",
+    result: "查看结果",
   },
 ])
 </script>
 
 <style scoped>
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex; /* 使用Flexbox布局 */
+  align-items: center; /* 垂直居中 */
+  padding: 20px;
+  margin-left: 1%;
+  margin-bottom: 5px; /* 根据需要调整底部外边距 */
+}
+
+.title {
+  margin: 0; /* 移除h2的默认外边距 */
+  margin-left: 5%;
+  white-space: nowrap; /* 防止内容换行 */
+}
+
+.lesson_name {
+  margin-left: 13%;
+  white-space: nowrap; /* 防止内容换行 */
+}
+
+.exam_name {
+  margin-left: 10%;
+  white-space: nowrap; /* 防止内容换行 */
+}
+
+.total_score {
+  margin-left: 12%;
+  white-space: nowrap; /* 防止内容换行 */
+}
+.new_score {
+  margin-left: 13%;
+  white-space: nowrap; /* 防止内容换行 */
+}
+
+.action {
+  margin-left: 10%;
+  white-space: nowrap; /* 防止内容换行 */
+}
+
+
+
+
 .my_course {
-  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .demo-tabs {
-  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 20px;
+  text-align: left;
 }
 
 .course_list {
-  width: 100%;
-  display: block; /* 修改为 block 以纵向排列 */
+  flex: 1;
+  overflow-y: auto; /* 添加滚动条 */
+  padding: 10px;
 }
 
 .course_item {
-  width: 100%;
-  margin-bottom: 20px; /* 增加间隔 */
-  padding: 10px; /* 增加内边距 */
-  border-bottom: 1px solid #ebeef5; /* 增加底部边框 */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ebeef5;
 }
 
 .item_info {
-  display: flex; /* 使用 flex 布局 */
-  justify-content: space-between; /* 间隔分布 */
-  margin-bottom: 10px; /* 增加间隔 */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
 }
 
-.item_index, .item_course, .item_exam, .item_score {
-  margin-bottom: 5px; /* 增加间隔 */
+.item_actions {
+  display: flex;
+  gap: 5px;
+  align-self: center;
+}
+
+.item_index, .item_course, .item_exam, .item_score, .item_newscore {
+  margin-right: 20px;
+  flex: 1;
 }
 
 .item_index {
