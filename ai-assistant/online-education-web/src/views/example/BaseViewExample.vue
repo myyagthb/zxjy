@@ -11,8 +11,8 @@
 <script setup>
 import {ref, onMounted, onUnmounted, computed} from 'vue';
 
-import BaseHeader from "@/components/BaseHeader.vue";
-import BaseFooter from "@/components/BaseFooter.vue";
+import BaseHeader from "components/BaseHeader.vue";
+import BaseFooter from "components/BaseFooter.vue";
 const isDragging = ref(false);
 const leftWidth = ref(200);
 const showQueryDiv = ref(true);

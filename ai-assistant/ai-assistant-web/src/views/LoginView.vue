@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content ep-bg-purple">
-              <img :src="require('@/assets/images/login-background.png')" class="login_img"
+              <img :src="require('assets/images/login-background.png')" class="login_img"
                    style="width: 100%;height: 480px;"/>
             </div>
           </el-col>
@@ -14,9 +14,9 @@
               <el-container>
                 <el-header>
                   <div class="login_header">
-                    <img :src="require('@/assets/images/shield.png')" width="15" height="15">
+                    <img :src="require('assets/images/shield.png')" width="15" height="15">
                     微信扫码登录
-                    <img :src="require('@/assets/images/QRCode-image.png')" class="qrCode" @click="loadLoginQRCode">
+                    <img :src="require('assets/images/QRCode-image.png')" class="qrCode" @click="loadLoginQRCode">
                   </div>
                 </el-header>
                 <el-main>
@@ -84,7 +84,7 @@
 import {onMounted, onUnmounted, ref} from "vue";
 import axios from "axios";
 
-import router from "@/router";
+import router from "router";
 
 import SnowflakeId from "snowflake-id";
 import {ElMessage} from "element-plus";
@@ -112,7 +112,7 @@ const qrCodeLoading = ref(true)
 
 //获取微信二维码
 const loadLoginQRCodePic = () => {
-  //loginQRCodePic.value = new URL('@/assets/images/QRCode.png', import.meta.url).href;
+  //loginQRCodePic.value = new URL('assets/images/QRCode.png', import.meta.url).href;
   //这里随机生成本用户Id
   console.log(snowflake.generate())
   // let userId = snowflake.generate()

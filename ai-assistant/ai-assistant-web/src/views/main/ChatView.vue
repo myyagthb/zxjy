@@ -30,11 +30,11 @@
           <template #header>
             <div class="card-header">
               <div class="card-header-menu">
-                <img :src="require('@/assets/images/main/save.png')" class="card-icon"/>
+                <img :src="require('assets/images/main/save.png')" class="card-icon"/>
                 保存会话
               </div>
               <div class="card-header-menu">
-                <img :src="require('@/assets/images/main/clear.png')" class="card-icon"/>
+                <img :src="require('assets/images/main/clear.png')" class="card-icon"/>
                 清空会话
               </div>
             </div>
@@ -70,12 +70,12 @@ const chatList = ref([])
 onMounted(()=>{
   chatList.value.push({
     isMe: true,
-    avatar: require('@/assets/images/avatar/default-avatar.png'),
+    avatar: require('assets/images/avatar/default-avatar.png'),
     message: "谈谈你对AI的看法"
   })
   chatList.value.push({
     isMe: false,
-    avatar: require('@/assets/images/avatar/ai-avatar.png'),
+    avatar: require('assets/images/avatar/ai-avatar.png'),
     message: "人工智能（AI）正在深刻地改变我们的世界。它通过自动化和优化各种任务，提高了效率和生产力。在医疗、教育、交通等领域，AI的应用带来了许多积极的变化，比如更精准的疾病诊断、个性化的学习体验以及更安全的自动驾驶技术。\n" +
         "\n" +
         "然而，AI的发展也带来了一些挑战。就业市场可能会受到影响，某些工作可能会被自动化取代，这要求人们不断学习新技能以适应变化。此外，数据隐私和算法偏见是重要的伦理问题，需要制定相应的法规来保护个人权利和社会公平。\n" +
@@ -85,7 +85,7 @@ onMounted(()=>{
 
   chatList.value.push({
     isMe: false,
-    avatar: require('@/assets/images/avatar/ai-avatar.png'),
+    avatar: require('assets/images/avatar/ai-avatar.png'),
     message: "人工智能（AI）正在深刻地改变我们的世界。它通过自动化和优化各种任务，提高了效率和生产力。在医疗、教育、交通等领域，AI的应用带来了许多积极的变化，比如更精准的疾病诊断、个性化的学习体验以及更安全的自动驾驶技术。\n" +
         "\n" +
         "然而，AI的发展也带来了一些挑战。就业市场可能会受到影响，某些工作可能会被自动化取代，这要求人们不断学习新技能以适应变化。此外，数据隐私和算法偏见是重要的伦理问题，需要制定相应的法规来保护个人权利和社会公平。\n" +
@@ -95,7 +95,7 @@ onMounted(()=>{
 
   chatList.value.push({
     isMe: false,
-    avatar: require('@/assets/images/avatar/ai-avatar.png'),
+    avatar: require('assets/images/avatar/ai-avatar.png'),
     message: "人工智能（AI）正在深刻地改变我们的世界。它通过自动化和优化各种任务，提高了效率和生产力。在医疗、教育、交通等领域，AI的应用带来了许多积极的变化，比如更精准的疾病诊断、个性化的学习体验以及更安全的自动驾驶技术。\n" +
         "\n" +
         "然而，AI的发展也带来了一些挑战。就业市场可能会受到影响，某些工作可能会被自动化取代，这要求人们不断学习新技能以适应变化。此外，数据隐私和算法偏见是重要的伦理问题，需要制定相应的法规来保护个人权利和社会公平。\n" +
@@ -125,7 +125,7 @@ async function sendMessage() {
   if (textarea.value.trim()) {
     chatList.value.push({
       isMe: true,
-      avatar: require('@/assets/images/avatar/default-avatar.png'),
+      avatar: require('assets/images/avatar/default-avatar.png'),
       message: textarea.value
     });
     textarea.value = "";
@@ -137,7 +137,7 @@ async function receiveMessage() {
   if (textarea.value.trim()) {
     chatList.value.push({
       isMe: false,
-      avatar: require('@/assets/images/avatar/ai-avatar.png'),
+      avatar: require('assets/images/avatar/ai-avatar.png'),
       message: textarea.value
     });
     textarea.value = "";

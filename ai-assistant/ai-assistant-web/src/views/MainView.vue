@@ -13,7 +13,7 @@
 
 <script setup>
 
-import AsideView from "@/components/AsideView.vue";
+import AsideView from "components/AsideView.vue";
 
 
 </script>

@@ -88,7 +88,7 @@
   </div>
 </template>
 
-<script lang='ts'>
+<script setup>
 import router from "@/router";
 import { ref } from 'vue'
 import { useCoursesQuery } from '@/data/course/course-query'
@@ -113,28 +113,28 @@ const itemList = courses
 // const itemList = ref([
 //   {
 //     courseId: '1',
-//     courseImg: require('@/assets/images/student/vue-img.jpeg'),  //课程封面
+//     courseImg: require('assets/images/student/vue-img.jpeg'),  //课程封面
 //     courseTitle: "vue课程",      //课程标题
 //     percentage: 20,                       //已学习占比
 //     customColor: "#409eff",               //进度条颜色
 //     learned: 2,                           //已学习课程数
 //     total: 8,                             //课程总数
 //   },{
-//     courseImg: require('@/assets/images/student/suanfa-img.jpg'),  //课程封面
+//     courseImg: require('assets/images/student/suanfa-img.jpg'),  //课程封面
 //     courseTitle: "数据结构与算法",      //课程标题
 //     percentage: 20,                       //已学习占比
 //     customColor: "#409eff",               //进度条颜色
 //     learned: 2,                           //已学习课程数
 //     total: 8,                             //课程总数
 //   },{
-//     courseImg: require('@/assets/images/student/weixin-img.png'),  //课程封面
+//     courseImg: require('assets/images/student/weixin-img.png'),  //课程封面
 //     courseTitle: "微信小程序入门与实践",      //课程标题
 //     percentage: 20,                       //已学习占比
 //     customColor: "#409eff",               //进度条颜色
 //     learned: 2,                           //已学习课程数
 //     total: 8,                             //课程总数
 //   },{
-//     courseImg: require('@/assets/images/student/python-img.jpeg'),  //课程封面
+//     courseImg: require('assets/images/student/python-img.jpeg'),  //课程封面
 //     courseTitle: "Python入门加进阶",      //课程标题
 //     percentage: 20,                       //已学习占比
 //     customColor: "#409eff",               //进度条颜色

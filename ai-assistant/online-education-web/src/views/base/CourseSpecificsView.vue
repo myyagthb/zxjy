@@ -247,7 +247,7 @@ import { useRoute } from 'vue-router';
 import storageManager from '@/assets/js/utils';
 // import {ElMessage} from "element-plus"; // 替换为实际路径
 
-// import { useCoursesQuery } from '@/data/course/course-query'
+// import { useCoursesQuery } from 'data/course/course-query'
 
 onMounted(() => {
   getVideoUrl()
