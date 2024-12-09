@@ -13,33 +13,33 @@
         style="background-color: #eceef5;"
     >
       <el-menu-item index="1" class="el-menu-item" key="/chat">
-        <img :src="require('@/assets/images/cloud-image.png')" style="width: 20px;height: 20px;margin-top: 25%;">
+        <img :src="require('assets/images/cloud-image.png')" style="width: 20px;height: 20px;margin-top: 25%;">
         <router-link to="/chat" style="text-decoration: none">
           <span>海讯云AI</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="2" class="el-menu-item" key="/chat">
-        <img :src="require('@/assets/images/main/message.png')" style="width: 20px;height: 20px;margin-top: 25%;">
+        <img :src="require('assets/images/main/message.png')" style="width: 20px;height: 20px;margin-top: 25%;">
         <router-link to="/chat" style="text-decoration: none">
           <span>聊天</span>
         </router-link>
       </el-menu-item>
 
       <el-menu-item index="3" class="el-menu-item" key="/present">
-        <img :src="require('@/assets/images/main/present.png')" style="width: 20px;height: 20px;margin-top: 25%;">
+        <img :src="require('assets/images/main/present.png')" style="width: 20px;height: 20px;margin-top: 25%;">
         <router-link to="/present" style="text-decoration: none">
           <span>礼物</span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="4" class="el-menu-item" key="/history">
-        <img :src="require('@/assets/images/main/file.png')" style="width: 20px;height: 20px;margin-top: 25%;">
+        <img :src="require('assets/images/main/file.png')" style="width: 20px;height: 20px;margin-top: 25%;">
         <router-link to="/history" style="text-decoration: none">
           <span>历史记录</span>
         </router-link>
       </el-menu-item>
       <el-menu-item index="5" class="el-menu-item" key="/user">
-        <img :src="require('@/assets/images/main/vip-user.png')" style="width: 20px;height: 20px;margin-top: 25%;">
+        <img :src="require('assets/images/main/vip-user.png')" style="width: 20px;height: 20px;margin-top: 25%;">
         <router-link to="/user" style="text-decoration: none">
           <span>会员账户</span>
         </router-link>
@@ -50,7 +50,7 @@
 
 <script setup>
 import {ref, watch} from "vue";
-import router from "@/router";
+import router from "router";
 
 const handleOpen = (key, keyPath) => {
   console.log(key, keyPath)

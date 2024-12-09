@@ -10,7 +10,7 @@
       <el-menu-item index="0">
         <img
             style="width: 80px"
-            :src="require('@/assets/images/cloud-image.png')"
+            :src="require('assets/images/cloud-image.png')"
             alt="海讯云AI"
         />
         <div class="sign_box">
@@ -24,7 +24,7 @@
       </el-menu-item>
       <el-menu-item index="1">
         <div class="weixin_group">
-          <img :src="require('@/assets/images/user-group.png')" width="35" height="35" style="margin-right: 10px">
+          <img :src="require('assets/images/user-group.png')" width="35" height="35" style="margin-right: 10px">
           微信群
         </div>
       </el-menu-item>
@@ -70,22 +70,22 @@ onMounted(()=>{
 
 const menus = ref([
   {
-    iconUrl: require("@/assets/images/menu/paper.png"),
+    iconUrl: require("assets/images/menu/paper.png"),
     title: "论文助手",
     description: "类似ChatGPT聊天神器，撰写论文的神器",
     buttonText: "立即使用"
   },{
-    iconUrl: require("@/assets/images/menu/paper-polish.png"),
+    iconUrl: require("assets/images/menu/paper-polish.png"),
     title: "论文润色",
     description: "类似ChatGPT聊天神器，撰写论文的神器",
     buttonText: "敬请期待"
   },{
-    iconUrl: require("@/assets/images/menu/paper-read.png"),
+    iconUrl: require("assets/images/menu/paper-read.png"),
     title: "论文助手",
     description: "类似ChatGPT聊天神器，撰写论文的神器",
     buttonText: "敬请期待"
   },{
-    iconUrl: require("@/assets/images/menu/paper-more.png"),
+    iconUrl: require("assets/images/menu/paper-more.png"),
     title: "论文助手",
     description: "类似ChatGPT聊天神器，撰写论文的神器",
     buttonText: "敬请期待"
