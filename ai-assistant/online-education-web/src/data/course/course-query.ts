@@ -2,7 +2,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 
 // import { get, handleError } from '@pt/apps/studio/data/fetchers'
 // // import { IS_PLATFORM } from 'lib/constants'
-// import type { Course } from '@/types/base'
+import type { Course } from '@/types/base'
 // import type { ResponseError } from '@pt/apps/studio/types'
 import { courseKeys } from './keys'
 

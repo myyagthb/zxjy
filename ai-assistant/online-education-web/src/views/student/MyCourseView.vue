@@ -88,7 +88,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import router from "@/router";
 import { ref } from 'vue'
 import { useCoursesQuery } from '@/data/course/course-query'
