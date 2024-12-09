@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
+var path = require('path');
 
 module.exports = defineConfig({
   transpileDependencies: true,
@@ -31,5 +32,64 @@ module.exports = defineConfig({
       },
     }
   },
+
+
+  configureWebpack: {
+    resolve: { 
+      extensions: [".ts", ".tsx", ".js", ".json", ".vue"] ,
+      alias: {
+        "@pt/*": path.resolve(__dirname, '/root/autodl-tmp/hxy/platform/pt/*'),
+        "@/*": path.resolve(__dirname, './src/*')
+      },
+      fallback: {
+        "fs": false,
+        "tls": false,
+        "net": false,
+        "path": false,
+        "zlib": false,
+        "http": false,
+        "https": false,
+        "stream": false,
+        "crypto": false,
+        // "crypto-browserify": require.resolve('crypto-browserify'), //if you want to use this module also don't forget npm i crypto-browserify 
+      }       
+    },
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
+          options: {
+            appendTsSuffixTo: [/\.vue$/],
+          }
+        },
+        {
+          test: /\.d\.ts$/,
+          loader: 'ignore-loader',
+        },        
+      ]
+    }
+  }
+
+
+  // configureWebpack: {
+  //   resolve: { 
+  //     fallback: {
+  //       "fs": false,
+  //       "tls": false,
+  //       "net": false,
+  //       "path": false,
+  //       "zlib": false,
+  //       "http": false,
+  //       "https": false,
+  //       "stream": false,
+  //       "crypto": false,
+  //       // "crypto-browserify": require.resolve('crypto-browserify'), //if you want to use this module also don't forget npm i crypto-browserify 
+  //     } 
+  //   },
+  // }
+
+
 })
 
