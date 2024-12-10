@@ -1,4 +1,5 @@
 {
+  "extends": "../../../platform/pt/apps/studio/tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -24,7 +25,8 @@
       ],
       "@pt/*": [
         "/root/autodl-tmp/hxy/platform/pt/*"
-      ]
+      ],
+      "*": ["../../../platform/pt/apps/studio/*"]
     },
     "lib": [
       "esnext",
@@ -39,8 +41,8 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "/root/autodl-tmp/hxy/platform/pt/**/*.ts",
-    "/root/autodl-tmp/hxy/platform/pt/**/*.d.ts"
+    "../../../platform/pt/**/*.ts",
+    "../../../platform/pt/**/*.d.ts",
   ],
   "exclude": [
     "node_modules"

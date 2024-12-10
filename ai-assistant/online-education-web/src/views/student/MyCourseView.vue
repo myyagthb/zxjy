@@ -89,22 +89,28 @@
 </template>
 
 <script setup lang="ts">
-import router from "@/router";
-import { ref } from 'vue'
+// import { applyPureReactInVue} from 'veaury'
+// import {applyPureReactInVue, createCrossingProviderForPureVueInReact } from 'veaury'
+
+// import router from "@/router";
+// import { ref } from 'vue'
 import { useCoursesQuery } from '@/data/course/course-query'
-const activeName = ref('first')
+// const activeName = ref('first')
 
-const handleClick = (tab, event) => {
-  console.log(tab, event)
-}
+// const handleClick = (tab, event) => {
+//   console.log(tab, event)
+// }
 
-const handleCourseClick = (item) => {
-  console.log(item.courseTitle)
-  // router.push("/course-specifics?item="+item)
-  router.push({path:"/course-specifics",query:{item:JSON.stringify(item)}})
-  // router.push({path:"/course-specifics",query:{item:item}})
-  // router.push("/course-specifics",{params:{item:item}})
-}
+// const handleCourseClick = (item) => {
+//   console.log(item.courseTitle)
+//   // router.push("/course-specifics?item="+item)
+//   router.push({path:"/course-specifics",query:{item:JSON.stringify(item)}})
+//   // router.push({path:"/course-specifics",query:{item:item}})
+//   // router.push("/course-specifics",{params:{item:item}})
+// }
+
+// const courseQuery = applyPureReactInVue(useCoursesQuery)
+// const courses = courseQuery()
 
 const courses = useCoursesQuery()
 
@@ -142,6 +148,22 @@ const itemList = courses
 //     total: 8,                             //课程总数
 //   }
 // ])
+
+
+
+// export default {
+//   components: {
+//     // Use HOC 'applyReactInVue' or 'applyPureReactInVue'
+//     Basic: applyReactInVue(useCoursesQuery), 
+//     BasicPure: applyPureReactInVue(useCoursesQuery)
+//   },
+//   setup() {
+//     return {
+//       foo: ref('Hello!')
+//     }
+//   }
+// }
+
 
 
 </script>

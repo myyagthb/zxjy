@@ -9,6 +9,10 @@ module.exports = defineConfig({
     client: {
       overlay: false,
     },
+    // overlay: {
+    //   warnings: false,
+    //   errors: false
+    // },
     proxy: {
       '/storage': {
         target: 'http://localhost:5000', // 替换为实际的第三方服务器地址
@@ -39,6 +43,8 @@ module.exports = defineConfig({
       extensions: [".ts", ".tsx", ".js", ".json", ".vue"] ,
       alias: {
         "@pt/*": path.resolve(__dirname, '/root/autodl-tmp/hxy/platform/pt/*'),
+        "supabase/*": path.resolve(__dirname, '../../../platform/pt/*'),
+        "*": path.resolve(__dirname, '../../../platform/pt/apps/studio/*'),
         "@/*": path.resolve(__dirname, './src/*')
       },
       fallback: {
@@ -52,7 +58,11 @@ module.exports = defineConfig({
         "stream": false,
         "crypto": false,
         // "crypto-browserify": require.resolve('crypto-browserify'), //if you want to use this module also don't forget npm i crypto-browserify 
-      }       
+      },
+      modules:[path.resolve(__dirname, '../../../platform/pt/*')], // Path to external module],
+      // resolveLoader: {
+      //   modules: ['/root/autodl-tmp/hxy/platform/pt/*']
+      // } 
     },
     module: {
       rules: [
