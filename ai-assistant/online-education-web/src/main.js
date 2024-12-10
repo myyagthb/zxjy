@@ -23,6 +23,7 @@ app.config.errorHandler = (err, vm, info) => {
     console.log('====== 有报错了兄弟!!! ======');
     if (err instanceof Error) {
         console.log('❌ 提示:', err.message);
+        console.log(err)
     }
 
 };
@@ -64,11 +65,11 @@ axios.interceptors.response.use(function (response) {
         // 判断状态码是401 跳转到登录页
         console.log("未登录或登录超时，跳到登录页");
         store.commit("setUser", {});
-        router.push('/base/login');
+        router.push('/login');
     }
     return Promise.reject(error);
 });
-axios.defaults.baseURL = process.env.VUE_APP_SERVER;
+//axios.defaults.baseURL = process.env.VUE_APP_SERVER;
 console.log('环境：', process.env.NODE_ENV);
 console.log('服务端：', process.env.VUE_APP_SERVER);
 

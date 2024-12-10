@@ -51,3 +51,10 @@ wx:
   redirect-uri: /saveUserInfo
   #微信回复模板ID
   templateId: 6XNnaa_Qk0OUQ-3g5y15eX_WNQt9GktEfhKRd_eRjQs
+
+
+storage-api:
+#  uri: http://localhost:5000
+  uri: https://hxydt.com/storage/v1/*
+  x-forwarded-host: demo
+  authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.-RRdA8gxmv5hhTLu8OpHbRGIX4P7VAu3eXPOUyDJZDE

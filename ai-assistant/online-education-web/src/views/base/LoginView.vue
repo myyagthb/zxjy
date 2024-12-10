@@ -127,7 +127,7 @@ const login = () => {
 
       //将用户信息存入本地缓存
       store.commit("setUser",data.content)
-      router.push("/base/home")
+      router.push("/")
     } else {
       ElMessage({
         type: "error",
@@ -144,7 +144,7 @@ const goRegister = (event) => {
   event.preventDefault(); // 阻止默认行为（例如跳转到 #）
   event.stopPropagation(); // 阻止事件冒泡
 
-  router.push("/base/register")
+  router.push("/register")
 }
 
 /**

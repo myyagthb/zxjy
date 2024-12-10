@@ -122,35 +122,35 @@ const goTeacherView = () => {
 
 //去网站首页
 const goHome = ()=>  {
-  router.push("/base/home")
+  router.push("/")
 }
 
 //去关于界面
 const goAbout = ()=>  {
-  router.push("/base/about")
+  router.push("/about")
 }
 
 //去课程详情
 const goContactUs = ()=>  {
-  router.push("/base/contact-us")
+  router.push("/contact-us")
 }
 
 //去会员价格
 const goMemberPrice = ()=>  {
-  router.push("/base/member-price")
+  router.push("/member-price")
 }
 
 //去在线课程
 const goOnlineCourse = ()=>  {
-  router.push("/base/online-course")
+  router.push("/online-course")
 }
 //去登录界面
 const goLogin = () => {
-  router.push("/base/login")
+  router.push("/login")
 }
 //去注册界面
 const goRegister = () => {
-  router.push("/base/register")
+  router.push("/register")
 }
 //去论文批改界面
 const goAIAssistantWeb = ()=>{
@@ -161,7 +161,7 @@ const goAIAssistantWeb = ()=>{
 const logout = () => {
   store.commit('setUser', {})
   //跳转到登录界面
-  router.push("/base/login")
+  router.push("/login")
 }
 
 </script>

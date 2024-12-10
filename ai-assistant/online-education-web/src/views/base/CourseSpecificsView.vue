@@ -11,7 +11,8 @@
     </div>
     <div class="course_specifics_middle">
       <video class="course_specifics_middle_video" controls>
-        <source src="../../assets/video/test-video.mp4" type="video/mp4">
+        <source src="https://flfxwctdktxiopigrdka.supabase.co/storage/v1/object/sign/test/simplescreenrecorder-2023-11-23_08.36.34.mp4?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ0ZXN0L3NpbXBsZXNjcmVlbnJlY29yZGVyLTIwMjMtMTEtMjNfMDguMzYuMzQubXA0IiwiaWF0IjoxNzMzMTA0NzA0LCJleHAiOjIwNDg0NjQ3MDR9.zM5ddhIeXoJ3LeoTLWaduQI-Qdg1HJPeHiXh735LG-w" type="video/mp4">
+<!--        <source src="http://localhost:5000/object/test/test-video.mp4" type="video/mp4">-->
         您的浏览器不支持 video 标签。
       </video>
     </div>
@@ -241,9 +242,45 @@
 </template>
 
 <script setup>
+import {onMounted} from "vue";
+import axios from "axios";
+
+onMounted(() => {
+  getSign();
+  getVideoUrl()
+});
+
+// 第一步，获取sign
+const getSign = () => {
+  const signPayLoad = {
+    path: 'test-video.mp4',
+    expiresIn: 604800,
+  };
+  axios.post("/storage/object/sign/"+"test-video-mp4", signPayLoad,{
+    headers:{
+      'Access-Control-Allow-Methods':'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers':'Content-Type, Authorization',
+      'Content-Type': 'multipart/form-data',
+      'x-forwarded-host':'demo',
+      'authorization':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.-RRdA8gxmv5hhTLu8OpHbRGIX4P7VAu3eXPOUyDJZDE',
+      'crossDomain' : true
+    }
+  }).then(res => {
+    console.log(res);
+    // 在这里处理响应数据，例如更新视频URL
+  })
+  .catch(error => {
+    console.error('Error fetching sign:', error);
+  });
+};
+
+// 第二步，获取真正的文件路径
+// 可以在这里添加更多逻辑来处理第二步,这里还有待实现。
+const getVideoUrl = ()=> {
+
+}
 
 </script>
-
 
 
 <style scoped>

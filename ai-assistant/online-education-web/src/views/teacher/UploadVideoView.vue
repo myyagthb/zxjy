@@ -135,6 +135,8 @@ const submitCourseVideoForm = async () => {
       });
       console.log(response)
       ElMessage.success('视频添加成功');
+      //重置表单数据
+      resetVideoForm()
     } catch (error) {
       ElMessage.error('视频添加失败');
     }
@@ -144,13 +146,18 @@ const submitCourseVideoForm = async () => {
 };
 
 const cancelCourseVideo = () => {
+  //重置表单数据
+  resetVideoForm()
+};
+
+const resetVideoForm = ()=>{
   courseVideoForm.value.courseId = '';
   courseVideoForm.value.userId = '';
   courseVideoForm.value.videoName = '';
   courseVideoForm.value.BelongPassage = '';
   courseVideoForm.value.videoFile = null;
   videoFileList.value = [];
-};
+}
 
 
 

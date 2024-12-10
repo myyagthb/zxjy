@@ -4,19 +4,23 @@ import StudentBaseView from "@/views/student/StudentBaseView.vue";
 import TeacherBaseView from "@/views/teacher/TeacherBaseView.vue";
 
 const routes = [
+  // {
+  //   path: '/about',
+  //   name: 'about',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ '../views/base/AboutView.vue')
+  // },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/base/AboutView.vue')
-  },
-  {
-    path: '/base',
+    path: '/',
     name: 'base',
     component: BaseView,
     children: [
+      {
+        path: '',
+        component: ()=>import('@/views/base/HomeView.vue')
+      },
       {
         path: 'login',
         component: ()=>import('@/views/base/LoginView.vue')
@@ -26,9 +30,6 @@ const routes = [
         component: ()=>import('@/views/base/RegisterView.vue')
       },
       {
-        path: 'home',
-        component: ()=>import('@/views/base/HomeView.vue')
-      },{
         path: 'online-course',
         component: ()=>import('@/views/base/OnlineCourseView.vue')
       },
