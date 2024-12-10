@@ -88,11 +88,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 // import { applyPureReactInVue} from 'veaury'
 // import {applyPureReactInVue, createCrossingProviderForPureVueInReact } from 'veaury'
 
-// import router from "@/router";
+import router from "@/router";
+import store from "@/store";
 // import { ref } from 'vue'
 import { useCoursesQuery } from '@/data/course/course-query'
 // const activeName = ref('first')
@@ -101,18 +102,19 @@ import { useCoursesQuery } from '@/data/course/course-query'
 //   console.log(tab, event)
 // }
 
-// const handleCourseClick = (item) => {
-//   console.log(item.courseTitle)
-//   // router.push("/course-specifics?item="+item)
-//   router.push({path:"/course-specifics",query:{item:JSON.stringify(item)}})
-//   // router.push({path:"/course-specifics",query:{item:item}})
-//   // router.push("/course-specifics",{params:{item:item}})
-// }
+const handleCourseClick = (item) => {
+  console.log(item.courseTitle)
+  // router.push("/course-specifics?item="+item)
+  router.push({path:"/course-specifics",query:{item:JSON.stringify(item)}})
+  // router.push({path:"/course-specifics",query:{item:item}})
+  // router.push("/course-specifics",{params:{item:item}})
+}
 
 // const courseQuery = applyPureReactInVue(useCoursesQuery)
 // const courses = courseQuery()
-
-const courses = useCoursesQuery()
+const userId = store.state.user.userId
+console.log('userId '+userId)
+const courses = useCoursesQuery({userId})
 
 const itemList = courses
 

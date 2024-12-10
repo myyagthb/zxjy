@@ -200,7 +200,7 @@ const resetVideoForm = ()=>{
 //根据userId获取课程列表==============================
 const courseList = ref([]);
 const getCourseList = () => {
-  axios.get("/backend/course/getCourseListByUserId",{
+  axios.get("/api/backend/course/getCourseListByUserId",{
     params:{
       userId: store.state.user.userId
     }

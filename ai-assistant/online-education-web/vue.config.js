@@ -24,11 +24,11 @@ module.exports = defineConfig({
         },
         logLevel: 'debug'
       },
-      '/backend': {
+      '/api/backend': {
         target: 'http://localhost:8889', // 第三方服务器2
         // target: process.env.VUE_APP_SERVER, // 使用环境变量, // 第三方服务器2
         changeOrigin: true,
-        pathRewrite: { '^/backend': '' },
+        pathRewrite: { '^/api/backend': '' },
         onProxyRes: (proxyRes, req, res) => {
           console.log(`[Proxy] ${req.method} ${req.url} -> ${res.statusCode}`);
         },
