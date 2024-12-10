@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <!-- 顶部搜索区域 -->
     <el-row class="filter-container" gutter="20">
       <el-col :span="6">
@@ -18,7 +19,8 @@
         <el-button type="primary" @click="filterData">查询</el-button>
         <el-button @click="resetFilters">重置</el-button>
       </el-col>
-      <el-button type="primary" icon="el-icon-plus" @click="addQuestionBank">添加题库</el-button>
+      <el-button type="primary" icon
+          ="el-icon-plus" @click="addQuestionBank">添加题库</el-button>
     </el-row>
 
     <!-- 表格展示 -->
@@ -65,6 +67,52 @@ import { ref, computed } from "vue";
 export default {
   name: "QuestionBankManagement",
   setup() {
+    // 已选试题
+    const selectedQuestions = ref([]);
+
+    // 可选试题
+    const availableQuestions = ref([
+      { questionName: "题目1", type: "单选题", status: "启用", correctAnswer: "A", analysis: "解析1" },
+      { questionName: "题目2", type: "多选题", status: "启用", correctAnswer: "A,B", analysis: "解析2" },
+      { questionName: "题目3", type: "判断题", status: "启用", correctAnswer: "正确", analysis: "解析3" },
+    ]);
+
+    // 分页与搜索
+    const searchTerm = ref("");
+    const currentPage = ref(1);
+    const pageSize = ref(5);
+    const totalQuestions = ref(availableQuestions.value.length);
+
+    // 方法
+    const searchQuestions = () => {
+      // 模拟搜索逻辑
+      availableQuestions.value = availableQuestions.value.filter((item) =>
+          item.questionName.includes(searchTerm.value)
+      );
+    };
+
+
+    const addSingleQuestion = (question) => {
+      if (!selectedQuestions.value.some((q) => q.questionName === question.questionName)) {
+        selectedQuestions.value.push(question);
+      }
+    };
+
+    const removeSingleQuestion = (question) => {
+      selectedQuestions.value = selectedQuestions.value.filter((q) => q !== question);
+    };
+
+    const removeSelectedQuestions = () => {
+      selectedQuestions.value = [];
+    };
+
+    const cancelLinking = () => {
+      alert("取消关联操作");
+    };
+
+    const confirmLinking = () => {
+      alert("题目关联成功");
+    };
     // 数据源
     const allData = ref([
       {
@@ -144,6 +192,10 @@ export default {
       alert(`查看题目: ${row.name}`);
     };
 
+    const handlePageChange1 = (page) => {
+      currentPage.value = page;
+    };
+
     const editQuestionBank = (row) => {
       alert(`编辑题库: ${row.name}`);
     };
@@ -167,6 +219,19 @@ export default {
       viewDetails,
       editQuestionBank,
       deleteQuestionBank,
+      selectedQuestions,
+      availableQuestions,
+      searchTerm,
+      currentPage,
+      pageSize,
+      totalQuestions,
+      searchQuestions,
+      handlePageChange1,
+      addSingleQuestion,
+      removeSingleQuestion,
+      removeSelectedQuestions,
+      cancelLinking,
+      confirmLinking,
     };
   },
 };
