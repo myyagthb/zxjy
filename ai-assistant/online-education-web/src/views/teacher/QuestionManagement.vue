@@ -71,6 +71,7 @@
 
     <!-- 添加题目弹窗 -->
     <el-dialog
+        class="custom-dialog-right"
         title="添加题目"
         v-model="addDialogVisible"
         width="800px"
@@ -392,5 +393,18 @@ export default {
 }
 .dialog-footer {
   text-align: right;
+}
+
+/* 自定义样式 */
+.custom-dialog-right {
+  position: fixed !important;
+  right: 0 !important; /* 紧贴右侧 */
+  top: 0 !important; /* 紧贴顶部 */
+  bottom: 0 !important; /* 紧贴底部 */
+  margin: 0 !important;
+  height: 100% !important; /* 占满整个垂直高度 */
+  transform: translate(0, 0) !important;
+  border-radius: 0 !important; /* 移除圆角 */
+  box-shadow: none !important; /* 取消阴影，视需求决定 */
 }
 </style>
