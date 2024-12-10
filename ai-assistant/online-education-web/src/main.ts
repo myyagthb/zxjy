@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -36,6 +37,19 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(store).use(router).use(ElementPlus).use(ElementPlus, {
     locale: zhCn,
 })
+
+
+app.use(VueQueryPlugin, {
+    queryClientConfig: {
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+          retry: 0,
+          // Other default query options
+        },
+      },
+    },
+  });
 
 app.mount('#app')
 

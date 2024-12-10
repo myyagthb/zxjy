@@ -1,6 +1,7 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import {useContext, createContext} from 'react'
+import { useQuery, UseQueryOptions } from '@tanstack/vue-query'
 
-// import { get, handleError } from '@pt/apps/studio/data/fetchers'
+import { get, handleError } from '@/data/fetchers'
 // // import { IS_PLATFORM } from 'lib/constants'
 import type { Course } from '@/types/base'
 // import type { ResponseError } from '@pt/apps/studio/types'
@@ -22,13 +23,17 @@ export type CoursesError = ResponseError
 export const useCoursesQuery = <TData = CoursesData>(
   options: UseQueryOptions<CoursesData, CoursesError, TData> = {}
 ) =>
-  useQuery<CoursesData, CoursesError, TData>(
-    courseKeys.list(),
-    ({ signal }) => getCourses(signal),
-    {
-      ...options,
-      // enabled: IS_PLATFORM && (options.enabled ?? true),
-      enabled: true,
-      staleTime: 30 * 60 * 1000,
-    }
-  )
+// export const useCoursesQuery = () => 
+  useQuery({
+    // courseKeys.list(),
+    // ({ signal }) => getCourses(signal),
+    // queryKey: ['courses'],
+    queryKey: courseKeys.list(),
+    queryFn: ({ signal }) => getCourses(signal),
+    // {
+    //   ...options,
+    //   // enabled: IS_PLATFORM && (options.enabled ?? true),
+    //   enabled: true,
+    //   staleTime: 30 * 60 * 1000,
+    // }
+  })
