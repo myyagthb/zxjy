@@ -7,7 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: res74984
-    url: jdbc:postgresql://114.218.13.201:5432/ai_assistant_db
+    url: jdbc:postgresql://42.192.145.90:3971/ai_assistant_db
     type: com.alibaba.druid.pool.DruidDataSource
   data:
     redis:

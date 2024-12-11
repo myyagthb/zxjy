@@ -17,6 +17,7 @@ import edu.hut.aiassistant.resp.UserInfoResp;
 import edu.hut.aiassistant.resp.UserResp;
 import edu.hut.aiassistant.utils.MD5Util;
 import edu.hut.aiassistant.utils.MobileUtil;
+import edu.hut.aiassistant.utils.EmailUtil;
 import edu.hut.aiassistant.utils.MyJWTUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,10 @@ public class UserServiceCustomImpl implements UserServiceCustom {
         if (!MobileUtil.isValidMobile(userReq.getMobile())) {
             return new R(RespEnum.FAIL.getCode(), "手机号错误",null);
         }
+        //验证邮箱是否正确
+        if (!EmailUtil.isValidEmail(userReq.getEmail())) {
+            return new R(RespEnum.FAIL.getCode(), "邮箱错误",null);
+        }        
         //判断手机号是否注册
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(User::getMobile,userReq.getMobile().trim());
@@ -47,10 +52,18 @@ public class UserServiceCustomImpl implements UserServiceCustom {
         if(user != null){
             return new R(RespEnum.FAIL.getCode(), "该手机号已注册",null);
         }
+        //判断邮箱是否注册
+        queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getEmail,userReq.getEmail().trim());
+        user = userMapper.selectOne(queryWrapper);
+        if(user != null){
+            return new R(RespEnum.FAIL.getCode(), "该邮箱已注册",null);
+        }        
         DateTime now = DateTime.now();
         User newUser = new User();
         //设置电话号码
         newUser.setMobile(userReq.getMobile());
+        newUser.setEmail(userReq.getEmail());
         //设置加密后密码字符串
         newUser.setPassword(MD5Util.MD5(userReq.getPassword()));
         newUser.setRole(userReq.getRole());//设置用户角色字段

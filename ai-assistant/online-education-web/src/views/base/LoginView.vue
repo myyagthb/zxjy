@@ -117,7 +117,7 @@ const login = () => {
   }
 
   loginLoading.value = true
-  axios.post("/backend/user/login",loginForm.value).then(res => {
+  axios.post("/api/backend/user/login",loginForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({

@@ -15,6 +15,10 @@ public class UserInfoReq {
      */
     private String mobile;
     /**
+     * 邮箱
+     */
+    private String email;    
+    /**
      * 角色
      */
     private Integer role;

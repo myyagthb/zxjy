@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="edu.hut.aiassistant.generator.domain.User">
             <id property="userId" column="user_id" jdbcType="BIGINT"/>
             <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
@@ -20,7 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        user_id,mobile,password,
+        user_id,mobile,email,password,
         create_time,update_time,role,
         educate_stage,nickname,real_name,
         license_type,license_number,school

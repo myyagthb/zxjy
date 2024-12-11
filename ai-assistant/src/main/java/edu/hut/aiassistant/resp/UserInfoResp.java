@@ -10,6 +10,10 @@ public class UserInfoResp {
      */
     private String mobile;
     /**
+     * email
+     */
+    private String email;    
+    /**
      * 角色
      */
     private Integer role;

@@ -52,6 +52,9 @@
               <el-form-item label="手机号">
                 <el-input v-model="registerForm.mobile" placeholder="请输入您的手机号" class="form_input" />
               </el-form-item>
+              <el-form-item label="邮箱">
+                <el-input v-model="registerForm.email" placeholder="请输入您的邮箱" class="form_input" />
+              </el-form-item>              
               <el-form-item label="密码">
                 <el-input v-model="registerForm.password" type="password" placeholder="请输入您的密码" class="form_input" />
               </el-form-item>
@@ -93,6 +96,7 @@ import router from "@/router";
 // do not use same name with ref
 const registerForm = ref({
   mobile: '',
+  email: '',
   password: '',
   confirmPassword: '',
   role: '0'
@@ -134,6 +138,15 @@ const register = () => {
     return;
   }
 
+  //校验邮箱
+  if (registerForm.value.email === '' ||!validEmail(registerForm.value.email)){
+    ElMessage({
+      type: "error",
+      message: "邮箱错误"
+    })
+    return;
+  }
+
   //校验密码
   if(registerForm.value.password === '' || registerForm.value.confirmPassword === ''){
     ElMessage({
@@ -156,7 +169,7 @@ const register = () => {
   registerLoading.value = true
 
   //注册
-  axios.post("/backend/user/register",registerForm.value).then(res => {
+  axios.post("/api/backend/user/register",registerForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({
@@ -194,6 +207,19 @@ const validMobile = (phoneNumber) => {
 
   // 检查手机号码是否符合正则表达式
   return phoneRegex.test(phoneNumber);
+}
+
+/**
+ * 验证邮箱是否有效
+ * @param {string} email - 待验证的邮箱
+ * @returns {boolean} - 如果邮箱有效则返回true，否则返回false
+ */
+ const validEmail = (email) => {
+  // 正则表达式：
+  var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+  // 检查手机号码是否符合正则表达式
+  return emailRegex.test(email);
 }
 
 const goLogin = (event) => {
