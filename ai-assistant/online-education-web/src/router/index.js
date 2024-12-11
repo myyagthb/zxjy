@@ -73,7 +73,11 @@ const routes = [
       },{
         path: 'online-exam-list',
         component: () => import('@/views/student/OnlineExamView.vue')
-      },
+      },{
+        path: '/exam-simulation',
+        name: 'ExamSimulation',
+        component: () => import('@/views/student/ExamSimulation.vue'),
+      }
     ]
   },
   {

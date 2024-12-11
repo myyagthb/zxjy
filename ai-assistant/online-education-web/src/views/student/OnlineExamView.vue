@@ -41,8 +41,8 @@
             <div class="item_score">{{ item.totalScore }}</div>
             <div class="item_newscore">{{ item.newScore }}</div>
             <div class="item_actions">
-              <div class="item_action">{{ item.action }}</div>
-              <div class="item_result">{{ item.result }}</div>
+              <el-button type="primary" size="mini" @click="startExam(item)">开始考试</el-button>
+              <el-button type="success" size="mini">查看结果</el-button>
             </div>
           </div>
         </div>
@@ -53,6 +53,8 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
 const activeName = ref('first')
 const searchQuery = ref('')
 const examQuery = ref('')
@@ -87,11 +89,17 @@ const handleReset = () => {
   examQuery.value = ''
 }
 
+const router = useRouter()
+
+const startExam = (item) => {
+  router.push({ name: 'ExamSimulation', params: { course: item.courseName } })
+}
+
 // 调整数据结构，分离课程名称、考试名称和总分
 const itemList = ref([
   {
     courseName: "微信小程序入门与实践",
-    examName: "2021年第八期考试任务",
+    examName: "2019年第一期考试任务",
     totalScore: "100",
     newScore: 0,
     action: "开始考试",
@@ -99,7 +107,7 @@ const itemList = ref([
   },
   {
     courseName: "数据结构与算法c++版",
-    examName: "2021年第八期考试任务",
+    examName: "2022年第二期考试任务",
     totalScore: "80",
     newScore: 0,
     action: "开始考试",
@@ -107,7 +115,7 @@ const itemList = ref([
   },
   {
     courseName: "微信小程序入门与实践",
-    examName: "2021年第八期考试任务",
+    examName: "2023年第八期考试任务",
     totalScore: "100",
     newScore: 0,
     action: "开始考试",
@@ -115,7 +123,7 @@ const itemList = ref([
   },
   {
     courseName: "Python3.8系统入门+进阶",
-    examName: "2021年第八期考试任务",
+    examName: "2021年第五期考试任务",
     totalScore: "60",
     newScore: 0,
     action: "开始考试",
@@ -123,7 +131,7 @@ const itemList = ref([
   },
   {
     courseName: "vue.js2.5-ui重构饿了么",
-    examName: "2021年第八期考试任务",
+    examName: "2024年第八期考试任务",
     totalScore: "50",
     newScore: 0,
     action: "开始考试",
@@ -131,7 +139,7 @@ const itemList = ref([
   },
   {
     courseName: "微信小程序入门与实践",
-    examName: "2021年第八期考试任务",
+    examName: "2021年第三期考试任务",
     totalScore: "60",
     newScore: 0,
     action: "开始考试",
@@ -139,7 +147,7 @@ const itemList = ref([
   },
   {
     courseName: "数据结构与算法c++版",
-    examName: "2021年第八期考试任务",
+    examName: "2020年第八期考试任务",
     totalScore: "70",
     newScore: 0,
     action: "开始考试",
@@ -147,7 +155,7 @@ const itemList = ref([
   },
   {
     courseName: "Python3.8系统入门+进阶",
-    examName: "2021年第八期考试任务",
+    examName: "2024年第六期考试任务",
     totalScore: "70",
     newScore: 0,
     action: "开始考试",
@@ -155,7 +163,7 @@ const itemList = ref([
   },
   {
     courseName: "vue.js2.5-ui重构饿了么",
-    examName: "2021年第八期考试任务",
+    examName: "2022年第四期考试任务",
     totalScore: "80",
     newScore: 0,
     action: "开始考试",
@@ -170,6 +178,8 @@ const filteredList = computed(() => {
       (!examQuery.value || item.examName.includes(examQuery.value))
   )
 })
+
+
 </script>
 
 <style scoped>
