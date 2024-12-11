@@ -1,42 +1,90 @@
 <template>
-在线考试
   <div class="my_course">
+    <div class="course_title">在线考试</div>
+    <div class="search_bar">
+      <div class="search_row">
+        <div class="search_label">选择课程</div>
+        <el-input
+          class="short-input"
+          placeholder="请选择已购课程"
+          v-model="searchQuery"
+          suffix-icon="el-icon-search"
+          @input="handleInput"
+        ></el-input>
+        <div class="search_label">考试名称</div>
+        <el-input
+          class="short-input"
+          placeholder="请输入考试名称"
+          v-model="examQuery"
+          suffix-icon="el-icon-search"
+          @input="handleExamInput"
+        ></el-input>
+        <el-button type="primary" @click="handleSearch">查询</el-button>
+        <el-button type="default" @click="handleReset">重置</el-button>
+      </div>
+    </div>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-      <div class="header" >
-          <h2 class="title">序号</h2>
-          <h2 class="lesson_name">课程名称</h2>
-          <h2 class="exam_name">考试名称</h2>
-          <h2 class="total_score">总分</h2>
-          <h2 class="new_score">最新得分</h2>
-          <h2 class="action">操作</h2>
+      <div class="header">
+        <h2 class="title">序号</h2>
+        <h2 class="lesson_name">课程名称</h2>
+        <h2 class="exam_name">考试名称</h2>
+        <h2 class="total_score">总分</h2>
+        <h2 class="new_score">最新得分</h2>
+        <h2 class="action">操作</h2>
       </div>
       <div class="course_list">
-          <div class="course_item" v-for="(item, index) in itemList" :key="index">
-            <div class="item_info">
-              <div class="item_index">{{ index + 1 }}</div>
-              <div class="item_course">{{ item.courseName }}</div>
-              <div class="item_exam">{{ item.examName }}</div>
-              <div class="item_score">{{ item.totalScore }}</div>
-              <div class="item_newscore">{{ item.newScore }}</div>
-              <div class="item_actions">
-                <div class="item_action">{{ item.action }}</div>
-                <div class="item_result">{{ item.result }}</div>
-              </div>
+        <div class="course_item" v-for="(item, index) in filteredList" :key="index">
+          <div class="item_info">
+            <div class="item_index">{{ index + 1 }}</div>
+            <div class="item_course">{{ item.courseName }}</div>
+            <div class="item_exam">{{ item.examName }}</div>
+            <div class="item_score">{{ item.totalScore }}</div>
+            <div class="item_newscore">{{ item.newScore }}</div>
+            <div class="item_actions">
+              <div class="item_action">{{ item.action }}</div>
+              <div class="item_result">{{ item.result }}</div>
             </div>
-            <!-- 最新得分和操作按钮可以根据实际情况添加 -->
           </div>
         </div>
-      <!-- 其他 tab-pane 省略，与 first 相同 -->
+      </div>
     </el-tabs>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const activeName = ref('first')
+const searchQuery = ref('')
+const examQuery = ref('')
 
 const handleClick = (tab, event) => {
   console.log(tab, event)
+}
+
+const handleInput = (event) => {
+  // 当输入框中有内容时，清除placeholder
+  if (event.target.value) {
+    searchQuery.value = ''
+  } else {
+    searchQuery.value = '请选择已购课程'
+  }
+}
+
+const handleExamInput = (event) => {
+  if (!event.target.value) {
+    examQuery.value = ''
+  } else {
+    examQuery.value = '请选择考试名称'
+  }
+}
+
+const handleSearch = () => {
+  console.log('查询课程:', searchQuery.value, '考试名称:', examQuery.value)
+}
+
+const handleReset = () => {
+  searchQuery.value = ''
+  examQuery.value = ''
 }
 
 // 调整数据结构，分离课程名称、考试名称和总分
@@ -114,6 +162,14 @@ const itemList = ref([
     result: "查看结果",
   },
 ])
+
+const filteredList = computed(() => {
+  return itemList.value.filter(
+    item =>
+      (!searchQuery.value || item.courseName.includes(searchQuery.value)) &&
+      (!examQuery.value || item.examName.includes(examQuery.value))
+  )
+})
 </script>
 
 <style scoped>
@@ -163,12 +219,42 @@ html, body, #app {
 
 
 
-
 .my_course {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
+.course_title {
+  padding: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left
+}
+
+.search_bar {
+  padding: 5px;
+}
+
+.search_row {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 控制间距 */
+}
+
+.search_label {
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.short-input {
+  width: 200px; /* 调整输入框宽度 */
+}
+
+.el-button {
+  margin-left: 10px; /* 调整按钮间距 */
+}
+
+
 
 .demo-tabs {
   flex: 1;
