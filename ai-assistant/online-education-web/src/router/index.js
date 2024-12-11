@@ -90,6 +90,15 @@ const routes = [
       },{
         path: 'course-calendar',
         component: () => import('@/views/teacher/CourseCalendarView.vue')
+      },{
+        path: 'test-management',
+        component: () => import('@/views/teacher/TestManagementView.vue')
+      },{
+        path: 'questionBank-management',
+        component: () => import('@/views/teacher/QuestionBankManagementView.vue')
+      },{
+        path: 'mytest-management',
+        component: () => import('@/views/teacher/MyTest.vue')
       },
     ]
   }

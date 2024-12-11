@@ -30,6 +30,21 @@
           <span>课程日历</span>
         </router-link>
       </el-menu-item>
+      <el-menu-item index="5" key="/">
+        <router-link to="/teacher/test-management" style="text-decoration: none">
+          <span>试题管理</span>
+        </router-link>
+      </el-menu-item>
+      <el-menu-item index="6" key="/">
+        <router-link to="/teacher/questionBank-management" style="text-decoration: none">
+          <span>题库管理</span>
+        </router-link>
+      </el-menu-item>
+      <el-menu-item index="7" key="/">
+        <router-link to="/teacher/mytest-management" style="text-decoration: none">
+          <span>Test</span>
+        </router-link>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
