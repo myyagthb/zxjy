@@ -3,6 +3,7 @@
   <div class="my_course">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
+      <div>{{ itemList[0].courseId }}</div>
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="全部" name="first">
           <div class="course_list">
@@ -101,7 +102,7 @@
 import { useQuery } from '@tanstack/vue-query'
 // import router from "@/router";
 import store from "@/store";
-import { ref } from 'vue'
+import { ref,watch} from 'vue'
 import axios from "axios";
 // import { useCoursesQuery } from '@/data/course/course-query'
 // import {getAllCourses} from '@/data/course/course-query'
