@@ -124,6 +124,9 @@ import axios from "axios";
 
 // onMounted(async () => {
 
+watch(() => itemList => {
+  console.log("itemlist changed")
+});
 
 // const courseQuery = applyPureReactInVue(useCoursesQuery)
 // const courses = courseQuery()
