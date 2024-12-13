@@ -3,11 +3,10 @@
   <div class="my_course">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
-      <div>{{ itemList[0].courseId }}</div>
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="全部" name="first">
           <div class="course_list">
-            <div class="course_item" v-for="(item) in itemList" :key="item" >
+            <div class="course_item" v-for="(item,index) in itemList" :key="index" >
               <div class="course_item_img_div">
                 <!-- <router-link to="/">
                   <img :src="item.courseImg" >
@@ -17,7 +16,7 @@
               </div>
               <div>a</div>
               <div class="item_title">
-                a
+                {{ item.courseName }}
               </div>
               <div class="item_progress">
                 <!-- <el-progress :percentage="item.percentage" /> -->
@@ -103,11 +102,12 @@
 // import router from "@/router";
 import store from "@/store";
 // import { ref,watch} from 'vue'
+import { ref } from 'vue'
 // import axios from "axios";
 import { useCoursesQuery } from '@/data/course/course-query'
 // import {getAllCourses} from '@/data/course/course-query'
 // import { courseKeys } from '@/data/course/keys'
-// const activeName = ref('first')
+const activeName = ref('first')
 
 // const itemList = ref([])
 
@@ -145,35 +145,12 @@ console.log('userId '+userId)
 
 const {data:itemList,isLoading} = useCoursesQuery()
 
-// const courseId = ref('1'); // 假设用户ID是1
-// // const queryClient = useQueryClient()
-// const {data: itemList,isLoading} = useQuery({
-//       // courseKeys.list(),
-//       // ({ signal }) => getCourses(signal),
-//       // queryKey: ['getCourse',courseId],
-//       queryKey: courseKeys.list(),
-//       queryFn: ({ signal }) => getAllCourses(signal),
-//       // queryFn: () => {  return axios.get('/api/backend/course/getCourseList').then(
-//       //   response => {
-//       //     console.log("axios returned data "+JSON.stringify(response.data));
-//       //   return response.data.content;
-//       //   })
-//       // }
-//       // {
-//       //   ...options,
-//       //   // enabled: IS_PLATFORM && (options.enabled ?? true),
-//       //   enabled: true,
-//       //   staleTime: 30 * 60 * 1000,
-//       // }
-//     })
 // console.log("get courses is loading "+  isLoading.value)
 // console.log('courses '+JSON.stringify(data))
 // itemList.value = data
 // // console.log('courses '+JSON.stringify(itemList))
 // console.log('first course '+itemList[0])
 
-
-  
 
 // const itemList = ref([
 //   {
