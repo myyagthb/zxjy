@@ -137,7 +137,16 @@ public class CourseServiceCustomImpl implements CourseServiceCustom {
         return new R(RespEnum.SUCCESS.getCode(), "课程结果查询成功",courseRespList);
     }
 
+    @Override
+    public R getCourseList() {
 
+        LOGGER.info("正在查询课程列表");
+        LambdaQueryWrapper<Course> queryWrapper = new LambdaQueryWrapper<Course>();
+        List<Course> courseList = courseMapper.selectList(queryWrapper);
+        LOGGER.info("查询结果：{}",courseList);
+        List<CourseResp> courseRespList = BeanUtil.copyToList(courseList, CourseResp.class);
+        return new R(RespEnum.SUCCESS.getCode(), "课程结果查询成功",courseRespList);
+    }
 
 
     @Transactional(propagation = Propagation.SUPPORTS,rollbackFor = Throwable.class)

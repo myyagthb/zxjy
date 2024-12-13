@@ -22,6 +22,12 @@ public interface CourseServiceCustom {
      */
     R getCourseListByUserId(Long userId);
 
+    /**
+     * 返回所有课程列表
+     * @param void
+     * @return r
+     */
+    R getCourseList();
 
     /**
      * 根据搜索内容查询课程信息

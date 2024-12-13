@@ -35,6 +35,10 @@ public class CourseController {
         return courseServiceCustom.getCourseListByUserId(userId);
     }
 
+    @GetMapping("/getCourseList")
+    public R getCourseList() {
+        return courseServiceCustom.getCourseList();
+    }
 
     @PostMapping("/searchCourseBySearchText")
     public R searchCourseBySearchText(@RequestBody SearchParamsReq searchParamsReq) {

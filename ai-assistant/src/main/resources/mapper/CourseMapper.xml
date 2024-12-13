@@ -18,7 +18,9 @@
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
     </resultMap>
-
+    <!-- <select id="getAllCourses" resultMap="BaseResultMap">
+        select * from t_course
+    </select> -->
     <sql id="Base_Column_List">
         course_id,course_name,course_category,
         course_tag,course_teacher,public_state,

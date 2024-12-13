@@ -5,9 +5,9 @@ spring:
       max-file-size: 100MB
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: res74984
-    url: jdbc:postgresql://42.192.145.90:3971/ai_assistant_db
+    username: app
+    password: XIG8bY8h1Bhn15pHP87n712c
+    url: jdbc:postgresql://broadly-cuddly-whippet.a1.pgedge.io/defaultdb?sslmode=require
     type: com.alibaba.druid.pool.DruidDataSource
   data:
     redis:

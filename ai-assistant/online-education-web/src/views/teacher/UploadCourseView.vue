@@ -219,7 +219,7 @@ const submitForm = async () => {
   console.log(formData)
 
   try {
-    await axios.post('/backend/course/uploadCourse', formData, {
+    await axios.post('/api/backend/course/uploadCourse', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -287,7 +287,7 @@ const getTagList = () => {
     return
   }
 
-  axios.get("/backend/tag/queryTagList").then(res => {
+  axios.get("/api/backend/tag/queryTagList").then(res => {
     let data = res.data
     if(data.code === 200){
       tagList.value = data.content
@@ -336,7 +336,7 @@ const addTag = () => {
     return
   }
   tagIsLoading.value = true
-  axios.post("/backend/tag/addTag",tagForm.value).then(res => {
+  axios.post("/api/backend/tag/addTag",tagForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({
@@ -382,7 +382,7 @@ const getCategoryList = () => {
     categoryList.value = cacheCategoryList
     return
   }
-  axios.get("/backend/category/queryCategoryList").then(res => {
+  axios.get("/api/backend/category/queryCategoryList").then(res => {
     let data = res.data
     if(data.code === 200){
       categoryList.value = data.content
@@ -432,7 +432,7 @@ const addCategory = () => {
     return
   }
   categoryIsLoading.value = true
-  axios.post("/backend/category/addCategory",categoryForm.value).then(res => {
+  axios.post("/api/backend/category/addCategory",categoryForm.value).then(res => {
     let data = res.data
     if(data.code === 200){
       ElMessage({

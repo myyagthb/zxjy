@@ -168,6 +168,7 @@ DROP TABLE IF EXISTS "public"."t_user";
 CREATE TABLE "public"."t_user" (
   "user_id" int8 NOT NULL,
   "mobile" text COLLATE "pg_catalog"."default" NOT NULL,
+  "email" text COLLATE "pg_catalog"."default" NOT NULL,
   "password" text COLLATE "pg_catalog"."default" NOT NULL,
   "create_time" timestamp(6) DEFAULT CURRENT_TIMESTAMP,
   "update_time" timestamp(6) DEFAULT CURRENT_TIMESTAMP,
