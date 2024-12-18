@@ -204,7 +204,7 @@ html, body, #app {
 }
 
 .lesson_name {
-  margin-left: 13%;
+  margin-left: 10%;
   white-space: nowrap; /* 防止内容换行 */
 }
 
