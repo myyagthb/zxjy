@@ -25,9 +25,9 @@
     </div>
   </div>
   <!--增加题目*******************************************************************************************-->
-  <el-dialog v-model="addOneDialog" title="提示" width="30%">
+  <el-dialog v-model="addOneDialog"  width="90%">
     <div class="questionTypeChoose">
-
+      <component :is="QuestionBankManagementView"></component>
 
     </div>
     <div class="ackButton">
@@ -107,6 +107,8 @@
 /*资源导入************************************************************************************************/
 import { ref } from 'vue';
 import { Search, RefreshLeft,Finished} from '@element-plus/icons-vue'
+import QuestionBankManagementView from "@/views/teacher/QuestionBankManagementView.vue";
+/*import QuestionTypeChoose from './QuestionTypeChooseMenu/QuestionTypeChooseMenu.vue';*/
 /*搜索框*************************************************************************************************/
 const questionSelect = () => {
   alert('搜索');

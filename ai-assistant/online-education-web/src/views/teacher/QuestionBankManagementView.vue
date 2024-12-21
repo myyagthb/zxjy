@@ -4,10 +4,7 @@
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect"
              background-color="#FFEACC"
              text-color="black"
-             active-text-color="#D09039"
-
-
-             >
+             active-text-color="#D09039">
       <el-menu-item index="1">单选题</el-menu-item>
       <el-menu-item index="2">多选题</el-menu-item>
       <el-menu-item index="3">判断题</el-menu-item>
@@ -22,9 +19,9 @@
 <script setup>
 import { ref, computed } from 'vue';
 import SingleChoice from './QuestionTypeChooseMenu/SingleChoose.vue';
-import MultipleChoice from './QuestionTypeChooseMenu/SingleChoose.vue';
-import TrueFalse from './QuestionTypeChooseMenu/SingleChoose.vue';
-import ShortAnswer from './QuestionTypeChooseMenu/SingleChoose.vue';
+import MultipleChoice from './QuestionTypeChooseMenu/MultipleChoice.vue';
+import TrueFalse from './QuestionTypeChooseMenu/TrueFalse.vue';
+import ShortAnswer from './QuestionTypeChooseMenu/ShortAnswer.vue';
 
 // 当前选中的菜单索引
 const activeIndex = ref('1');
@@ -48,5 +45,7 @@ const handleSelect = (index) => {
 
 <style scoped>
 /* 修改选中状态下的文字颜色 */
-
+.el-menu-item.is-active {
+  color: #D09039 !important;
+}
 </style>
